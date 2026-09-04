@@ -1,0 +1,23 @@
+{
+  "job_id": "2fe09be1-a932-48fc-9163-efbb18442496",
+  "timestamp": "2026-08-18T13:49:46.218252+00:00",
+  "source_file": "IMG20220525132417_jpg.rf.ddf1980927078a03736ab29ddc01f978.jpg",
+  "image_width": 3456,
+  "image_height": 4608,
+  "plates": [
+    {
+      "plate_text": "AEH-5601",
+      "confidence": 0.5,
+      "detector_score": 0.5204,
+      "recognizer_score": 0.9608,
+      "bbox": [
+        440.8826599121094,
+        895.0574340820312,
+        2808.0234375,
+        2260.39599609375
+      ]
+    }
+  ],
+  "processing_time_ms": 308.47,
+  "error": null
+}

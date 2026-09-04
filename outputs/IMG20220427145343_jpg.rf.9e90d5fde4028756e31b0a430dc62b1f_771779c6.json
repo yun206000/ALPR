@@ -1,0 +1,23 @@
+{
+  "job_id": "771779c6-fcd3-4a92-88c0-6d9a21fc053e",
+  "timestamp": "2026-08-17T17:03:39.886027+00:00",
+  "source_file": "IMG20220427145343_jpg.rf.9e90d5fde4028756e31b0a430dc62b1f.jpg",
+  "image_width": 3456,
+  "image_height": 4608,
+  "plates": [
+    {
+      "plate_text": "515-LUU",
+      "confidence": 0.7276,
+      "detector_score": 0.7605,
+      "recognizer_score": 0.9567,
+      "bbox": [
+        541.1484985351562,
+        2364.7021484375,
+        2401.55810546875,
+        3182.828125
+      ]
+    }
+  ],
+  "processing_time_ms": 111.83,
+  "error": null
+}

@@ -1,0 +1,22 @@
+{
+  "job_id": "556aeb13-d50c-40ad-a5ff-6acbf3d70ea8",
+  "timestamp": "2026-09-04T09:48:33.745202+00:00",
+  "source_file": "LINE_ALBUM_101722_221017_43_jpg.rf.007fb644fe3c5886e827a691b7b2bf4e.jpg",
+  "image_width": 1109,
+  "image_height": 1479,
+  "plates": [
+    {
+      "plate_text": "MWP-6231",
+      "confidence": 0.6008,
+      "detector_score": 0.601,
+      "recognizer_score": 0.9997,
+      "bbox": [
+        363.4272155761719,
+        632.2147827148438,
+        842.8611450195312,
+        931.0263061523438
+      ]
+    }
+  ],
+  "processing_time_ms": 560.99
+}

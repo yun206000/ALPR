@@ -1,0 +1,23 @@
+{
+  "job_id": "8e2c7eee-9e9d-438a-a92d-901bfc60f41f",
+  "timestamp": "2026-08-18T13:49:51.139177+00:00",
+  "source_file": "IMG_7617_JPG.rf.7724eaf5703b1786f308853e9f170129.jpg",
+  "image_width": 968,
+  "image_height": 580,
+  "plates": [
+    {
+      "plate_text": "183-PEU",
+      "confidence": 0.8766,
+      "detector_score": 0.9356,
+      "recognizer_score": 0.937,
+      "bbox": [
+        29.640625,
+        22.879793167114258,
+        947.1056518554688,
+        580.0
+      ]
+    }
+  ],
+  "processing_time_ms": 72.8,
+  "error": null
+}

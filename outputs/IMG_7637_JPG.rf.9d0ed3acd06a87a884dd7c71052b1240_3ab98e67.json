@@ -1,0 +1,23 @@
+{
+  "job_id": "3ab98e67-fed3-4566-9868-b7519ebb6e39",
+  "timestamp": "2026-08-17T16:02:20.594067+00:00",
+  "source_file": "IMG_7637_JPG.rf.9d0ed3acd06a87a884dd7c71052b1240.jpg",
+  "image_width": 1275,
+  "image_height": 736,
+  "plates": [
+    {
+      "plate_text": "MSJ-9519",
+      "confidence": 0.9266,
+      "detector_score": 0.9267,
+      "recognizer_score": 0.9998,
+      "bbox": [
+        0.0,
+        24.041582107543945,
+        1268.4710693359375,
+        736.0
+      ]
+    }
+  ],
+  "processing_time_ms": 83.03,
+  "error": null
+}

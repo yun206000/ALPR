@@ -1,0 +1,57 @@
+services:
+  lpr-api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: lpr-pipeline:latest
+    container_name: lpr-api
+    ports:
+      - "8001:8000"
+    volumes:
+      # 掛載模型目錄（放置 .pth / .pt 權重檔）
+      - ../models:/app/models:ro
+      # 輸出 JSON 結果
+      - ../outputs:/app/outputs
+      # 測試影像
+      - ../data:/app/data:ro
+    environment:
+      - DETECTOR_DEVICE=cpu          # 改為 cuda 可啟用 GPU
+      - RECOGNIZER_DEVICE=cpu
+      - DETECTOR_CONFIDENCE_THRESHOLD=0.5
+      - LOG_LEVEL=INFO
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 30s
+      timeout: 10s
+      start_period: 90s
+      retries: 3
+
+  # GPU 版本（需要 nvidia-container-toolkit）
+  lpr-api-gpu:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.gpu
+    image: lpr-pipeline-gpu:latest
+    container_name: lpr-api-gpu
+    ports:
+      - "8001:8000"
+    volumes:
+      - ../models:/app/models:ro
+      - ../outputs:/app/outputs
+      - ../data:/app/data:ro
+    environment:
+      - DETECTOR_DEVICE=cuda
+      - RECOGNIZER_DEVICE=cuda
+      - LOG_LEVEL=INFO
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    profiles:
+      - gpu  # 僅在 docker compose --profile gpu up 時啟動

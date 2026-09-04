@@ -1,0 +1,415 @@
+2026-09-04 17:47:08.667 | INFO     | src.pipeline.lpr_pipeline:__init__:49 - 初始化 LPR Pipeline...
+2026-09-04 17:47:08.668 | INFO     | src.detector.yolo_detector:_load_model:55 - 載入 YOLO 模型：custom_plate
+2026-09-04 17:47:08.668 | INFO     | src.detector.yolo_detector:_load_model:61 - 使用本地權重：models/license_plate_detector.pt
+2026-09-04 17:47:08.786 | INFO     | src.detector.yolo_detector:_load_model:76 - YOLO 模型載入完成
+2026-09-04 17:47:08.787 | INFO     | src.recognizer.parseq_recognizer:_load_model:96 - 載入 PARSeq 模型：parseq
+2026-09-04 17:47:17.233 | INFO     | src.recognizer.parseq_recognizer:_load_model:113 - 使用本地權重：checkpoints/best.ckpt
+2026-09-04 17:47:17.246 | INFO     | src.recognizer.parseq_recognizer:_load_model:136 - PARSeq 模型載入完成
+2026-09-04 17:47:17.246 | INFO     | src.pipeline.lpr_pipeline:__init__:55 - LPR Pipeline 初始化完成
+2026-09-04 17:47:17.247 | INFO     | src.pipeline.lpr_pipeline:predict_folder:207 - 找到 135 張影像於 ../test/images
+2026-09-04 17:47:17.723 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:18.006 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-14ba4840e68e932bc314efcdb7161478-22051707_jpg.rf.41236ae625f71f029b9f48593c00e60b.jpg] 偵測到 1 個車牌 | 耗時 750.8ms
+2026-09-04 17:47:18.007 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-14ba4840e68e932bc314efcdb7161478-22051707_jpg.rf.41236ae625f71f029b9f48593c00e60b_69315b8a.json
+2026-09-04 17:47:18.248 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:18.435 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-488368a7bb92cd64260afc2ba8ca76ab-22051708_jpg.rf.c2667e3a38153042487a1d2358d08c09.jpg] 偵測到 1 個車牌 | 耗時 428.3ms
+2026-09-04 17:47:18.436 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-488368a7bb92cd64260afc2ba8ca76ab-22051708_jpg.rf.c2667e3a38153042487a1d2358d08c09_f6b123bb.json
+2026-09-04 17:47:18.574 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:18.852 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-5644735aed9c14f005b49a1cbd8aa84f-22051707_jpg.rf.87746df2849548cae19f949f9d2355aa.jpg] 偵測到 1 個車牌 | 耗時 415.4ms
+2026-09-04 17:47:18.852 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-5644735aed9c14f005b49a1cbd8aa84f-22051707_jpg.rf.87746df2849548cae19f949f9d2355aa_c62e12b6.json
+2026-09-04 17:47:19.047 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:19.338 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-60eb7de5cbf3bd5074bb91ca2dd37cbc-22051708_jpg.rf.af0688f6fd7dd2bd771de20ddf2dbcae.jpg] 偵測到 1 個車牌 | 耗時 484.9ms
+2026-09-04 17:47:19.338 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-60eb7de5cbf3bd5074bb91ca2dd37cbc-22051708_jpg.rf.af0688f6fd7dd2bd771de20ddf2dbcae_84e6109d.json
+2026-09-04 17:47:19.532 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:19.718 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-6caf0f4a4666856700811bd7ad1d38a1-22051708_jpg.rf.efe9a12aeddf0d3ac6aae2b5d954a3fb.jpg] 偵測到 1 個車牌 | 耗時 379.4ms
+2026-09-04 17:47:19.719 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-6caf0f4a4666856700811bd7ad1d38a1-22051708_jpg.rf.efe9a12aeddf0d3ac6aae2b5d954a3fb_e6d47b2e.json
+2026-09-04 17:47:19.817 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:20.003 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-6ffae02dec4de7db066a198ebc76e024-22051708_jpg.rf.8efac0148c35cb1b382492c0f6144a28.jpg] 偵測到 1 個車牌 | 耗時 284.4ms
+2026-09-04 17:47:20.004 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-6ffae02dec4de7db066a198ebc76e024-22051708_jpg.rf.8efac0148c35cb1b382492c0f6144a28_7446e943.json
+2026-09-04 17:47:20.122 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:20.320 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-7a0efd21d6190cf7b44ae47fb3f34eb1-22051708_jpg.rf.d5debe2605af54890acea7a485345f00.jpg] 偵測到 1 個車牌 | 耗時 316.0ms
+2026-09-04 17:47:20.321 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-7a0efd21d6190cf7b44ae47fb3f34eb1-22051708_jpg.rf.d5debe2605af54890acea7a485345f00_2e1f4c7d.json
+2026-09-04 17:47:20.429 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:20.602 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-7b64ff5ddde2c477d07994ba6e7e68a9-22051708_jpg.rf.2ec1fb32c20e75eb93838fa55f824f7a.jpg] 偵測到 1 個車牌 | 耗時 280.9ms
+2026-09-04 17:47:20.602 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-7b64ff5ddde2c477d07994ba6e7e68a9-22051708_jpg.rf.2ec1fb32c20e75eb93838fa55f824f7a_868eefb1.json
+2026-09-04 17:47:20.818 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:21.119 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-90c0eee60a1914fa3cb274f49ab3bc85-22051708_jpg.rf.382d0b81b29f991244c9c36595a645f2.jpg] 偵測到 1 個車牌 | 耗時 515.9ms
+2026-09-04 17:47:21.120 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-90c0eee60a1914fa3cb274f49ab3bc85-22051708_jpg.rf.382d0b81b29f991244c9c36595a645f2_2b85a99b.json
+2026-09-04 17:47:21.364 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:21.720 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-a0bfd45a60981d6e6ccf1b73f7676503-22051707_jpg.rf.a8ddfa3189d22d17a63e1d5d81309b13.jpg] 偵測到 1 個車牌 | 耗時 600.0ms
+2026-09-04 17:47:21.721 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-a0bfd45a60981d6e6ccf1b73f7676503-22051707_jpg.rf.a8ddfa3189d22d17a63e1d5d81309b13_71299e61.json
+2026-09-04 17:47:21.919 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:22.112 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-bc28307f3ae561897d3485100778e40c-22051707_jpg.rf.0cb9e30d924dcc6eb43122b31ca43c29.jpg] 偵測到 1 個車牌 | 耗時 391.2ms
+2026-09-04 17:47:22.113 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-bc28307f3ae561897d3485100778e40c-22051707_jpg.rf.0cb9e30d924dcc6eb43122b31ca43c29_6253c453.json
+2026-09-04 17:47:22.229 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:22.423 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751194990015458395-d03f17dd695d3f99822dd60d43c503e8-22051707_jpg.rf.39a8fc87b3efd67c3814bdb011bd89ca.jpg] 偵測到 1 個車牌 | 耗時 309.8ms
+2026-09-04 17:47:22.423 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751194990015458395-d03f17dd695d3f99822dd60d43c503e8-22051707_jpg.rf.39a8fc87b3efd67c3814bdb011bd89ca_b8a6a093.json
+2026-09-04 17:47:22.593 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:23.016 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-192f26ccaacd869b196329a63c61a4d5-22051709_jpg.rf.e089def1ca004ac20babee5bb187b684.jpg] 偵測到 1 個車牌 | 耗時 592.1ms
+2026-09-04 17:47:23.016 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-192f26ccaacd869b196329a63c61a4d5-22051709_jpg.rf.e089def1ca004ac20babee5bb187b684_afe20a0b.json
+2026-09-04 17:47:23.287 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:23.663 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-306ded35b6e8aca056213ad1cfdc720c-22051709_jpg.rf.5e81a6c1fbb4abbd4cc6e84a40082c49.jpg] 偵測到 1 個車牌 | 耗時 646.4ms
+2026-09-04 17:47:23.664 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-306ded35b6e8aca056213ad1cfdc720c-22051709_jpg.rf.5e81a6c1fbb4abbd4cc6e84a40082c49_6cb474d8.json
+2026-09-04 17:47:23.844 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:24.057 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-4dda637949880c7055df63a61494ceb2-22051709_jpg.rf.5a6a7670381594f561cfced5d8e2bcdb.jpg] 偵測到 1 個車牌 | 耗時 392.9ms
+2026-09-04 17:47:24.057 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-4dda637949880c7055df63a61494ceb2-22051709_jpg.rf.5a6a7670381594f561cfced5d8e2bcdb_b97409ff.json
+2026-09-04 17:47:24.232 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:24.518 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-4f4d5b4690f956acf94a9ae32383151b-22051709_jpg.rf.2ee96451cd6e06bc62c9544517c3dc9d.jpg] 偵測到 1 個車牌 | 耗時 460.2ms
+2026-09-04 17:47:24.518 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-4f4d5b4690f956acf94a9ae32383151b-22051709_jpg.rf.2ee96451cd6e06bc62c9544517c3dc9d_59690732.json
+2026-09-04 17:47:24.748 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:25.119 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-526bd975802863bcaf133cbf8e53a3b5-22051709_jpg.rf.33ace6db6d2db92b078265362904ca6b.jpg] 偵測到 1 個車牌 | 耗時 600.5ms
+2026-09-04 17:47:25.119 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-526bd975802863bcaf133cbf8e53a3b5-22051709_jpg.rf.33ace6db6d2db92b078265362904ca6b_c9eda6ee.json
+2026-09-04 17:47:25.444 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:25.776 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-669aa53766eb9b0b117d1a1bd9be52d1-22051709_jpg.rf.0d57566b772f4a257ebcecd7e4310cf5.jpg] 偵測到 1 個車牌 | 耗時 656.0ms
+2026-09-04 17:47:25.776 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-669aa53766eb9b0b117d1a1bd9be52d1-22051709_jpg.rf.0d57566b772f4a257ebcecd7e4310cf5_0dc168a0.json
+2026-09-04 17:47:25.948 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:26.208 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-836afbc2302fed6f977e90470705d294-22051709_jpg.rf.4d680b3015b38d171f7d700d587dcfad.jpg] 偵測到 1 個車牌 | 耗時 431.1ms
+2026-09-04 17:47:26.211 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-836afbc2302fed6f977e90470705d294-22051709_jpg.rf.4d680b3015b38d171f7d700d587dcfad_42ff2f8f.json
+2026-09-04 17:47:26.411 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:26.749 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-8c26756a13cda33d675d42a690edb6e7-22051709_jpg.rf.34a1c517aed9de8ecef93a93924e566b.jpg] 偵測到 1 個車牌 | 耗時 537.6ms
+2026-09-04 17:47:26.750 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-8c26756a13cda33d675d42a690edb6e7-22051709_jpg.rf.34a1c517aed9de8ecef93a93924e566b_eb8c9954.json
+2026-09-04 17:47:27.081 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:27.545 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-9f7cab2b4ba16f1c7216a20cc0db0bc2-22051709_jpg.rf.a5c00112e68d3dd2bb9b105806564b2a.jpg] 偵測到 1 個車牌 | 耗時 794.1ms
+2026-09-04 17:47:27.545 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-9f7cab2b4ba16f1c7216a20cc0db0bc2-22051709_jpg.rf.a5c00112e68d3dd2bb9b105806564b2a_d2f141cd.json
+2026-09-04 17:47:27.749 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:27.980 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-b737b0885845d82181c89e57370304b9-22051709_jpg.rf.8b32f81cb4a38c5e5ca11bd397cb01de.jpg] 偵測到 1 個車牌 | 耗時 433.7ms
+2026-09-04 17:47:27.980 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-b737b0885845d82181c89e57370304b9-22051709_jpg.rf.8b32f81cb4a38c5e5ca11bd397cb01de_46f7e84b.json
+2026-09-04 17:47:28.167 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:28.412 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-c45c5684dfad71b82a32a65bf3f203fc-22051709_jpg.rf.16ed28f255cf6ae8765e8f35330f67a9.jpg] 偵測到 1 個車牌 | 耗時 431.8ms
+2026-09-04 17:47:28.413 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-c45c5684dfad71b82a32a65bf3f203fc-22051709_jpg.rf.16ed28f255cf6ae8765e8f35330f67a9_5a6e2429.json
+2026-09-04 17:47:28.620 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:29.070 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-cd51665c47830233be750613da27510a-22051709_jpg.rf.f241ca9334ee8e34de81d44e275de7e3.jpg] 偵測到 1 個車牌 | 耗時 657.1ms
+2026-09-04 17:47:29.071 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-cd51665c47830233be750613da27510a-22051709_jpg.rf.f241ca9334ee8e34de81d44e275de7e3_d2f055be.json
+2026-09-04 17:47:29.449 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:29.767 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [4751219743046452701-df7785a15206f8b6328b824bd6fa638a-22051709_jpg.rf.0bf3311de2df93056aff3b63e070ab33.jpg] 偵測到 1 個車牌 | 耗時 696.1ms
+2026-09-04 17:47:29.768 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/4751219743046452701-df7785a15206f8b6328b824bd6fa638a-22051709_jpg.rf.0bf3311de2df93056aff3b63e070ab33_e9f718c8.json
+2026-09-04 17:47:30.235 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:30.594 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427144724_jpg.rf.96f383a99078567b88181980f0ca2256.jpg] 偵測到 1 個車牌 | 耗時 825.8ms
+2026-09-04 17:47:30.594 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427144724_jpg.rf.96f383a99078567b88181980f0ca2256_0cb0cf8b.json
+2026-09-04 17:47:31.328 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:31.838 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427144728_jpg.rf.3f3f2203bd504f227c15cb4e7b1c678f.jpg] 偵測到 1 個車牌 | 耗時 1243.1ms
+2026-09-04 17:47:31.838 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427144728_jpg.rf.3f3f2203bd504f227c15cb4e7b1c678f_c11c06f5.json
+2026-09-04 17:47:32.265 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:32.577 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145301_jpg.rf.0391bb2119d7ddb8bcd81aa46b51436c.jpg] 偵測到 1 個車牌 | 耗時 734.7ms
+2026-09-04 17:47:32.577 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145301_jpg.rf.0391bb2119d7ddb8bcd81aa46b51436c_eaf64f80.json
+2026-09-04 17:47:33.203 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:33.599 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145302_jpg.rf.792ba63fd3f345f22b0401943983a393.jpg] 偵測到 1 個車牌 | 耗時 1021.1ms
+2026-09-04 17:47:33.600 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145302_jpg.rf.792ba63fd3f345f22b0401943983a393_74131ed0.json
+2026-09-04 17:47:33.798 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:34.021 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145304_jpg.rf.e88a24224b44ce554f19182a2fe89a07.jpg] 偵測到 1 個車牌 | 耗時 420.9ms
+2026-09-04 17:47:34.022 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145304_jpg.rf.e88a24224b44ce554f19182a2fe89a07_4c5d45ff.json
+2026-09-04 17:47:34.159 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:34.373 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145331_jpg.rf.9fba3f3d9da30e8f4e93eba35d63d0a6.jpg] 偵測到 1 個車牌 | 耗時 350.5ms
+2026-09-04 17:47:34.373 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145331_jpg.rf.9fba3f3d9da30e8f4e93eba35d63d0a6_093823e7.json
+2026-09-04 17:47:34.607 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:34.970 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145331_jpg.rf.e3afcb321ab895c0151d888bf50293a0.jpg] 偵測到 1 個車牌 | 耗時 596.2ms
+2026-09-04 17:47:34.970 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145331_jpg.rf.e3afcb321ab895c0151d888bf50293a0_963360a5.json
+2026-09-04 17:47:35.352 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:35.670 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145332_jpg.rf.87e2a4659f03ff9ab1b5f02b1cccd4ef.jpg] 偵測到 1 個車牌 | 耗時 699.4ms
+2026-09-04 17:47:35.671 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145332_jpg.rf.87e2a4659f03ff9ab1b5f02b1cccd4ef_05c58a72.json
+2026-09-04 17:47:35.789 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:35.987 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145332_jpg.rf.e4f3ec5a06094496c5c6f608c7eed61c.jpg] 偵測到 1 個車牌 | 耗時 316.2ms
+2026-09-04 17:47:35.988 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145332_jpg.rf.e4f3ec5a06094496c5c6f608c7eed61c_b776c0d0.json
+2026-09-04 17:47:36.212 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:36.445 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145334_jpg.rf.27018a671f889cf54663d51eb9e8db9c.jpg] 偵測到 1 個車牌 | 耗時 456.9ms
+2026-09-04 17:47:36.445 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145334_jpg.rf.27018a671f889cf54663d51eb9e8db9c_7adb94f7.json
+2026-09-04 17:47:36.599 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 0 個車牌 (threshold=0.5)
+2026-09-04 17:47:36.600 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145343_jpg.rf.8ca948b4f9dcdc72410520cba5a36e73.jpg] 偵測到 0 個車牌 | 耗時 154.0ms
+2026-09-04 17:47:36.600 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145343_jpg.rf.8ca948b4f9dcdc72410520cba5a36e73_b0386958.json
+2026-09-04 17:47:36.988 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:37.468 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145343_jpg.rf.9e90d5fde4028756e31b0a430dc62b1f.jpg] 偵測到 1 個車牌 | 耗時 867.4ms
+2026-09-04 17:47:37.468 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145343_jpg.rf.9e90d5fde4028756e31b0a430dc62b1f_bea3dcc0.json
+2026-09-04 17:47:37.930 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:38.275 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145344_jpg.rf.d5b54c5adef8b5e6a43dc9c8c7557513.jpg] 偵測到 1 個車牌 | 耗時 806.1ms
+2026-09-04 17:47:38.276 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145344_jpg.rf.d5b54c5adef8b5e6a43dc9c8c7557513_833a3521.json
+2026-09-04 17:47:38.601 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:39.072 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145347_jpg.rf.c26a7988e1c63af252d475d194b6b02a.jpg] 偵測到 1 個車牌 | 耗時 795.5ms
+2026-09-04 17:47:39.072 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145347_jpg.rf.c26a7988e1c63af252d475d194b6b02a_abcb9ace.json
+2026-09-04 17:47:39.275 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:39.660 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145448_jpg.rf.942a0e787606449a652927a53d24824b.jpg] 偵測到 1 個車牌 | 耗時 586.6ms
+2026-09-04 17:47:39.660 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145448_jpg.rf.942a0e787606449a652927a53d24824b_d7a65268.json
+2026-09-04 17:47:40.013 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:40.309 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145448_jpg.rf.cb60baf42604f7a2d21f70e61d98f384.jpg] 偵測到 1 個車牌 | 耗時 648.5ms
+2026-09-04 17:47:40.309 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145448_jpg.rf.cb60baf42604f7a2d21f70e61d98f384_5a7b8a33.json
+2026-09-04 17:47:40.620 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:41.000 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145450_jpg.rf.27ba01c7262d86eee0b61563f61954f4.jpg] 偵測到 1 個車牌 | 耗時 689.8ms
+2026-09-04 17:47:41.000 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145450_jpg.rf.27ba01c7262d86eee0b61563f61954f4_ba6437c4.json
+2026-09-04 17:47:41.379 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:41.801 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145452_jpg.rf.2dba507aa4c99853761ddcffa152bd5d.jpg] 偵測到 1 個車牌 | 耗時 799.6ms
+2026-09-04 17:47:41.801 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145452_jpg.rf.2dba507aa4c99853761ddcffa152bd5d_99e8af74.json
+2026-09-04 17:47:42.117 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:42.325 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145511_jpg.rf.b8958c7ad05087c22dc4506bee177ae6.jpg] 偵測到 1 個車牌 | 耗時 523.5ms
+2026-09-04 17:47:42.326 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145511_jpg.rf.b8958c7ad05087c22dc4506bee177ae6_2e20f4b0.json
+2026-09-04 17:47:42.441 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:42.671 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145511_jpg.rf.cd7be6255d0095fd7612ec093fde67ea.jpg] 偵測到 1 個車牌 | 耗時 344.6ms
+2026-09-04 17:47:42.671 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145511_jpg.rf.cd7be6255d0095fd7612ec093fde67ea_1a500183.json
+2026-09-04 17:47:43.049 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:43.446 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145512_jpg.rf.8494740bb12c8a569a889f0e2bf3fe17.jpg] 偵測到 1 個車牌 | 耗時 774.2ms
+2026-09-04 17:47:43.446 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145512_jpg.rf.8494740bb12c8a569a889f0e2bf3fe17_9a8472b3.json
+2026-09-04 17:47:43.725 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:43.951 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145513_jpg.rf.6043819e7173f791999fe2b08bf1d403.jpg] 偵測到 1 個車牌 | 耗時 504.1ms
+2026-09-04 17:47:43.952 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145513_jpg.rf.6043819e7173f791999fe2b08bf1d403_4233ebc7.json
+2026-09-04 17:47:44.168 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:44.420 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145515_jpg.rf.debc49931adcb655638fae0c5684a14b.jpg] 偵測到 1 個車牌 | 耗時 467.8ms
+2026-09-04 17:47:44.421 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145515_jpg.rf.debc49931adcb655638fae0c5684a14b_e2053b74.json
+2026-09-04 17:47:44.645 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:45.066 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145728_jpg.rf.162614f3b8fee50aa5479a9034f4d087.jpg] 偵測到 1 個車牌 | 耗時 644.9ms
+2026-09-04 17:47:45.067 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145728_jpg.rf.162614f3b8fee50aa5479a9034f4d087_66a85b83.json
+2026-09-04 17:47:45.543 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:45.905 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145730_jpg.rf.c9a5ddc52e62106f29cb55d8b512b0fb.jpg] 偵測到 1 個車牌 | 耗時 837.1ms
+2026-09-04 17:47:45.905 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145730_jpg.rf.c9a5ddc52e62106f29cb55d8b512b0fb_66a593e6.json
+2026-09-04 17:47:46.283 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:46.627 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145732_jpg.rf.c211ac5b4ca9ae57bea706c328e81126.jpg] 偵測到 1 個車牌 | 耗時 721.2ms
+2026-09-04 17:47:46.628 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145732_jpg.rf.c211ac5b4ca9ae57bea706c328e81126_d3f0e981.json
+2026-09-04 17:47:47.350 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:47.826 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145732_jpg.rf.d5e237be9c2a1cfc5b86fe40a055fdeb.jpg] 偵測到 1 個車牌 | 耗時 1197.3ms
+2026-09-04 17:47:47.826 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145732_jpg.rf.d5e237be9c2a1cfc5b86fe40a055fdeb_996a45b5.json
+2026-09-04 17:47:48.061 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:48.439 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145733_jpg.rf.40f00d7ae4d897fecb9fc46fd1fe7b0a.jpg] 偵測到 1 個車牌 | 耗時 612.1ms
+2026-09-04 17:47:48.439 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145733_jpg.rf.40f00d7ae4d897fecb9fc46fd1fe7b0a_37e2d3a3.json
+2026-09-04 17:47:49.075 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:49.663 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145733_jpg.rf.c7e13a0c9acc3518a00a7434567184b2.jpg] 偵測到 1 個車牌 | 耗時 1223.9ms
+2026-09-04 17:47:49.664 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145733_jpg.rf.c7e13a0c9acc3518a00a7434567184b2_bd105d43.json
+2026-09-04 17:47:49.952 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:50.351 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145805_jpg.rf.50e6a39615f9ac8a60918957cca27104.jpg] 偵測到 1 個車牌 | 耗時 686.5ms
+2026-09-04 17:47:50.351 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145805_jpg.rf.50e6a39615f9ac8a60918957cca27104_721eb694.json
+2026-09-04 17:47:50.969 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:51.397 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145805_jpg.rf.8960eae2e56ef2e1ecf1f504114690be.jpg] 偵測到 1 個車牌 | 耗時 1045.9ms
+2026-09-04 17:47:51.398 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145805_jpg.rf.8960eae2e56ef2e1ecf1f504114690be_b68c9be2.json
+2026-09-04 17:47:51.766 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 0 個車牌 (threshold=0.5)
+2026-09-04 17:47:51.766 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145806_jpg.rf.48d2e20b386ee165ead55c5f5f507e0a.jpg] 偵測到 0 個車牌 | 耗時 367.0ms
+2026-09-04 17:47:51.766 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145806_jpg.rf.48d2e20b386ee165ead55c5f5f507e0a_6756d26b.json
+2026-09-04 17:47:52.199 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 0 個車牌 (threshold=0.5)
+2026-09-04 17:47:52.199 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145806_jpg.rf.bc65529b2f96ae63f450c1dede3ea805.jpg] 偵測到 0 個車牌 | 耗時 432.2ms
+2026-09-04 17:47:52.199 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145806_jpg.rf.bc65529b2f96ae63f450c1dede3ea805_7a14d601.json
+2026-09-04 17:47:52.663 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:53.007 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145808_jpg.rf.317cd856d03afc82fa50690c7824c518.jpg] 偵測到 1 個車牌 | 耗時 807.0ms
+2026-09-04 17:47:53.007 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145808_jpg.rf.317cd856d03afc82fa50690c7824c518_2fa13d85.json
+2026-09-04 17:47:53.161 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:53.381 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145809_jpg.rf.68c1476caaf083ea384d21a8096c1c9c.jpg] 偵測到 1 個車牌 | 耗時 373.8ms
+2026-09-04 17:47:53.382 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145809_jpg.rf.68c1476caaf083ea384d21a8096c1c9c_87def13c.json
+2026-09-04 17:47:53.600 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:53.814 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145809_jpg.rf.ab57e029bcebab2be89b41fff1e7797e.jpg] 偵測到 1 個車牌 | 耗時 432.2ms
+2026-09-04 17:47:53.815 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145809_jpg.rf.ab57e029bcebab2be89b41fff1e7797e_36cf21be.json
+2026-09-04 17:47:53.937 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:54.184 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145811_jpg.rf.3a379a941ccc1821abc68cd9a63e5250.jpg] 偵測到 1 個車牌 | 耗時 369.3ms
+2026-09-04 17:47:54.185 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145811_jpg.rf.3a379a941ccc1821abc68cd9a63e5250_148e9f83.json
+2026-09-04 17:47:54.399 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:54.632 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145811_jpg.rf.9972b88d6f29b34e3d21c21371e427c5.jpg] 偵測到 1 個車牌 | 耗時 447.3ms
+2026-09-04 17:47:54.633 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145811_jpg.rf.9972b88d6f29b34e3d21c21371e427c5_196299bf.json
+2026-09-04 17:47:54.852 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:55.080 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145814_jpg.rf.fe7ce0dbbdfaab8964a732b205932d1e.jpg] 偵測到 1 個車牌 | 耗時 447.1ms
+2026-09-04 17:47:55.081 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145814_jpg.rf.fe7ce0dbbdfaab8964a732b205932d1e_e7ae7b4c.json
+2026-09-04 17:47:55.303 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:55.551 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145815_jpg.rf.27e90d35749e5ccbbb14d28224c49933.jpg] 偵測到 1 個車牌 | 耗時 469.8ms
+2026-09-04 17:47:55.552 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145815_jpg.rf.27e90d35749e5ccbbb14d28224c49933_b4d9337e.json
+2026-09-04 17:47:55.795 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:56.026 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145817_jpg.rf.ff7ea66edaf998af151ae7eae5a3c88b.jpg] 偵測到 1 個車牌 | 耗時 474.1ms
+2026-09-04 17:47:56.027 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145817_jpg.rf.ff7ea66edaf998af151ae7eae5a3c88b_5bc6ee88.json
+2026-09-04 17:47:56.250 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:56.477 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145819_jpg.rf.675b50960437532b023971dea812ab81.jpg] 偵測到 1 個車牌 | 耗時 450.1ms
+2026-09-04 17:47:56.478 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145819_jpg.rf.675b50960437532b023971dea812ab81_5d658425.json
+2026-09-04 17:47:56.617 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:56.855 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145819_jpg.rf.7cf5fde1e871d7d8fb4fb11dbc48c001.jpg] 偵測到 1 個車牌 | 耗時 377.0ms
+2026-09-04 17:47:56.856 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145819_jpg.rf.7cf5fde1e871d7d8fb4fb11dbc48c001_164fa486.json
+2026-09-04 17:47:57.070 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:57.290 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145848_jpg.rf.e0a37143f0d83766510c5cbb41c8d9d6.jpg] 偵測到 1 個車牌 | 耗時 433.8ms
+2026-09-04 17:47:57.290 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145848_jpg.rf.e0a37143f0d83766510c5cbb41c8d9d6_36fd6fb5.json
+2026-09-04 17:47:57.515 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 0 個車牌 (threshold=0.5)
+2026-09-04 17:47:57.515 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145849_jpg.rf.0d009aab93cd4fe2113a0732a7df5e22.jpg] 偵測到 0 個車牌 | 耗時 224.2ms
+2026-09-04 17:47:57.515 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145849_jpg.rf.0d009aab93cd4fe2113a0732a7df5e22_440f727f.json
+2026-09-04 17:47:57.735 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:57.958 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145851_jpg.rf.6eed46edd4d02f0f870d0df78f9ebd0a.jpg] 偵測到 1 個車牌 | 耗時 442.2ms
+2026-09-04 17:47:57.958 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145851_jpg.rf.6eed46edd4d02f0f870d0df78f9ebd0a_4b85611c.json
+2026-09-04 17:47:58.185 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:58.389 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145909_jpg.rf.f23356ee78506a03a9a3d87e2daae181.jpg] 偵測到 1 個車牌 | 耗時 430.1ms
+2026-09-04 17:47:58.390 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145909_jpg.rf.f23356ee78506a03a9a3d87e2daae181_e78ad289.json
+2026-09-04 17:47:58.547 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:58.809 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145909_jpg.rf.f9c7202e95ce3970160a2ae5069fdf3b.jpg] 偵測到 1 個車牌 | 耗時 418.7ms
+2026-09-04 17:47:58.809 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145909_jpg.rf.f9c7202e95ce3970160a2ae5069fdf3b_571789a6.json
+2026-09-04 17:47:59.200 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:47:59.572 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145910_jpg.rf.95727d8c6d7832f6c2c3c5bb8996f4e5.jpg] 偵測到 1 個車牌 | 耗時 762.4ms
+2026-09-04 17:47:59.572 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145910_jpg.rf.95727d8c6d7832f6c2c3c5bb8996f4e5_9686d2ec.json
+2026-09-04 17:47:59.854 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:00.115 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145912_jpg.rf.fdfa8b64b120d525264fbcc0d7cf43a6.jpg] 偵測到 1 個車牌 | 耗時 542.7ms
+2026-09-04 17:48:00.116 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145912_jpg.rf.fdfa8b64b120d525264fbcc0d7cf43a6_1f7901c3.json
+2026-09-04 17:48:00.264 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:00.595 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145915_jpg.rf.63fea2bf0b45c577ab4b57dc4c18db77.jpg] 偵測到 1 個車牌 | 耗時 478.8ms
+2026-09-04 17:48:00.595 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145915_jpg.rf.63fea2bf0b45c577ab4b57dc4c18db77_878fe3c7.json
+2026-09-04 17:48:00.844 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:01.119 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145915_jpg.rf.db2d114febd6fd73dd52eabff4206d4d.jpg] 偵測到 1 個車牌 | 耗時 522.9ms
+2026-09-04 17:48:01.119 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145915_jpg.rf.db2d114febd6fd73dd52eabff4206d4d_18eba9ff.json
+2026-09-04 17:48:01.538 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:01.904 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145916_jpg.rf.c2b1f36f777baffb7d2197c07e2fb8b8.jpg] 偵測到 1 個車牌 | 耗時 784.4ms
+2026-09-04 17:48:01.904 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145916_jpg.rf.c2b1f36f777baffb7d2197c07e2fb8b8_0fa3596a.json
+2026-09-04 17:48:02.131 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:02.439 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220427145918_jpg.rf.cd28c4354ecaa83994d5abca9dd09e11.jpg] 偵測到 1 個車牌 | 耗時 534.5ms
+2026-09-04 17:48:02.440 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220427145918_jpg.rf.cd28c4354ecaa83994d5abca9dd09e11_e8f1e99a.json
+2026-09-04 17:48:02.704 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:02.973 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525132417_jpg.rf.ddf1980927078a03736ab29ddc01f978.jpg] 偵測到 1 個車牌 | 耗時 532.8ms
+2026-09-04 17:48:02.973 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525132417_jpg.rf.ddf1980927078a03736ab29ddc01f978_20410f48.json
+2026-09-04 17:48:03.239 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:03.517 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525132846_jpg.rf.324f5a4b2c18ae8513b3532a4b642b67.jpg] 偵測到 1 個車牌 | 耗時 542.9ms
+2026-09-04 17:48:03.517 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525132846_jpg.rf.324f5a4b2c18ae8513b3532a4b642b67_8c4397be.json
+2026-09-04 17:48:03.863 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:04.099 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525132905_jpg.rf.6f26169955b72de392ab9bec4c8098db.jpg] 偵測到 1 個車牌 | 耗時 581.5ms
+2026-09-04 17:48:04.100 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525132905_jpg.rf.6f26169955b72de392ab9bec4c8098db_9dcd54c4.json
+2026-09-04 17:48:04.321 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:04.545 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525132919_jpg.rf.dd9a814f0ad09402e5b8ff022aa62775.jpg] 偵測到 1 個車牌 | 耗時 444.8ms
+2026-09-04 17:48:04.545 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525132919_jpg.rf.dd9a814f0ad09402e5b8ff022aa62775_b8ac856f.json
+2026-09-04 17:48:04.803 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:05.032 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525132933_1_jpg.rf.b22f466b3657a3e0fb73fd4803fb001a.jpg] 偵測到 1 個車牌 | 耗時 486.0ms
+2026-09-04 17:48:05.032 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525132933_1_jpg.rf.b22f466b3657a3e0fb73fd4803fb001a_72aec6a8.json
+2026-09-04 17:48:05.298 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:05.521 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525132933_jpg.rf.6adcbab953be7530a988fa6463676778.jpg] 偵測到 1 個車牌 | 耗時 488.3ms
+2026-09-04 17:48:05.521 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525132933_jpg.rf.6adcbab953be7530a988fa6463676778_d503f0bd.json
+2026-09-04 17:48:05.783 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:06.006 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525132933_jpg.rf.af613b9eefba3b5ac30cff0a3e49f61b.jpg] 偵測到 1 個車牌 | 耗時 484.1ms
+2026-09-04 17:48:06.007 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525132933_jpg.rf.af613b9eefba3b5ac30cff0a3e49f61b_f8de49c6.json
+2026-09-04 17:48:06.265 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:06.483 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525132955_1_jpg.rf.c88df92927a774281428eda6caa5bace.jpg] 偵測到 1 個車牌 | 耗時 476.3ms
+2026-09-04 17:48:06.484 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525132955_1_jpg.rf.c88df92927a774281428eda6caa5bace_ee93a264.json
+2026-09-04 17:48:06.740 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:06.959 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525132955_jpg.rf.0415fed7f3ff17f77d4b984d97686414.jpg] 偵測到 1 個車牌 | 耗時 475.0ms
+2026-09-04 17:48:06.960 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525132955_jpg.rf.0415fed7f3ff17f77d4b984d97686414_eb0f48e9.json
+2026-09-04 17:48:07.231 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:07.477 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525132955_jpg.rf.90eeda454313c7dd3cf407159e9b3e27.jpg] 偵測到 1 個車牌 | 耗時 516.8ms
+2026-09-04 17:48:07.477 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525132955_jpg.rf.90eeda454313c7dd3cf407159e9b3e27_1de61a84.json
+2026-09-04 17:48:07.761 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:07.972 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525133032_jpg.rf.fe701e5c8f7fdce39305490ca00aabb4.jpg] 偵測到 1 個車牌 | 耗時 494.5ms
+2026-09-04 17:48:07.973 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525133032_jpg.rf.fe701e5c8f7fdce39305490ca00aabb4_4b89f757.json
+2026-09-04 17:48:08.228 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:08.473 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525133054_1_jpg.rf.4399f45b9aebd07c544bedf5990dbd08.jpg] 偵測到 1 個車牌 | 耗時 500.1ms
+2026-09-04 17:48:08.474 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525133054_1_jpg.rf.4399f45b9aebd07c544bedf5990dbd08_ee963221.json
+2026-09-04 17:48:08.828 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:09.231 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG20220525133054_jpg.rf.4bc1843f918d46bf9605047febd0a13a.jpg] 偵測到 1 個車牌 | 耗時 756.6ms
+2026-09-04 17:48:09.231 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG20220525133054_jpg.rf.4bc1843f918d46bf9605047febd0a13a_9f0ac44e.json
+2026-09-04 17:48:09.570 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:09.784 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_1565_JPG.rf.258067527798b129cef58fd5f76b747c.jpg] 偵測到 1 個車牌 | 耗時 551.8ms
+2026-09-04 17:48:09.784 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_1565_JPG.rf.258067527798b129cef58fd5f76b747c_e335fa74.json
+2026-09-04 17:48:09.974 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:10.178 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_1587_JPG.rf.02a9ce7e7b1280dafc55818aa89997a9.jpg] 偵測到 1 個車牌 | 耗時 393.2ms
+2026-09-04 17:48:10.178 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_1587_JPG.rf.02a9ce7e7b1280dafc55818aa89997a9_aaa87da1.json
+2026-09-04 17:48:10.379 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:10.628 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_1602_JPG.rf.4ee4a6e49c1a7ead91af4111763d3145.jpg] 偵測到 1 個車牌 | 耗時 449.6ms
+2026-09-04 17:48:10.629 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_1602_JPG.rf.4ee4a6e49c1a7ead91af4111763d3145_efd82b1c.json
+2026-09-04 17:48:11.018 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:11.691 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_1603_JPG.rf.7d8dc9508980125f56605485874b604f.jpg] 偵測到 1 個車牌 | 耗時 1061.4ms
+2026-09-04 17:48:11.691 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_1603_JPG.rf.7d8dc9508980125f56605485874b604f_be7a2b04.json
+2026-09-04 17:48:11.994 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:12.329 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_1605_JPG.rf.1a34faebadb5bb4fbc12dad36558b990.jpg] 偵測到 1 個車牌 | 耗時 637.1ms
+2026-09-04 17:48:12.329 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_1605_JPG.rf.1a34faebadb5bb4fbc12dad36558b990_4a83010f.json
+2026-09-04 17:48:12.635 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:13.313 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_1610_JPG.rf.dae305d26eb23226147814884efec9bb.jpg] 偵測到 1 個車牌 | 耗時 983.0ms
+2026-09-04 17:48:13.314 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_1610_JPG.rf.dae305d26eb23226147814884efec9bb_27655d53.json
+2026-09-04 17:48:13.827 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:14.196 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_1620_JPG.rf.7b2b181b20f5b61cd991e6fc0ff0510a.jpg] 偵測到 1 個車牌 | 耗時 881.1ms
+2026-09-04 17:48:14.196 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_1620_JPG.rf.7b2b181b20f5b61cd991e6fc0ff0510a_4d9fa540.json
+2026-09-04 17:48:14.409 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:14.648 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7575_JPG.rf.a25901c0ffe51722ee7a257401eea2f2.jpg] 偵測到 1 個車牌 | 耗時 450.9ms
+2026-09-04 17:48:14.649 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7575_JPG.rf.a25901c0ffe51722ee7a257401eea2f2_2807ad7f.json
+2026-09-04 17:48:15.016 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:15.531 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7582_JPG.rf.214873aa402ec2808e1bdd431ce67731.jpg] 偵測到 1 個車牌 | 耗時 881.3ms
+2026-09-04 17:48:15.532 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7582_JPG.rf.214873aa402ec2808e1bdd431ce67731_852ef65d.json
+2026-09-04 17:48:15.688 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:15.911 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7587_JPG.rf.04e0db4f807b01f72a274b07bf80df0d.jpg] 偵測到 1 個車牌 | 耗時 378.9ms
+2026-09-04 17:48:15.911 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7587_JPG.rf.04e0db4f807b01f72a274b07bf80df0d_b5365416.json
+2026-09-04 17:48:16.082 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:16.345 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7593_JPG.rf.5cabebaca24ee84349a84401b7a8d17b.jpg] 偵測到 1 個車牌 | 耗時 433.0ms
+2026-09-04 17:48:16.345 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7593_JPG.rf.5cabebaca24ee84349a84401b7a8d17b_ef5fd11c.json
+2026-09-04 17:48:16.505 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:16.905 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7599_JPG.rf.78b419d4c59d5a0bb2ae29607ca9dfe3.jpg] 偵測到 1 個車牌 | 耗時 560.0ms
+2026-09-04 17:48:16.906 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7599_JPG.rf.78b419d4c59d5a0bb2ae29607ca9dfe3_4db9f75f.json
+2026-09-04 17:48:17.331 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:17.763 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7606_JPG.rf.f035b385349f87b992f27d19d2262202.jpg] 偵測到 1 個車牌 | 耗時 856.1ms
+2026-09-04 17:48:17.763 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7606_JPG.rf.f035b385349f87b992f27d19d2262202_7be034c7.json
+2026-09-04 17:48:17.938 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:18.265 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7612_JPG.rf.551b9652e222b4cc27b3df9664566cb5.jpg] 偵測到 1 個車牌 | 耗時 501.3ms
+2026-09-04 17:48:18.265 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7612_JPG.rf.551b9652e222b4cc27b3df9664566cb5_93c4f8c6.json
+2026-09-04 17:48:18.485 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:18.825 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7613_JPG.rf.4bd8b1ee0e57a0f7be289d9e6c9d472d.jpg] 偵測到 1 個車牌 | 耗時 559.6ms
+2026-09-04 17:48:18.826 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7613_JPG.rf.4bd8b1ee0e57a0f7be289d9e6c9d472d_77a5cca9.json
+2026-09-04 17:48:19.179 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:19.685 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7617_JPG.rf.7724eaf5703b1786f308853e9f170129.jpg] 偵測到 1 個車牌 | 耗時 859.2ms
+2026-09-04 17:48:19.685 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7617_JPG.rf.7724eaf5703b1786f308853e9f170129_20d0725f.json
+2026-09-04 17:48:19.872 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:20.153 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7618_JPG.rf.4260256e311dd282d284cb43f6d69e1c.jpg] 偵測到 1 個車牌 | 耗時 466.8ms
+2026-09-04 17:48:20.153 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7618_JPG.rf.4260256e311dd282d284cb43f6d69e1c_18b5b09c.json
+2026-09-04 17:48:20.340 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:20.624 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7622_JPG.rf.91b26bca9760fd964372b09fedbf3e81.jpg] 偵測到 1 個車牌 | 耗時 470.6ms
+2026-09-04 17:48:20.624 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7622_JPG.rf.91b26bca9760fd964372b09fedbf3e81_ce123762.json
+2026-09-04 17:48:21.007 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:21.653 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7629_JPG.rf.4a35b6c077cb03bb92d9bd56e05758e6.jpg] 偵測到 1 個車牌 | 耗時 1028.3ms
+2026-09-04 17:48:21.653 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7629_JPG.rf.4a35b6c077cb03bb92d9bd56e05758e6_bb87b509.json
+2026-09-04 17:48:21.848 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:22.183 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7630_JPG.rf.8b6e01e5c9deb295204d04093d2d2098.jpg] 偵測到 1 個車牌 | 耗時 529.7ms
+2026-09-04 17:48:22.184 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7630_JPG.rf.8b6e01e5c9deb295204d04093d2d2098_acdfa01c.json
+2026-09-04 17:48:22.392 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:22.745 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7637_JPG.rf.9d0ed3acd06a87a884dd7c71052b1240.jpg] 偵測到 1 個車牌 | 耗時 560.8ms
+2026-09-04 17:48:22.745 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7637_JPG.rf.9d0ed3acd06a87a884dd7c71052b1240_a8a75802.json
+2026-09-04 17:48:23.178 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:23.744 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7661_JPG.rf.dd056ab797acd05a4164daa0f5578b74.jpg] 偵測到 1 個車牌 | 耗時 997.9ms
+2026-09-04 17:48:23.744 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7661_JPG.rf.dd056ab797acd05a4164daa0f5578b74_a39cc4cc.json
+2026-09-04 17:48:23.954 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:24.254 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7667_JPG.rf.3ac7d43730556182098dcc3675fbf657.jpg] 偵測到 1 個車牌 | 耗時 509.5ms
+2026-09-04 17:48:24.254 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7667_JPG.rf.3ac7d43730556182098dcc3675fbf657_a93f1885.json
+2026-09-04 17:48:24.462 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:24.852 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7716_JPG.rf.783fa3ebe9aeae56942b3a82cd10ef01.jpg] 偵測到 1 個車牌 | 耗時 597.3ms
+2026-09-04 17:48:24.853 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7716_JPG.rf.783fa3ebe9aeae56942b3a82cd10ef01_f6b0bed2.json
+2026-09-04 17:48:25.178 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:25.595 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7719_JPG.rf.6ed5f24fa73acc9295edef163a203ab7.jpg] 偵測到 1 個車牌 | 耗時 742.2ms
+2026-09-04 17:48:25.596 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7719_JPG.rf.6ed5f24fa73acc9295edef163a203ab7_b0c977e5.json
+2026-09-04 17:48:25.779 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:26.044 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7721_JPG.rf.657307ff6836ec2d749a2e14823aea89.jpg] 偵測到 1 個車牌 | 耗時 447.4ms
+2026-09-04 17:48:26.044 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7721_JPG.rf.657307ff6836ec2d749a2e14823aea89_15cc4f76.json
+2026-09-04 17:48:26.246 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:26.537 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7726_JPG.rf.4caf656f5c984ae74c3fcda45d83d946.jpg] 偵測到 1 個車牌 | 耗時 492.3ms
+2026-09-04 17:48:26.537 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7726_JPG.rf.4caf656f5c984ae74c3fcda45d83d946_8768717d.json
+2026-09-04 17:48:26.758 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:27.362 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7735_JPG.rf.f2e138e50084f33f1c8de7eb68404e46.jpg] 偵測到 1 個車牌 | 耗時 824.7ms
+2026-09-04 17:48:27.363 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7735_JPG.rf.f2e138e50084f33f1c8de7eb68404e46_d989b0ef.json
+2026-09-04 17:48:27.724 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:28.051 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7741_JPG.rf.3eea839d22a4e4ccc96212d2ff6e52c2.jpg] 偵測到 1 個車牌 | 耗時 687.6ms
+2026-09-04 17:48:28.051 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7741_JPG.rf.3eea839d22a4e4ccc96212d2ff6e52c2_6741c74f.json
+2026-09-04 17:48:28.297 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:28.603 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [IMG_7744_JPG.rf.6879fca526b1e9de62631f774e460701.jpg] 偵測到 1 個車牌 | 耗時 551.2ms
+2026-09-04 17:48:28.603 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/IMG_7744_JPG.rf.6879fca526b1e9de62631f774e460701_53224a91.json
+2026-09-04 17:48:28.948 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:29.482 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_1017-_221018_16_jpg.rf.1354b8a590eb1d794d9fcae36d452ac5.jpg] 偵測到 1 個車牌 | 耗時 878.6ms
+2026-09-04 17:48:29.483 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_1017-_221018_16_jpg.rf.1354b8a590eb1d794d9fcae36d452ac5_5690f51d.json
+2026-09-04 17:48:29.741 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:29.940 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_1017-_221018_21_jpg.rf.b8be436c0ee7cdc3c1a8b40cf6d33af8.jpg] 偵測到 1 個車牌 | 耗時 456.7ms
+2026-09-04 17:48:29.941 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_1017-_221018_21_jpg.rf.b8be436c0ee7cdc3c1a8b40cf6d33af8_1f33107c.json
+2026-09-04 17:48:30.062 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:30.257 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_1017-_221018_32_jpg.rf.5ff398de1a796e1498a5c547952046c7.jpg] 偵測到 1 個車牌 | 耗時 315.8ms
+2026-09-04 17:48:30.257 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_1017-_221018_32_jpg.rf.5ff398de1a796e1498a5c547952046c7_c43bf197.json
+2026-09-04 17:48:30.373 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:30.552 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_1017-_221018_34_jpg.rf.50ed1e50bd25e6367a2bae790e586dc4.jpg] 偵測到 1 個車牌 | 耗時 295.0ms
+2026-09-04 17:48:30.553 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_1017-_221018_34_jpg.rf.50ed1e50bd25e6367a2bae790e586dc4_d9650904.json
+2026-09-04 17:48:30.661 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:30.977 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_1017-_221018_42_jpg.rf.ac370dda1f93ab8e7c444c9712db899e.jpg] 偵測到 1 個車牌 | 耗時 424.4ms
+2026-09-04 17:48:30.978 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_1017-_221018_42_jpg.rf.ac370dda1f93ab8e7c444c9712db899e_2500c500.json
+2026-09-04 17:48:31.234 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:31.541 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_1017-_221018_9_jpg.rf.8a9413d9a08727e20ee98bdc94397a0b.jpg] 偵測到 1 個車牌 | 耗時 562.7ms
+2026-09-04 17:48:31.542 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_1017-_221018_9_jpg.rf.8a9413d9a08727e20ee98bdc94397a0b_7c4e19b1.json
+2026-09-04 17:48:31.777 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:32.050 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_101722_221017_1_jpg.rf.75c1b0c9f36be6ab73781ba1bb9ba247.jpg] 偵測到 1 個車牌 | 耗時 507.8ms
+2026-09-04 17:48:32.050 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_101722_221017_1_jpg.rf.75c1b0c9f36be6ab73781ba1bb9ba247_609963da.json
+2026-09-04 17:48:32.271 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:32.541 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_101722_221017_21_jpg.rf.db1ec73aad9ba20fbe231aeb7dcf7f05.jpg] 偵測到 1 個車牌 | 耗時 490.6ms
+2026-09-04 17:48:32.542 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_101722_221017_21_jpg.rf.db1ec73aad9ba20fbe231aeb7dcf7f05_6dc2f766.json
+2026-09-04 17:48:32.857 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:33.183 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_101722_221017_32_jpg.rf.229007c840ec35cddffa58b698354999.jpg] 偵測到 1 個車牌 | 耗時 640.6ms
+2026-09-04 17:48:33.183 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_101722_221017_32_jpg.rf.229007c840ec35cddffa58b698354999_f4442e0c.json
+2026-09-04 17:48:33.457 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:33.745 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_101722_221017_43_jpg.rf.007fb644fe3c5886e827a691b7b2bf4e.jpg] 偵測到 1 個車牌 | 耗時 561.0ms
+2026-09-04 17:48:33.745 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_101722_221017_43_jpg.rf.007fb644fe3c5886e827a691b7b2bf4e_556aeb13.json
+2026-09-04 17:48:33.969 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:34.275 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_101722_221017_55_jpg.rf.eaf0220bda7420a7945b6c789e49db91.jpg] 偵測到 1 個車牌 | 耗時 529.3ms
+2026-09-04 17:48:34.275 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_101722_221017_55_jpg.rf.eaf0220bda7420a7945b6c789e49db91_257345ff.json
+2026-09-04 17:48:34.519 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:34.947 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_101722_221017_57_jpg.rf.f6597010eb6ee2f81dc559feb6dcc443.jpg] 偵測到 1 個車牌 | 耗時 671.3ms
+2026-09-04 17:48:34.947 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_101722_221017_57_jpg.rf.f6597010eb6ee2f81dc559feb6dcc443_0631a6d2.json
+2026-09-04 17:48:35.415 | DEBUG    | src.detector.yolo_detector:detect:167 - 偵測到 1 個車牌 (threshold=0.5)
+2026-09-04 17:48:35.822 | INFO     | src.pipeline.lpr_pipeline:predict:145 - [LINE_ALBUM_101722_221017_58_jpg.rf.74ac6f5eb4c41e495a88c0c611627fc8.jpg] 偵測到 1 個車牌 | 耗時 874.5ms
+2026-09-04 17:48:35.823 | DEBUG    | src.pipeline.lpr_pipeline:_save_result:218 - 結果已儲存：outputs/LINE_ALBUM_101722_221017_58_jpg.rf.74ac6f5eb4c41e495a88c0c611627fc8_5ade72ee.json
+2026-09-04 17:48:35.824 | INFO     | src.pipeline.lpr_pipeline:predict_batch:191 - 批次結果已儲存：outputs/test_results_before.json

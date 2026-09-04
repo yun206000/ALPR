@@ -1,0 +1,23 @@
+{
+  "job_id": "d7f8310f-40bf-4603-889e-b85e3a87ccc5",
+  "timestamp": "2026-08-18T03:07:36.572140+00:00",
+  "source_file": "IMG_7613_JPG.rf.4bd8b1ee0e57a0f7be289d9e6c9d472d.jpg",
+  "image_width": 920,
+  "image_height": 596,
+  "plates": [
+    {
+      "plate_text": "319-TDS",
+      "confidence": 0.8893,
+      "detector_score": 0.8895,
+      "recognizer_score": 0.9998,
+      "bbox": [
+        8.964019775390625,
+        50.603965759277344,
+        920.0,
+        596.0
+      ]
+    }
+  ],
+  "processing_time_ms": 147.74,
+  "error": null
+}

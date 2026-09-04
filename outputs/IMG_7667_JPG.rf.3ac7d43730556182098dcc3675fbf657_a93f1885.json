@@ -1,0 +1,22 @@
+{
+  "job_id": "a93f1885-4ff3-441c-8d27-3c96a2e1cc8a",
+  "timestamp": "2026-09-04T09:48:24.254440+00:00",
+  "source_file": "IMG_7667_JPG.rf.3ac7d43730556182098dcc3675fbf657.jpg",
+  "image_width": 1095,
+  "image_height": 594,
+  "plates": [
+    {
+      "plate_text": "NJY-0095",
+      "confidence": 0.8993,
+      "detector_score": 0.8994,
+      "recognizer_score": 0.9998,
+      "bbox": [
+        0.0,
+        10.635820388793945,
+        1086.427978515625,
+        586.1593627929688
+      ]
+    }
+  ],
+  "processing_time_ms": 509.54
+}

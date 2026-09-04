@@ -1,0 +1,23 @@
+{
+  "job_id": "4b81685a-11b1-4ef3-a84d-9032edce9d29",
+  "timestamp": "2026-08-18T03:28:31.522876+00:00",
+  "source_file": "IMG20220525133032_jpg.rf.fe701e5c8f7fdce39305490ca00aabb4.jpg",
+  "image_width": 3456,
+  "image_height": 4608,
+  "plates": [
+    {
+      "plate_text": "EMM-0607",
+      "confidence": 0.7037,
+      "detector_score": 0.7117,
+      "recognizer_score": 0.9887,
+      "bbox": [
+        871.4229736328125,
+        1847.0477294921875,
+        2642.262451171875,
+        2771.17626953125
+      ]
+    }
+  ],
+  "processing_time_ms": 151.35,
+  "error": null
+}

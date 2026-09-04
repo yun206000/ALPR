@@ -1,0 +1,23 @@
+{
+  "job_id": "bedba6e4-cbfa-474b-9c7c-216d0a029927",
+  "timestamp": "2026-08-18T12:42:59.783763+00:00",
+  "source_file": "IMG_7593_JPG.rf.5cabebaca24ee84349a84401b7a8d17b.jpg",
+  "image_width": 1394,
+  "image_height": 760,
+  "plates": [
+    {
+      "plate_text": "MBK-7716",
+      "confidence": 0.8522,
+      "detector_score": 0.8522,
+      "recognizer_score": 0.9999,
+      "bbox": [
+        7.422163009643555,
+        12.339229583740234,
+        1384.7044677734375,
+        760.0
+      ]
+    }
+  ],
+  "processing_time_ms": 134.39,
+  "error": null
+}

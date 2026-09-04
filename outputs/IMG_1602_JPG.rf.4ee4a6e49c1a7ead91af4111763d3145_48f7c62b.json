@@ -1,0 +1,23 @@
+{
+  "job_id": "48f7c62b-fa5e-4f02-8917-81ddde61fa2d",
+  "timestamp": "2026-08-17T10:00:44.920922+00:00",
+  "source_file": "IMG_1602_JPG.rf.4ee4a6e49c1a7ead91af4111763d3145.jpg",
+  "image_width": 3024,
+  "image_height": 4032,
+  "plates": [
+    {
+      "plate_text": "MZJ-7837",
+      "confidence": 0.8363,
+      "detector_score": 0.8364,
+      "recognizer_score": 0.9998,
+      "bbox": [
+        243.8521728515625,
+        980.744384765625,
+        2666.72412109375,
+        2306.97509765625
+      ]
+    }
+  ],
+  "processing_time_ms": 143.98,
+  "error": null
+}

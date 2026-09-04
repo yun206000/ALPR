@@ -1,0 +1,23 @@
+{
+  "job_id": "12ef7930-8e9c-4229-b386-89a4a572cb7e",
+  "timestamp": "2026-08-17T10:02:58.186663+00:00",
+  "source_file": "IMG20220525132905_jpg.rf.6f26169955b72de392ab9bec4c8098db.jpg",
+  "image_width": 3456,
+  "image_height": 4608,
+  "plates": [
+    {
+      "plate_text": "550-CBS",
+      "confidence": 0.7529,
+      "detector_score": 0.7531,
+      "recognizer_score": 0.9998,
+      "bbox": [
+        574.7330322265625,
+        1586.9447021484375,
+        2553.375,
+        2708.7998046875
+      ]
+    }
+  ],
+  "processing_time_ms": 128.89,
+  "error": null
+}

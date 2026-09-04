@@ -1,0 +1,23 @@
+{
+  "job_id": "326f3f95-9352-48c4-abcd-6f5c21b9ff70",
+  "timestamp": "2026-08-17T16:40:51.681146+00:00",
+  "source_file": "IMG20220427145733_jpg.rf.c7e13a0c9acc3518a00a7434567184b2.jpg",
+  "image_width": 3456,
+  "image_height": 4608,
+  "plates": [
+    {
+      "plate_text": "MUE-6562",
+      "confidence": 0.7672,
+      "detector_score": 0.7765,
+      "recognizer_score": 0.988,
+      "bbox": [
+        771.0037841796875,
+        1640.714599609375,
+        2700.671875,
+        2634.533935546875
+      ]
+    }
+  ],
+  "processing_time_ms": 118.24,
+  "error": null
+}

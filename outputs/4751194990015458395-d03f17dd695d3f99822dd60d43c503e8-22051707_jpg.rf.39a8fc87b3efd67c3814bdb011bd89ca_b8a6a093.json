@@ -1,0 +1,22 @@
+{
+  "job_id": "b8a6a093-6559-4580-864b-c0ee0750bf35",
+  "timestamp": "2026-09-04T09:47:22.423390+00:00",
+  "source_file": "4751194990015458395-d03f17dd695d3f99822dd60d43c503e8-22051707_jpg.rf.39a8fc87b3efd67c3814bdb011bd89ca.jpg",
+  "image_width": 381,
+  "image_height": 203,
+  "plates": [
+    {
+      "plate_text": "267-HTH",
+      "confidence": 0.8758,
+      "detector_score": 0.8759,
+      "recognizer_score": 0.9999,
+      "bbox": [
+        1.1634827852249146,
+        3.016876220703125,
+        373.0062255859375,
+        203.0
+      ]
+    }
+  ],
+  "processing_time_ms": 309.84
+}

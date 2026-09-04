@@ -1,0 +1,23 @@
+{
+  "job_id": "65a4f240-8634-4ede-b1a0-f2286ee6378b",
+  "timestamp": "2026-08-18T11:24:31.979346+00:00",
+  "source_file": "4751219743046452701-669aa53766eb9b0b117d1a1bd9be52d1-22051709_jpg.rf.0d57566b772f4a257ebcecd7e4310cf5.jpg",
+  "image_width": 554,
+  "image_height": 296,
+  "plates": [
+    {
+      "plate_text": "MTB-1905",
+      "confidence": 0.9077,
+      "detector_score": 0.9118,
+      "recognizer_score": 0.9955,
+      "bbox": [
+        1.3438215255737305,
+        5.104355335235596,
+        554.0,
+        296.0
+      ]
+    }
+  ],
+  "processing_time_ms": 61.62,
+  "error": null
+}

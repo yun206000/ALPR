@@ -1,0 +1,23 @@
+{
+  "job_id": "15b68076-3bd6-4c24-ab93-c613c7928da1",
+  "timestamp": "2026-08-18T13:41:47.155666+00:00",
+  "source_file": "IMG20220427145809_jpg.rf.68c1476caaf083ea384d21a8096c1c9c.jpg",
+  "image_width": 2163,
+  "image_height": 1191,
+  "plates": [
+    {
+      "plate_text": "NNQ-6712",
+      "confidence": 0.8009,
+      "detector_score": 0.8122,
+      "recognizer_score": 0.9861,
+      "bbox": [
+        126.17603302001953,
+        307.2277526855469,
+        1990.3138427734375,
+        889.6677856445312
+      ]
+    }
+  ],
+  "processing_time_ms": 86.46,
+  "error": null
+}

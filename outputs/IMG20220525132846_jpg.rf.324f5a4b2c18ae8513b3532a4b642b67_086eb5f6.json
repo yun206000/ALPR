@@ -1,0 +1,23 @@
+{
+  "job_id": "086eb5f6-4253-4cfb-9818-dfb5ab2075a3",
+  "timestamp": "2026-08-18T03:28:30.242459+00:00",
+  "source_file": "IMG20220525132846_jpg.rf.324f5a4b2c18ae8513b3532a4b642b67.jpg",
+  "image_width": 3456,
+  "image_height": 4608,
+  "plates": [
+    {
+      "plate_text": "MVF-8295",
+      "confidence": 0.6869,
+      "detector_score": 0.688,
+      "recognizer_score": 0.9985,
+      "bbox": [
+        746.04150390625,
+        1744.140625,
+        2735.490478515625,
+        2650.438720703125
+      ]
+    }
+  ],
+  "processing_time_ms": 128.31,
+  "error": null
+}

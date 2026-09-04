@@ -1,0 +1,23 @@
+{
+  "job_id": "059cfb01-9df5-4ac3-8c53-d9fb44675b36",
+  "timestamp": "2026-08-17T17:03:38.483381+00:00",
+  "source_file": "4751219743046452701-8c26756a13cda33d675d42a690edb6e7-22051709_jpg.rf.34a1c517aed9de8ecef93a93924e566b.jpg",
+  "image_width": 463,
+  "image_height": 282,
+  "plates": [
+    {
+      "plate_text": "MMA-9532",
+      "confidence": 0.8924,
+      "detector_score": 0.8934,
+      "recognizer_score": 0.9989,
+      "bbox": [
+        2.6094794273376465,
+        3.121391773223877,
+        459.1900329589844,
+        282.0
+      ]
+    }
+  ],
+  "processing_time_ms": 38.22,
+  "error": null
+}

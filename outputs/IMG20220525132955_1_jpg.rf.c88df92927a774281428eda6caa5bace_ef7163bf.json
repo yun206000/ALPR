@@ -1,0 +1,23 @@
+{
+  "job_id": "ef7163bf-0e8f-4174-8aa5-51fc3e845158",
+  "timestamp": "2026-08-18T03:07:33.131086+00:00",
+  "source_file": "IMG20220525132955_1_jpg.rf.c88df92927a774281428eda6caa5bace.jpg",
+  "image_width": 3456,
+  "image_height": 4608,
+  "plates": [
+    {
+      "plate_text": "053-KWF",
+      "confidence": 0.7315,
+      "detector_score": 0.7326,
+      "recognizer_score": 0.9985,
+      "bbox": [
+        637.6640625,
+        1829.190185546875,
+        2555.166259765625,
+        2913.56396484375
+      ]
+    }
+  ],
+  "processing_time_ms": 178.11,
+  "error": null
+}

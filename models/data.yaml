@@ -1,0 +1,4 @@
+train: /home/angel030880/test/datasets/train/images
+val: /home/angel030880/test/datasets/valid/images
+names:
+  0: plate

@@ -1,0 +1,23 @@
+{
+  "job_id": "fb6e203f-1dfe-4d06-a03e-201fb4d5e4d9",
+  "timestamp": "2026-08-18T11:24:44.834507+00:00",
+  "source_file": "IMG_7719_JPG.rf.6ed5f24fa73acc9295edef163a203ab7.jpg",
+  "image_width": 1059,
+  "image_height": 493,
+  "plates": [
+    {
+      "plate_text": "NBB-6280",
+      "confidence": 0.8085,
+      "detector_score": 0.8273,
+      "recognizer_score": 0.9774,
+      "bbox": [
+        0.0,
+        0.0,
+        1033.5184326171875,
+        473.51300048828125
+      ]
+    }
+  ],
+  "processing_time_ms": 68.2,
+  "error": null
+}

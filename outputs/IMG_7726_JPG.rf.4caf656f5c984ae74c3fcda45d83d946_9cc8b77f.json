@@ -1,0 +1,23 @@
+{
+  "job_id": "9cc8b77f-3ddd-4e33-a556-349c39b696a5",
+  "timestamp": "2026-08-18T03:07:37.575303+00:00",
+  "source_file": "IMG_7726_JPG.rf.4caf656f5c984ae74c3fcda45d83d946.jpg",
+  "image_width": 978,
+  "image_height": 554,
+  "plates": [
+    {
+      "plate_text": "MEJ-3180",
+      "confidence": 0.8866,
+      "detector_score": 0.8867,
+      "recognizer_score": 0.9999,
+      "bbox": [
+        6.6996307373046875,
+        5.329224109649658,
+        978.0,
+        554.0
+      ]
+    }
+  ],
+  "processing_time_ms": 66.23,
+  "error": null
+}

@@ -1,0 +1,3062 @@
+{
+  "batch_id": "a58c09b3-d57b-4b0f-b895-4b271674fe6c",
+  "timestamp": "2026-08-17T10:00:47.833988+00:00",
+  "total_images": 135,
+  "success_count": 135,
+  "fail_count": 0,
+  "results": [
+    {
+      "job_id": "3cc156c6-5384-4ae7-8d1d-32251681432c",
+      "timestamp": "2026-08-17T10:00:33.796363+00:00",
+      "source_file": "4751194990015458395-14ba4840e68e932bc314efcdb7161478-22051707_jpg.rf.41236ae625f71f029b9f48593c00e60b.jpg",
+      "image_width": 441,
+      "image_height": 218,
+      "plates": [
+        {
+          "plate_text": "MLZ-9072",
+          "confidence": 0.8438,
+          "detector_score": 0.844,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            0.0,
+            0.0,
+            438.2130432128906,
+            217.5267333984375
+          ]
+        }
+      ],
+      "processing_time_ms": 77.51,
+      "error": null
+    },
+    {
+      "job_id": "46c131b2-9ce3-4e9f-bd31-06080fadf99a",
+      "timestamp": "2026-08-17T10:00:33.857322+00:00",
+      "source_file": "4751194990015458395-488368a7bb92cd64260afc2ba8ca76ab-22051708_jpg.rf.c2667e3a38153042487a1d2358d08c09.jpg",
+      "image_width": 316,
+      "image_height": 180,
+      "plates": [
+        {
+          "plate_text": "267-HTH",
+          "confidence": 0.8911,
+          "detector_score": 0.8912,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            2.5278167724609375,
+            6.26924467086792,
+            316.0,
+            180.0
+          ]
+        }
+      ],
+      "processing_time_ms": 60.63,
+      "error": null
+    },
+    {
+      "job_id": "c32ea19c-d2ff-4733-b811-59c9365747e6",
+      "timestamp": "2026-08-17T10:00:33.924708+00:00",
+      "source_file": "4751194990015458395-5644735aed9c14f005b49a1cbd8aa84f-22051707_jpg.rf.87746df2849548cae19f949f9d2355aa.jpg",
+      "image_width": 424,
+      "image_height": 256,
+      "plates": [
+        {
+          "plate_text": "376-MEZ",
+          "confidence": 0.9098,
+          "detector_score": 0.9099,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            5.653327941894531,
+            1.6381549835205078,
+            421.5559387207031,
+            253.87744140625
+          ]
+        }
+      ],
+      "processing_time_ms": 66.6,
+      "error": null
+    },
+    {
+      "job_id": "c17ca8a8-af84-4caf-818e-b45b9adff422",
+      "timestamp": "2026-08-17T10:00:33.984929+00:00",
+      "source_file": "4751194990015458395-60eb7de5cbf3bd5074bb91ca2dd37cbc-22051708_jpg.rf.af0688f6fd7dd2bd771de20ddf2dbcae.jpg",
+      "image_width": 275,
+      "image_height": 151,
+      "plates": [
+        {
+          "plate_text": "H3T-761",
+          "confidence": 0.869,
+          "detector_score": 0.8696,
+          "recognizer_score": 0.9993,
+          "bbox": [
+            0.0,
+            0.2594149112701416,
+            271.793212890625,
+            151.0
+          ]
+        }
+      ],
+      "processing_time_ms": 59.91,
+      "error": null
+    },
+    {
+      "job_id": "d55f5554-c2ef-4386-b948-52c672878292",
+      "timestamp": "2026-08-17T10:00:34.042194+00:00",
+      "source_file": "4751194990015458395-6caf0f4a4666856700811bd7ad1d38a1-22051708_jpg.rf.efe9a12aeddf0d3ac6aae2b5d954a3fb.jpg",
+      "image_width": 339,
+      "image_height": 178,
+      "plates": [
+        {
+          "plate_text": "625-HBK",
+          "confidence": 0.8573,
+          "detector_score": 0.8575,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            5.204315662384033,
+            0.6284219622612,
+            338.1212463378906,
+            172.51104736328125
+          ]
+        }
+      ],
+      "processing_time_ms": 56.87,
+      "error": null
+    },
+    {
+      "job_id": "a2d25639-d7ec-4910-b784-fb34f8f8101b",
+      "timestamp": "2026-08-17T10:00:34.099908+00:00",
+      "source_file": "4751194990015458395-6ffae02dec4de7db066a198ebc76e024-22051708_jpg.rf.8efac0148c35cb1b382492c0f6144a28.jpg",
+      "image_width": 452,
+      "image_height": 221,
+      "plates": [
+        {
+          "plate_text": "MBN-9528",
+          "confidence": 0.9138,
+          "detector_score": 0.9139,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            3.1485111713409424,
+            1.4795730113983154,
+            450.7382507324219,
+            221.0
+          ]
+        }
+      ],
+      "processing_time_ms": 57.39,
+      "error": null
+    },
+    {
+      "job_id": "f2b8ed1c-589a-4544-9cb1-c8d6998bf190",
+      "timestamp": "2026-08-17T10:00:34.159059+00:00",
+      "source_file": "4751194990015458395-7a0efd21d6190cf7b44ae47fb3f34eb1-22051708_jpg.rf.d5debe2605af54890acea7a485345f00.jpg",
+      "image_width": 333,
+      "image_height": 184,
+      "plates": [
+        {
+          "plate_text": "601-PRV",
+          "confidence": 0.7542,
+          "detector_score": 0.7861,
+          "recognizer_score": 0.9595,
+          "bbox": [
+            0.6595367193222046,
+            0.0,
+            333.0,
+            184.0
+          ]
+        }
+      ],
+      "processing_time_ms": 58.74,
+      "error": null
+    },
+    {
+      "job_id": "87db7917-a794-4f0f-b097-f4f97321cb5c",
+      "timestamp": "2026-08-17T10:00:34.220024+00:00",
+      "source_file": "4751194990015458395-7b64ff5ddde2c477d07994ba6e7e68a9-22051708_jpg.rf.2ec1fb32c20e75eb93838fa55f824f7a.jpg",
+      "image_width": 488,
+      "image_height": 263,
+      "plates": [
+        {
+          "plate_text": "708-LUA",
+          "confidence": 0.8874,
+          "detector_score": 0.8876,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            0.062036897987127304,
+            14.66770076751709,
+            485.79022216796875,
+            263.0
+          ]
+        }
+      ],
+      "processing_time_ms": 60.63,
+      "error": null
+    },
+    {
+      "job_id": "0197a41e-ae92-451b-aa00-cd7b07b380b2",
+      "timestamp": "2026-08-17T10:00:34.274077+00:00",
+      "source_file": "4751194990015458395-90c0eee60a1914fa3cb274f49ab3bc85-22051708_jpg.rf.382d0b81b29f991244c9c36595a645f2.jpg",
+      "image_width": 319,
+      "image_height": 184,
+      "plates": [
+        {
+          "plate_text": "787-PYZ",
+          "confidence": 0.8613,
+          "detector_score": 0.8614,
+          "recognizer_score": 1.0,
+          "bbox": [
+            0.7514285445213318,
+            1.5226315259933472,
+            310.22943115234375,
+            184.0
+          ]
+        }
+      ],
+      "processing_time_ms": 53.64,
+      "error": null
+    },
+    {
+      "job_id": "fe06844a-43f5-4e08-ace3-510ed7df144e",
+      "timestamp": "2026-08-17T10:00:34.337510+00:00",
+      "source_file": "4751194990015458395-a0bfd45a60981d6e6ccf1b73f7676503-22051707_jpg.rf.a8ddfa3189d22d17a63e1d5d81309b13.jpg",
+      "image_width": 498,
+      "image_height": 278,
+      "plates": [
+        {
+          "plate_text": "MNR-2732",
+          "confidence": 0.9337,
+          "detector_score": 0.9422,
+          "recognizer_score": 0.991,
+          "bbox": [
+            5.934153079986572,
+            0.0,
+            495.1633605957031,
+            278.0
+          ]
+        }
+      ],
+      "processing_time_ms": 63.11,
+      "error": null
+    },
+    {
+      "job_id": "72995aae-004c-47f4-a29a-9cd94316f1f1",
+      "timestamp": "2026-08-17T10:00:34.395735+00:00",
+      "source_file": "4751194990015458395-bc28307f3ae561897d3485100778e40c-22051707_jpg.rf.0cb9e30d924dcc6eb43122b31ca43c29.jpg",
+      "image_width": 499,
+      "image_height": 262,
+      "plates": [
+        {
+          "plate_text": "MMK-6217",
+          "confidence": 0.7965,
+          "detector_score": 0.798,
+          "recognizer_score": 0.9981,
+          "bbox": [
+            5.940596580505371,
+            2.3090343475341797,
+            498.84814453125,
+            262.0
+          ]
+        }
+      ],
+      "processing_time_ms": 57.83,
+      "error": null
+    },
+    {
+      "job_id": "d58aedb3-de31-407d-8989-4e227a161d73",
+      "timestamp": "2026-08-17T10:00:34.454412+00:00",
+      "source_file": "4751194990015458395-d03f17dd695d3f99822dd60d43c503e8-22051707_jpg.rf.39a8fc87b3efd67c3814bdb011bd89ca.jpg",
+      "image_width": 381,
+      "image_height": 203,
+      "plates": [
+        {
+          "plate_text": "267-HTH",
+          "confidence": 0.8758,
+          "detector_score": 0.8759,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            1.1634827852249146,
+            3.016876220703125,
+            373.0062255859375,
+            203.0
+          ]
+        }
+      ],
+      "processing_time_ms": 58.37,
+      "error": null
+    },
+    {
+      "job_id": "ecb9281f-7a30-407b-9b7e-2489a5e71334",
+      "timestamp": "2026-08-17T10:00:34.514589+00:00",
+      "source_file": "4751219743046452701-192f26ccaacd869b196329a63c61a4d5-22051709_jpg.rf.e089def1ca004ac20babee5bb187b684.jpg",
+      "image_width": 483,
+      "image_height": 262,
+      "plates": [
+        {
+          "plate_text": "MXB-8258",
+          "confidence": 0.9244,
+          "detector_score": 0.9251,
+          "recognizer_score": 0.9993,
+          "bbox": [
+            2.4953882694244385,
+            0.27457836270332336,
+            483.0,
+            262.0
+          ]
+        }
+      ],
+      "processing_time_ms": 59.79,
+      "error": null
+    },
+    {
+      "job_id": "c8e9efc5-69ab-464f-9d2b-ab60aee7a850",
+      "timestamp": "2026-08-17T10:00:34.574937+00:00",
+      "source_file": "4751219743046452701-306ded35b6e8aca056213ad1cfdc720c-22051709_jpg.rf.5e81a6c1fbb4abbd4cc6e84a40082c49.jpg",
+      "image_width": 574,
+      "image_height": 260,
+      "plates": [
+        {
+          "plate_text": "ABS-7171",
+          "confidence": 0.8625,
+          "detector_score": 0.8641,
+          "recognizer_score": 0.9982,
+          "bbox": [
+            2.925518274307251,
+            0.0,
+            574.0,
+            260.0
+          ]
+        }
+      ],
+      "processing_time_ms": 60.03,
+      "error": null
+    },
+    {
+      "job_id": "c3769627-41fe-4cd7-811b-263d0ddd2e19",
+      "timestamp": "2026-08-17T10:00:34.648491+00:00",
+      "source_file": "4751219743046452701-4dda637949880c7055df63a61494ceb2-22051709_jpg.rf.5a6a7670381594f561cfced5d8e2bcdb.jpg",
+      "image_width": 459,
+      "image_height": 271,
+      "plates": [
+        {
+          "plate_text": "NEH-6863",
+          "confidence": 0.6154,
+          "detector_score": 0.6157,
+          "recognizer_score": 0.9996,
+          "bbox": [
+            0.0,
+            70.14740753173828,
+            454.7503356933594,
+            268.2328186035156
+          ]
+        }
+      ],
+      "processing_time_ms": 73.16,
+      "error": null
+    },
+    {
+      "job_id": "4dee1935-8fd0-4be3-a490-7782a398ffbc",
+      "timestamp": "2026-08-17T10:00:34.710681+00:00",
+      "source_file": "4751219743046452701-4f4d5b4690f956acf94a9ae32383151b-22051709_jpg.rf.2ee96451cd6e06bc62c9544517c3dc9d.jpg",
+      "image_width": 406,
+      "image_height": 209,
+      "plates": [
+        {
+          "plate_text": "NGM-1563",
+          "confidence": 0.8664,
+          "detector_score": 0.8762,
+          "recognizer_score": 0.9889,
+          "bbox": [
+            3.381810426712036,
+            0.0,
+            402.4623107910156,
+            209.0
+          ]
+        }
+      ],
+      "processing_time_ms": 61.89,
+      "error": null
+    },
+    {
+      "job_id": "ca7f9303-3e5c-4fa5-a179-4bf65da7488a",
+      "timestamp": "2026-08-17T10:00:34.772711+00:00",
+      "source_file": "4751219743046452701-526bd975802863bcaf133cbf8e53a3b5-22051709_jpg.rf.33ace6db6d2db92b078265362904ca6b.jpg",
+      "image_width": 502,
+      "image_height": 276,
+      "plates": [
+        {
+          "plate_text": "MXJ-7089",
+          "confidence": 0.8982,
+          "detector_score": 0.8985,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            0.0,
+            0.9294106364250183,
+            498.1224365234375,
+            276.0
+          ]
+        }
+      ],
+      "processing_time_ms": 61.63,
+      "error": null
+    },
+    {
+      "job_id": "8d467654-53d8-4beb-bc32-ea9178dfdb59",
+      "timestamp": "2026-08-17T10:00:34.836377+00:00",
+      "source_file": "4751219743046452701-669aa53766eb9b0b117d1a1bd9be52d1-22051709_jpg.rf.0d57566b772f4a257ebcecd7e4310cf5.jpg",
+      "image_width": 554,
+      "image_height": 296,
+      "plates": [
+        {
+          "plate_text": "MTB-1905",
+          "confidence": 0.9117,
+          "detector_score": 0.9118,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            1.3438215255737305,
+            5.104355335235596,
+            554.0,
+            296.0
+          ]
+        }
+      ],
+      "processing_time_ms": 63.34,
+      "error": null
+    },
+    {
+      "job_id": "3c3e9214-5f5a-4bbb-9a8d-c6db38a9e44e",
+      "timestamp": "2026-08-17T10:00:34.896990+00:00",
+      "source_file": "4751219743046452701-836afbc2302fed6f977e90470705d294-22051709_jpg.rf.4d680b3015b38d171f7d700d587dcfad.jpg",
+      "image_width": 386,
+      "image_height": 212,
+      "plates": [
+        {
+          "plate_text": "MLZ-8879",
+          "confidence": 0.8366,
+          "detector_score": 0.8366,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            1.6625694036483765,
+            1.9342223405838013,
+            384.247314453125,
+            212.0
+          ]
+        }
+      ],
+      "processing_time_ms": 60.22,
+      "error": null
+    },
+    {
+      "job_id": "acdcbd29-c2e9-4786-9721-77d44a010d72",
+      "timestamp": "2026-08-17T10:00:34.959435+00:00",
+      "source_file": "4751219743046452701-8c26756a13cda33d675d42a690edb6e7-22051709_jpg.rf.34a1c517aed9de8ecef93a93924e566b.jpg",
+      "image_width": 463,
+      "image_height": 282,
+      "plates": [
+        {
+          "plate_text": "MMA-9532",
+          "confidence": 0.893,
+          "detector_score": 0.8934,
+          "recognizer_score": 0.9996,
+          "bbox": [
+            2.6094794273376465,
+            3.121391773223877,
+            459.1900329589844,
+            282.0
+          ]
+        }
+      ],
+      "processing_time_ms": 62.12,
+      "error": null
+    },
+    {
+      "job_id": "eccb8f11-af83-4cdb-bd7c-d4ce3a70f5b0",
+      "timestamp": "2026-08-17T10:00:35.023703+00:00",
+      "source_file": "4751219743046452701-9f7cab2b4ba16f1c7216a20cc0db0bc2-22051709_jpg.rf.a5c00112e68d3dd2bb9b105806564b2a.jpg",
+      "image_width": 403,
+      "image_height": 223,
+      "plates": [
+        {
+          "plate_text": "MLZ-8879",
+          "confidence": 0.8695,
+          "detector_score": 0.8696,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            0.0,
+            3.5614969730377197,
+            397.51837158203125,
+            221.86671447753906
+          ]
+        }
+      ],
+      "processing_time_ms": 63.87,
+      "error": null
+    },
+    {
+      "job_id": "77dc42b9-ff4e-4965-a762-b40a0673a77e",
+      "timestamp": "2026-08-17T10:00:35.085625+00:00",
+      "source_file": "4751219743046452701-b737b0885845d82181c89e57370304b9-22051709_jpg.rf.8b32f81cb4a38c5e5ca11bd397cb01de.jpg",
+      "image_width": 414,
+      "image_height": 253,
+      "plates": [
+        {
+          "plate_text": "NKE-3771",
+          "confidence": 0.8332,
+          "detector_score": 0.8333,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            1.925858736038208,
+            9.102799415588379,
+            401.13714599609375,
+            245.6571807861328
+          ]
+        }
+      ],
+      "processing_time_ms": 61.6,
+      "error": null
+    },
+    {
+      "job_id": "5f794c52-d0e5-4fe0-960c-189cff0a4bde",
+      "timestamp": "2026-08-17T10:00:35.145400+00:00",
+      "source_file": "4751219743046452701-c45c5684dfad71b82a32a65bf3f203fc-22051709_jpg.rf.16ed28f255cf6ae8765e8f35330f67a9.jpg",
+      "image_width": 361,
+      "image_height": 197,
+      "plates": [
+        {
+          "plate_text": "7GD-527",
+          "confidence": 0.8905,
+          "detector_score": 0.8906,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            0.0,
+            0.5087372660636902,
+            360.57794189453125,
+            189.18893432617188
+          ]
+        }
+      ],
+      "processing_time_ms": 59.38,
+      "error": null
+    },
+    {
+      "job_id": "eabeea37-b557-4754-99b4-2f1e7eaf2dc1",
+      "timestamp": "2026-08-17T10:00:35.204349+00:00",
+      "source_file": "4751219743046452701-cd51665c47830233be750613da27510a-22051709_jpg.rf.f241ca9334ee8e34de81d44e275de7e3.jpg",
+      "image_width": 452,
+      "image_height": 241,
+      "plates": [
+        {
+          "plate_text": "133-MXM",
+          "confidence": 0.8733,
+          "detector_score": 0.8735,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            0.0,
+            2.99151873588562,
+            448.1239013671875,
+            237.99732971191406
+          ]
+        }
+      ],
+      "processing_time_ms": 58.63,
+      "error": null
+    },
+    {
+      "job_id": "5a3045b9-c7e6-4138-b72b-7dd5c47d7f58",
+      "timestamp": "2026-08-17T10:00:35.274154+00:00",
+      "source_file": "4751219743046452701-df7785a15206f8b6328b824bd6fa638a-22051709_jpg.rf.0bf3311de2df93056aff3b63e070ab33.jpg",
+      "image_width": 604,
+      "image_height": 372,
+      "plates": [
+        {
+          "plate_text": "NNT-2682",
+          "confidence": 0.9167,
+          "detector_score": 0.9195,
+          "recognizer_score": 0.997,
+          "bbox": [
+            3.4873361587524414,
+            7.888814926147461,
+            600.8805541992188,
+            369.9874572753906
+          ]
+        }
+      ],
+      "processing_time_ms": 69.4,
+      "error": null
+    },
+    {
+      "job_id": "23d6a9a2-87fd-46f9-8488-025eca5e5241",
+      "timestamp": "2026-08-17T10:00:35.421965+00:00",
+      "source_file": "IMG20220427144724_jpg.rf.96f383a99078567b88181980f0ca2256.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "675-HCL",
+          "confidence": 0.8126,
+          "detector_score": 0.8128,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            1472.22509765625,
+            1722.9466552734375,
+            2618.938232421875,
+            3166.39990234375
+          ]
+        }
+      ],
+      "processing_time_ms": 147.49,
+      "error": null
+    },
+    {
+      "job_id": "826ac293-1a34-466e-98e4-badad29eea25",
+      "timestamp": "2026-08-17T10:00:35.578083+00:00",
+      "source_file": "IMG20220427144728_jpg.rf.3f3f2203bd504f227c15cb4e7b1c678f.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "675-HCL",
+          "confidence": 0.7579,
+          "detector_score": 0.7579,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            724.3661499023438,
+            1813.2921142578125,
+            2632.458740234375,
+            3367.98388671875
+          ]
+        }
+      ],
+      "processing_time_ms": 155.54,
+      "error": null
+    },
+    {
+      "job_id": "0844d351-017c-44cc-88a2-19bd86463dc4",
+      "timestamp": "2026-08-17T10:00:35.733441+00:00",
+      "source_file": "IMG20220427145301_jpg.rf.0391bb2119d7ddb8bcd81aa46b51436c.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "EME-3750",
+          "confidence": 0.7195,
+          "detector_score": 0.7379,
+          "recognizer_score": 0.9752,
+          "bbox": [
+            836.0199584960938,
+            1655.760498046875,
+            3166.43359375,
+            3145.20068359375
+          ]
+        }
+      ],
+      "processing_time_ms": 154.88,
+      "error": null
+    },
+    {
+      "job_id": "d5acf4ac-fde1-4e70-8988-bab7a86705ab",
+      "timestamp": "2026-08-17T10:00:35.873941+00:00",
+      "source_file": "IMG20220427145302_jpg.rf.792ba63fd3f345f22b0401943983a393.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "ENE-3750",
+          "confidence": 0.5668,
+          "detector_score": 0.5892,
+          "recognizer_score": 0.962,
+          "bbox": [
+            819.6384887695312,
+            1971.0830078125,
+            3012.81005859375,
+            2947.311767578125
+          ]
+        }
+      ],
+      "processing_time_ms": 140.01,
+      "error": null
+    },
+    {
+      "job_id": "74f75c38-4c0f-4b91-a381-a0837a61e991",
+      "timestamp": "2026-08-17T10:00:36.008785+00:00",
+      "source_file": "IMG20220427145304_jpg.rf.e88a24224b44ce554f19182a2fe89a07.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "EWE-3750",
+          "confidence": 0.6684,
+          "detector_score": 0.6696,
+          "recognizer_score": 0.9983,
+          "bbox": [
+            917.0546875,
+            1523.99365234375,
+            2553.886474609375,
+            2780.969970703125
+          ]
+        }
+      ],
+      "processing_time_ms": 134.43,
+      "error": null
+    },
+    {
+      "job_id": "6bd55cc3-07a0-4719-b6a1-eaa26289822c",
+      "timestamp": "2026-08-17T10:00:36.083911+00:00",
+      "source_file": "IMG20220427145331_jpg.rf.9fba3f3d9da30e8f4e93eba35d63d0a6.jpg",
+      "image_width": 1808,
+      "image_height": 1170,
+      "plates": [
+        {
+          "plate_text": "EGV0192",
+          "confidence": 0.6509,
+          "detector_score": 0.6661,
+          "recognizer_score": 0.9772,
+          "bbox": [
+            109.1180419921875,
+            304.47540283203125,
+            1653.9078369140625,
+            1082.3819580078125
+          ]
+        }
+      ],
+      "processing_time_ms": 74.59,
+      "error": null
+    },
+    {
+      "job_id": "42278e10-9140-4df8-bca3-b53feac96ee7",
+      "timestamp": "2026-08-17T10:00:36.208035+00:00",
+      "source_file": "IMG20220427145331_jpg.rf.e3afcb321ab895c0151d888bf50293a0.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "EQV-0192",
+          "confidence": 0.6271,
+          "detector_score": 0.6422,
+          "recognizer_score": 0.9765,
+          "bbox": [
+            1052.935791015625,
+            2329.33740234375,
+            2651.70263671875,
+            3094.8154296875
+          ]
+        }
+      ],
+      "processing_time_ms": 123.79,
+      "error": null
+    },
+    {
+      "job_id": "5c62ee7d-790f-46c4-9c7d-4a77ec2e10d5",
+      "timestamp": "2026-08-17T10:00:36.336112+00:00",
+      "source_file": "IMG20220427145332_jpg.rf.87e2a4659f03ff9ab1b5f02b1cccd4ef.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "EQV-0192",
+          "confidence": 0.6465,
+          "detector_score": 0.6486,
+          "recognizer_score": 0.9968,
+          "bbox": [
+            1293.638427734375,
+            2409.073486328125,
+            2760.57763671875,
+            3071.28466796875
+          ]
+        }
+      ],
+      "processing_time_ms": 127.55,
+      "error": null
+    },
+    {
+      "job_id": "dd31e40a-ef25-4b7e-9826-211d30841669",
+      "timestamp": "2026-08-17T10:00:36.408510+00:00",
+      "source_file": "IMG20220427145332_jpg.rf.e4f3ec5a06094496c5c6f608c7eed61c.jpg",
+      "image_width": 1644,
+      "image_height": 978,
+      "plates": [
+        {
+          "plate_text": "EQV-0192",
+          "confidence": 0.6814,
+          "detector_score": 0.7118,
+          "recognizer_score": 0.9574,
+          "bbox": [
+            55.14863204956055,
+            140.07040405273438,
+            1558.667724609375,
+            888.8905029296875
+          ]
+        }
+      ],
+      "processing_time_ms": 71.94,
+      "error": null
+    },
+    {
+      "job_id": "566eb497-7b14-4b2d-b55a-112dba705361",
+      "timestamp": "2026-08-17T10:00:36.537887+00:00",
+      "source_file": "IMG20220427145334_jpg.rf.27018a671f889cf54663d51eb9e8db9c.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "EBV-0192",
+          "confidence": 0.6215,
+          "detector_score": 0.6602,
+          "recognizer_score": 0.9413,
+          "bbox": [
+            882.7288208007812,
+            1981.91552734375,
+            2456.24267578125,
+            3485.462646484375
+          ]
+        }
+      ],
+      "processing_time_ms": 128.99,
+      "error": null
+    },
+    {
+      "job_id": "6271627b-e282-47b4-9984-84aa1e5a87d4",
+      "timestamp": "2026-08-17T10:00:36.573949+00:00",
+      "source_file": "IMG20220427145343_jpg.rf.8ca948b4f9dcdc72410520cba5a36e73.jpg",
+      "image_width": 1951,
+      "image_height": 1388,
+      "plates": [],
+      "processing_time_ms": 35.59,
+      "error": null
+    },
+    {
+      "job_id": "811ba0c8-ee97-4f80-aebe-b697149d26c0",
+      "timestamp": "2026-08-17T10:00:36.706209+00:00",
+      "source_file": "IMG20220427145343_jpg.rf.9e90d5fde4028756e31b0a430dc62b1f.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "515-LUU",
+          "confidence": 0.6855,
+          "detector_score": 0.7605,
+          "recognizer_score": 0.9014,
+          "bbox": [
+            541.1484985351562,
+            2364.7021484375,
+            2401.55810546875,
+            3182.828125
+          ]
+        }
+      ],
+      "processing_time_ms": 131.95,
+      "error": null
+    },
+    {
+      "job_id": "9dcb8755-07af-45ea-9c23-3f1d4be2f7d0",
+      "timestamp": "2026-08-17T10:00:36.850297+00:00",
+      "source_file": "IMG20220427145344_jpg.rf.d5b54c5adef8b5e6a43dc9c8c7557513.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "515-LULT",
+          "confidence": 0.7124,
+          "detector_score": 0.7166,
+          "recognizer_score": 0.994,
+          "bbox": [
+            413.1175537109375,
+            1913.3216552734375,
+            2477.689453125,
+            3312.78564453125
+          ]
+        }
+      ],
+      "processing_time_ms": 143.59,
+      "error": null
+    },
+    {
+      "job_id": "0bee7551-0192-468d-82a5-d83dff724a23",
+      "timestamp": "2026-08-17T10:00:36.995117+00:00",
+      "source_file": "IMG20220427145347_jpg.rf.c26a7988e1c63af252d475d194b6b02a.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "515-L00",
+          "confidence": 0.6247,
+          "detector_score": 0.6785,
+          "recognizer_score": 0.9207,
+          "bbox": [
+            648.45458984375,
+            1675.9188232421875,
+            2589.807861328125,
+            3226.056640625
+          ]
+        }
+      ],
+      "processing_time_ms": 144.31,
+      "error": null
+    },
+    {
+      "job_id": "33ed1f3e-7c09-45ce-9276-1418c0e7947e",
+      "timestamp": "2026-08-17T10:00:37.073056+00:00",
+      "source_file": "IMG20220427145448_jpg.rf.942a0e787606449a652927a53d24824b.jpg",
+      "image_width": 2101,
+      "image_height": 1203,
+      "plates": [
+        {
+          "plate_text": "MHC-6529",
+          "confidence": 0.8464,
+          "detector_score": 0.8471,
+          "recognizer_score": 0.9991,
+          "bbox": [
+            227.14161682128906,
+            202.35971069335938,
+            1924.9327392578125,
+            965.8793334960938
+          ]
+        }
+      ],
+      "processing_time_ms": 77.44,
+      "error": null
+    },
+    {
+      "job_id": "f8b569d8-5fd7-4e46-ab7e-c8877a521fd6",
+      "timestamp": "2026-08-17T10:00:37.203501+00:00",
+      "source_file": "IMG20220427145448_jpg.rf.cb60baf42604f7a2d21f70e61d98f384.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MHC-6529",
+          "confidence": 0.8409,
+          "detector_score": 0.8414,
+          "recognizer_score": 0.9995,
+          "bbox": [
+            575.3926391601562,
+            2285.966796875,
+            2243.080322265625,
+            3123.398681640625
+          ]
+        }
+      ],
+      "processing_time_ms": 130.13,
+      "error": null
+    },
+    {
+      "job_id": "a2a7e36a-4dfd-4be4-b0bb-e5f3423bf32f",
+      "timestamp": "2026-08-17T10:00:37.348356+00:00",
+      "source_file": "IMG20220427145450_jpg.rf.27ba01c7262d86eee0b61563f61954f4.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MHC-6529",
+          "confidence": 0.7454,
+          "detector_score": 0.7631,
+          "recognizer_score": 0.9768,
+          "bbox": [
+            772.9413452148438,
+            1885.196044921875,
+            2520.757568359375,
+            3323.228515625
+          ]
+        }
+      ],
+      "processing_time_ms": 144.34,
+      "error": null
+    },
+    {
+      "job_id": "4dd8fc73-4a19-4e13-b6cf-23714be1f75d",
+      "timestamp": "2026-08-17T10:00:37.489548+00:00",
+      "source_file": "IMG20220427145452_jpg.rf.2dba507aa4c99853761ddcffa152bd5d.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MHC-6529",
+          "confidence": 0.7752,
+          "detector_score": 0.7756,
+          "recognizer_score": 0.9995,
+          "bbox": [
+            930.0574340820312,
+            1823.72998046875,
+            2539.533447265625,
+            3322.35693359375
+          ]
+        }
+      ],
+      "processing_time_ms": 140.65,
+      "error": null
+    },
+    {
+      "job_id": "5f6b6436-706c-435c-a6d2-71ce7df22661",
+      "timestamp": "2026-08-17T10:00:37.625949+00:00",
+      "source_file": "IMG20220427145511_jpg.rf.b8958c7ad05087c22dc4506bee177ae6.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NBV-2502",
+          "confidence": 0.7926,
+          "detector_score": 0.793,
+          "recognizer_score": 0.9994,
+          "bbox": [
+            664.4354858398438,
+            2033.7908935546875,
+            2547.382568359375,
+            2975.0712890625
+          ]
+        }
+      ],
+      "processing_time_ms": 135.86,
+      "error": null
+    },
+    {
+      "job_id": "02e6b87c-b0b3-4b59-96b5-8d1d342759a6",
+      "timestamp": "2026-08-17T10:00:37.709464+00:00",
+      "source_file": "IMG20220427145511_jpg.rf.cd7be6255d0095fd7612ec093fde67ea.jpg",
+      "image_width": 1948,
+      "image_height": 1108,
+      "plates": [
+        {
+          "plate_text": "NBV-2502",
+          "confidence": 0.8801,
+          "detector_score": 0.8802,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            17.555438995361328,
+            176.1371612548828,
+            1917.732421875,
+            1103.6441650390625
+          ]
+        }
+      ],
+      "processing_time_ms": 82.95,
+      "error": null
+    },
+    {
+      "job_id": "e5f4c067-2574-4ad5-a074-a84e2ad0fbab",
+      "timestamp": "2026-08-17T10:00:37.860204+00:00",
+      "source_file": "IMG20220427145512_jpg.rf.8494740bb12c8a569a889f0e2bf3fe17.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NBV-2502",
+          "confidence": 0.8404,
+          "detector_score": 0.8405,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            208.4629364013672,
+            2197.3662109375,
+            2322.184814453125,
+            3578.91748046875
+          ]
+        }
+      ],
+      "processing_time_ms": 150.4,
+      "error": null
+    },
+    {
+      "job_id": "68146451-0941-4fda-a729-08e0ebb9587d",
+      "timestamp": "2026-08-17T10:00:38.005608+00:00",
+      "source_file": "IMG20220427145513_jpg.rf.6043819e7173f791999fe2b08bf1d403.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NBV-2502",
+          "confidence": 0.7957,
+          "detector_score": 0.7961,
+          "recognizer_score": 0.9994,
+          "bbox": [
+            749.1548461914062,
+            1793.80810546875,
+            2760.3759765625,
+            3177.729248046875
+          ]
+        }
+      ],
+      "processing_time_ms": 144.87,
+      "error": null
+    },
+    {
+      "job_id": "28d0666e-26dd-46cb-96a5-eccdc3ea40d6",
+      "timestamp": "2026-08-17T10:00:38.163623+00:00",
+      "source_file": "IMG20220427145515_jpg.rf.debc49931adcb655638fae0c5684a14b.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NBV-2502",
+          "confidence": 0.8018,
+          "detector_score": 0.8023,
+          "recognizer_score": 0.9994,
+          "bbox": [
+            703.1298217773438,
+            2191.101318359375,
+            2614.219970703125,
+            3947.168701171875
+          ]
+        }
+      ],
+      "processing_time_ms": 157.5,
+      "error": null
+    },
+    {
+      "job_id": "5a18aca6-d9c2-421c-bc73-53bc571ea23f",
+      "timestamp": "2026-08-17T10:00:38.312982+00:00",
+      "source_file": "IMG20220427145728_jpg.rf.162614f3b8fee50aa5479a9034f4d087.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MUE-6562",
+          "confidence": 0.7494,
+          "detector_score": 0.7631,
+          "recognizer_score": 0.982,
+          "bbox": [
+            662.4601440429688,
+            1723.051513671875,
+            2615.55810546875,
+            3216.09375
+          ]
+        }
+      ],
+      "processing_time_ms": 148.8,
+      "error": null
+    },
+    {
+      "job_id": "c41cc377-c746-4eab-a54d-4da96cea3b15",
+      "timestamp": "2026-08-17T10:00:38.461787+00:00",
+      "source_file": "IMG20220427145730_jpg.rf.c9a5ddc52e62106f29cb55d8b512b0fb.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MUE-6562",
+          "confidence": 0.7687,
+          "detector_score": 0.7938,
+          "recognizer_score": 0.9683,
+          "bbox": [
+            562.2224731445312,
+            1631.022705078125,
+            2427.643798828125,
+            3263.29443359375
+          ]
+        }
+      ],
+      "processing_time_ms": 148.18,
+      "error": null
+    },
+    {
+      "job_id": "93c79107-843c-403c-905e-bdb23dc17690",
+      "timestamp": "2026-08-17T10:00:38.589865+00:00",
+      "source_file": "IMG20220427145732_jpg.rf.c211ac5b4ca9ae57bea706c328e81126.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MUE-6562",
+          "confidence": 0.7554,
+          "detector_score": 0.7686,
+          "recognizer_score": 0.9829,
+          "bbox": [
+            883.7841186523438,
+            1494.2080078125,
+            2431.527099609375,
+            2593.91162109375
+          ]
+        }
+      ],
+      "processing_time_ms": 127.59,
+      "error": null
+    },
+    {
+      "job_id": "7c30f0da-f89f-48f3-aadc-d6c138244556",
+      "timestamp": "2026-08-17T10:00:38.728974+00:00",
+      "source_file": "IMG20220427145732_jpg.rf.d5e237be9c2a1cfc5b86fe40a055fdeb.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MUE-6562",
+          "confidence": 0.7554,
+          "detector_score": 0.7686,
+          "recognizer_score": 0.9829,
+          "bbox": [
+            883.7841186523438,
+            1494.2080078125,
+            2431.527099609375,
+            2593.91162109375
+          ]
+        }
+      ],
+      "processing_time_ms": 138.53,
+      "error": null
+    },
+    {
+      "job_id": "b850a771-b9af-4b94-8db6-5f35bfacd092",
+      "timestamp": "2026-08-17T10:00:38.820378+00:00",
+      "source_file": "IMG20220427145733_jpg.rf.40f00d7ae4d897fecb9fc46fd1fe7b0a.jpg",
+      "image_width": 2094,
+      "image_height": 1349,
+      "plates": [
+        {
+          "plate_text": "MUE-6562",
+          "confidence": 0.7925,
+          "detector_score": 0.8093,
+          "recognizer_score": 0.9792,
+          "bbox": [
+            40.15655517578125,
+            25.11409568786621,
+            1997.48779296875,
+            1150.194091796875
+          ]
+        }
+      ],
+      "processing_time_ms": 90.9,
+      "error": null
+    },
+    {
+      "job_id": "9b9f11a7-2f33-4f13-ad34-8bdde1275e1e",
+      "timestamp": "2026-08-17T10:00:38.957132+00:00",
+      "source_file": "IMG20220427145733_jpg.rf.c7e13a0c9acc3518a00a7434567184b2.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MUE-6562",
+          "confidence": 0.7579,
+          "detector_score": 0.7765,
+          "recognizer_score": 0.976,
+          "bbox": [
+            771.0037841796875,
+            1640.714599609375,
+            2700.671875,
+            2634.533935546875
+          ]
+        }
+      ],
+      "processing_time_ms": 136.45,
+      "error": null
+    },
+    {
+      "job_id": "6915fce6-4333-4750-b67f-7843f303fc86",
+      "timestamp": "2026-08-17T10:00:39.046698+00:00",
+      "source_file": "IMG20220427145805_jpg.rf.50e6a39615f9ac8a60918957cca27104.jpg",
+      "image_width": 2028,
+      "image_height": 1432,
+      "plates": [
+        {
+          "plate_text": "NNQ-6712",
+          "confidence": 0.7682,
+          "detector_score": 0.7687,
+          "recognizer_score": 0.9994,
+          "bbox": [
+            41.377872467041016,
+            349.96405029296875,
+            1980.8408203125,
+            1319.388427734375
+          ]
+        }
+      ],
+      "processing_time_ms": 89.04,
+      "error": null
+    },
+    {
+      "job_id": "b3bf1e36-b848-4aa8-a854-747c279d0196",
+      "timestamp": "2026-08-17T10:00:39.181391+00:00",
+      "source_file": "IMG20220427145805_jpg.rf.8960eae2e56ef2e1ecf1f504114690be.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NNQ-6712",
+          "confidence": 0.7381,
+          "detector_score": 0.7384,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            1082.7364501953125,
+            1967.912353515625,
+            3025.939208984375,
+            2866.0810546875
+          ]
+        }
+      ],
+      "processing_time_ms": 134.39,
+      "error": null
+    },
+    {
+      "job_id": "b35a6fa0-87fa-42c5-a0d4-5e8740d84c0b",
+      "timestamp": "2026-08-17T10:00:39.265546+00:00",
+      "source_file": "IMG20220427145806_jpg.rf.48d2e20b386ee165ead55c5f5f507e0a.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [],
+      "processing_time_ms": 83.63,
+      "error": null
+    },
+    {
+      "job_id": "ef7184db-81b3-4e0e-aac5-aba489a5be29",
+      "timestamp": "2026-08-17T10:00:39.349500+00:00",
+      "source_file": "IMG20220427145806_jpg.rf.bc65529b2f96ae63f450c1dede3ea805.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [],
+      "processing_time_ms": 83.6,
+      "error": null
+    },
+    {
+      "job_id": "f8bc914f-5d47-4a5c-9628-c18c73e63869",
+      "timestamp": "2026-08-17T10:00:39.486597+00:00",
+      "source_file": "IMG20220427145808_jpg.rf.317cd856d03afc82fa50690c7824c518.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NNQ-6712",
+          "confidence": 0.624,
+          "detector_score": 0.6245,
+          "recognizer_score": 0.9992,
+          "bbox": [
+            630.8544921875,
+            2284.225341796875,
+            2533.052001953125,
+            3280.062255859375
+          ]
+        }
+      ],
+      "processing_time_ms": 136.48,
+      "error": null
+    },
+    {
+      "job_id": "c8d52d54-a0cb-4e85-b8a3-6186780f6612",
+      "timestamp": "2026-08-17T10:00:39.566895+00:00",
+      "source_file": "IMG20220427145809_jpg.rf.68c1476caaf083ea384d21a8096c1c9c.jpg",
+      "image_width": 2163,
+      "image_height": 1191,
+      "plates": [
+        {
+          "plate_text": "NNQ-6712",
+          "confidence": 0.5542,
+          "detector_score": 0.5547,
+          "recognizer_score": 0.999,
+          "bbox": [
+            132.59654235839844,
+            123.17267608642578,
+            2099.382568359375,
+            985.259765625
+          ]
+        }
+      ],
+      "processing_time_ms": 79.79,
+      "error": null
+    },
+    {
+      "job_id": "9b8867d4-0341-4f25-996d-d0a8622aec41",
+      "timestamp": "2026-08-17T10:00:39.701680+00:00",
+      "source_file": "IMG20220427145809_jpg.rf.ab57e029bcebab2be89b41fff1e7797e.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NNQ-6712",
+          "confidence": 0.7145,
+          "detector_score": 0.7565,
+          "recognizer_score": 0.9445,
+          "bbox": [
+            431.63787841796875,
+            1632.1688232421875,
+            2467.512451171875,
+            2428.120849609375
+          ]
+        }
+      ],
+      "processing_time_ms": 134.48,
+      "error": null
+    },
+    {
+      "job_id": "db14ea01-7d3d-47cb-a359-bad1102ff0a9",
+      "timestamp": "2026-08-17T10:00:39.801236+00:00",
+      "source_file": "IMG20220427145811_jpg.rf.3a379a941ccc1821abc68cd9a63e5250.jpg",
+      "image_width": 2389,
+      "image_height": 1393,
+      "plates": [
+        {
+          "plate_text": "NNQ-6712",
+          "confidence": 0.8693,
+          "detector_score": 0.8705,
+          "recognizer_score": 0.9985,
+          "bbox": [
+            15.956270217895508,
+            50.25741195678711,
+            2354.640625,
+            1343.68017578125
+          ]
+        }
+      ],
+      "processing_time_ms": 99.07,
+      "error": null
+    },
+    {
+      "job_id": "6a3817fa-79fa-453e-a214-148094d9795d",
+      "timestamp": "2026-08-17T10:00:39.950796+00:00",
+      "source_file": "IMG20220427145811_jpg.rf.9972b88d6f29b34e3d21c21371e427c5.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NQ-6712",
+          "confidence": 0.7866,
+          "detector_score": 0.8199,
+          "recognizer_score": 0.9594,
+          "bbox": [
+            564.3887329101562,
+            2019.62060546875,
+            2867.1904296875,
+            3166.138671875
+          ]
+        }
+      ],
+      "processing_time_ms": 149.26,
+      "error": null
+    },
+    {
+      "job_id": "faa50ad0-50a6-4ccf-9e92-7947ca23a3dd",
+      "timestamp": "2026-08-17T10:00:40.084110+00:00",
+      "source_file": "IMG20220427145814_jpg.rf.fe7ce0dbbdfaab8964a732b205932d1e.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MNU-0928",
+          "confidence": 0.6921,
+          "detector_score": 0.6923,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            839.8909301757812,
+            1819.578369140625,
+            2564.27685546875,
+            2861.5029296875
+          ]
+        }
+      ],
+      "processing_time_ms": 132.79,
+      "error": null
+    },
+    {
+      "job_id": "09b1e423-2aee-4bb1-917e-65ae53328096",
+      "timestamp": "2026-08-17T10:00:40.212284+00:00",
+      "source_file": "IMG20220427145815_jpg.rf.27e90d35749e5ccbbb14d28224c49933.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MNU-0928",
+          "confidence": 0.7255,
+          "detector_score": 0.726,
+          "recognizer_score": 0.9993,
+          "bbox": [
+            723.6149291992188,
+            1470.3408203125,
+            2197.148681640625,
+            2745.596435546875
+          ]
+        }
+      ],
+      "processing_time_ms": 127.67,
+      "error": null
+    },
+    {
+      "job_id": "2c511574-d1f2-45ea-8db3-aa4344f559f1",
+      "timestamp": "2026-08-17T10:00:40.335407+00:00",
+      "source_file": "IMG20220427145817_jpg.rf.ff7ea66edaf998af151ae7eae5a3c88b.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MNU-0928",
+          "confidence": 0.7595,
+          "detector_score": 0.76,
+          "recognizer_score": 0.9994,
+          "bbox": [
+            740.5629272460938,
+            2012.77392578125,
+            2460.9453125,
+            2951.9248046875
+          ]
+        }
+      ],
+      "processing_time_ms": 122.62,
+      "error": null
+    },
+    {
+      "job_id": "09642f80-8fce-49ce-8551-eac38be26e7d",
+      "timestamp": "2026-08-17T10:00:40.473314+00:00",
+      "source_file": "IMG20220427145819_jpg.rf.675b50960437532b023971dea812ab81.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MNU-0928",
+          "confidence": 0.7537,
+          "detector_score": 0.7547,
+          "recognizer_score": 0.9987,
+          "bbox": [
+            765.366455078125,
+            1723.60986328125,
+            2910.912841796875,
+            2810.219970703125
+          ]
+        }
+      ],
+      "processing_time_ms": 137.39,
+      "error": null
+    },
+    {
+      "job_id": "457d53d9-b0a8-4bff-99fd-d652316ba5c8",
+      "timestamp": "2026-08-17T10:00:40.565101+00:00",
+      "source_file": "IMG20220427145819_jpg.rf.7cf5fde1e871d7d8fb4fb11dbc48c001.jpg",
+      "image_width": 2362,
+      "image_height": 1475,
+      "plates": [
+        {
+          "plate_text": "MNU-0928",
+          "confidence": 0.8417,
+          "detector_score": 0.8422,
+          "recognizer_score": 0.9993,
+          "bbox": [
+            63.969181060791016,
+            110.09737396240234,
+            2288.440185546875,
+            1444.5240478515625
+          ]
+        }
+      ],
+      "processing_time_ms": 91.3,
+      "error": null
+    },
+    {
+      "job_id": "3fb6f80f-47b5-4922-9f2a-5458fb5f7b0a",
+      "timestamp": "2026-08-17T10:00:40.702768+00:00",
+      "source_file": "IMG20220427145848_jpg.rf.e0a37143f0d83766510c5cbb41c8d9d6.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NKE-5986",
+          "confidence": 0.7294,
+          "detector_score": 0.7295,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            419.88470458984375,
+            1454.870361328125,
+            2678.56103515625,
+            2495.253662109375
+          ]
+        }
+      ],
+      "processing_time_ms": 137.37,
+      "error": null
+    },
+    {
+      "job_id": "bb7d99a7-febf-4526-b96d-7940c9d02b5d",
+      "timestamp": "2026-08-17T10:00:40.789255+00:00",
+      "source_file": "IMG20220427145849_jpg.rf.0d009aab93cd4fe2113a0732a7df5e22.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [],
+      "processing_time_ms": 86.0,
+      "error": null
+    },
+    {
+      "job_id": "e69e8dc5-5919-4c5d-98c4-466536668c21",
+      "timestamp": "2026-08-17T10:00:40.918638+00:00",
+      "source_file": "IMG20220427145851_jpg.rf.6eed46edd4d02f0f870d0df78f9ebd0a.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NKE-5986",
+          "confidence": 0.7397,
+          "detector_score": 0.74,
+          "recognizer_score": 0.9996,
+          "bbox": [
+            1142.0335693359375,
+            1885.3267822265625,
+            2747.584228515625,
+            2994.846435546875
+          ]
+        }
+      ],
+      "processing_time_ms": 128.95,
+      "error": null
+    },
+    {
+      "job_id": "8ccbab89-8d2b-4942-8419-10bc0d67af38",
+      "timestamp": "2026-08-17T10:00:41.050677+00:00",
+      "source_file": "IMG20220427145909_jpg.rf.f23356ee78506a03a9a3d87e2daae181.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NHB-0167",
+          "confidence": 0.8247,
+          "detector_score": 0.8251,
+          "recognizer_score": 0.9995,
+          "bbox": [
+            835.0894165039062,
+            1873.7069091796875,
+            2490.842529296875,
+            2780.52978515625
+          ]
+        }
+      ],
+      "processing_time_ms": 131.52,
+      "error": null
+    },
+    {
+      "job_id": "b0dfb083-ecf2-4349-be9d-e302e66ad4d2",
+      "timestamp": "2026-08-17T10:00:41.134022+00:00",
+      "source_file": "IMG20220427145909_jpg.rf.f9c7202e95ce3970160a2ae5069fdf3b.jpg",
+      "image_width": 1904,
+      "image_height": 1250,
+      "plates": [
+        {
+          "plate_text": "NHB-0167",
+          "confidence": 0.7557,
+          "detector_score": 0.7568,
+          "recognizer_score": 0.9985,
+          "bbox": [
+            139.61036682128906,
+            163.363525390625,
+            1860.185546875,
+            1076.557373046875
+          ]
+        }
+      ],
+      "processing_time_ms": 82.85,
+      "error": null
+    },
+    {
+      "job_id": "37815551-9bda-46c2-be7d-5fb5ae93ebc1",
+      "timestamp": "2026-08-17T10:00:41.258325+00:00",
+      "source_file": "IMG20220427145910_jpg.rf.95727d8c6d7832f6c2c3c5bb8996f4e5.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NHB-0167",
+          "confidence": 0.754,
+          "detector_score": 0.7634,
+          "recognizer_score": 0.9877,
+          "bbox": [
+            1151.5963134765625,
+            1527.039794921875,
+            2654.841064453125,
+            2899.124755859375
+          ]
+        }
+      ],
+      "processing_time_ms": 124.0,
+      "error": null
+    },
+    {
+      "job_id": "15f44f9f-629e-4804-a255-34af8761627d",
+      "timestamp": "2026-08-17T10:00:41.398633+00:00",
+      "source_file": "IMG20220427145912_jpg.rf.fdfa8b64b120d525264fbcc0d7cf43a6.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NHB-0167",
+          "confidence": 0.7497,
+          "detector_score": 0.7502,
+          "recognizer_score": 0.9994,
+          "bbox": [
+            574.2100830078125,
+            1961.829833984375,
+            2390.569580078125,
+            3261.0703125
+          ]
+        }
+      ],
+      "processing_time_ms": 139.79,
+      "error": null
+    },
+    {
+      "job_id": "b67a502c-43fa-41cf-8573-56ef4cb52f39",
+      "timestamp": "2026-08-17T10:00:41.498548+00:00",
+      "source_file": "IMG20220427145915_jpg.rf.63fea2bf0b45c577ab4b57dc4c18db77.jpg",
+      "image_width": 2429,
+      "image_height": 1590,
+      "plates": [
+        {
+          "plate_text": "NCF-6862",
+          "confidence": 0.8312,
+          "detector_score": 0.8329,
+          "recognizer_score": 0.9979,
+          "bbox": [
+            51.647193908691406,
+            297.2777404785156,
+            2255.206298828125,
+            1412.8994140625
+          ]
+        }
+      ],
+      "processing_time_ms": 99.42,
+      "error": null
+    },
+    {
+      "job_id": "313f0577-b659-40b9-a487-48a9de4c2749",
+      "timestamp": "2026-08-17T10:00:41.636366+00:00",
+      "source_file": "IMG20220427145915_jpg.rf.db2d114febd6fd73dd52eabff4206d4d.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NCF-6862",
+          "confidence": 0.5355,
+          "detector_score": 0.5364,
+          "recognizer_score": 0.9982,
+          "bbox": [
+            422.7393798828125,
+            1711.7197265625,
+            2535.6435546875,
+            2771.541259765625
+          ]
+        }
+      ],
+      "processing_time_ms": 137.51,
+      "error": null
+    },
+    {
+      "job_id": "3f58a964-3d2d-4afa-ba97-97e4b41ccc32",
+      "timestamp": "2026-08-17T10:00:41.788892+00:00",
+      "source_file": "IMG20220427145916_jpg.rf.c2b1f36f777baffb7d2197c07e2fb8b8.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NCF-6862",
+          "confidence": 0.729,
+          "detector_score": 0.73,
+          "recognizer_score": 0.9986,
+          "bbox": [
+            863.0946655273438,
+            1257.9400634765625,
+            2967.1455078125,
+            2599.651123046875
+          ]
+        }
+      ],
+      "processing_time_ms": 152.03,
+      "error": null
+    },
+    {
+      "job_id": "1967afa9-a7ac-4fcf-b1ff-087d2e76dba4",
+      "timestamp": "2026-08-17T10:00:41.978965+00:00",
+      "source_file": "IMG20220427145918_jpg.rf.cd28c4354ecaa83994d5abca9dd09e11.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NCF-6862",
+          "confidence": 0.6653,
+          "detector_score": 0.6662,
+          "recognizer_score": 0.9988,
+          "bbox": [
+            18.754100799560547,
+            1681.028076171875,
+            2693.0859375,
+            3785.931640625
+          ]
+        }
+      ],
+      "processing_time_ms": 189.43,
+      "error": null
+    },
+    {
+      "job_id": "725088bb-74a9-4cec-8b0a-e42297d92121",
+      "timestamp": "2026-08-17T10:00:42.165335+00:00",
+      "source_file": "IMG20220525132417_jpg.rf.ddf1980927078a03736ab29ddc01f978.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "AEH-5601",
+          "confidence": 0.5,
+          "detector_score": 0.5204,
+          "recognizer_score": 0.9608,
+          "bbox": [
+            440.8826599121094,
+            895.0574340820312,
+            2808.0234375,
+            2260.39599609375
+          ]
+        }
+      ],
+      "processing_time_ms": 185.88,
+      "error": null
+    },
+    {
+      "job_id": "cff95457-cbe8-4896-bde5-ceafa85dc40a",
+      "timestamp": "2026-08-17T10:00:42.294195+00:00",
+      "source_file": "IMG20220525132846_jpg.rf.324f5a4b2c18ae8513b3532a4b642b67.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MVF-8295",
+          "confidence": 0.687,
+          "detector_score": 0.688,
+          "recognizer_score": 0.9986,
+          "bbox": [
+            746.04150390625,
+            1744.140625,
+            2735.490478515625,
+            2650.438720703125
+          ]
+        }
+      ],
+      "processing_time_ms": 128.33,
+      "error": null
+    },
+    {
+      "job_id": "e1d22e32-4e5d-4b3d-aff1-deaa54299454",
+      "timestamp": "2026-08-17T10:00:42.432174+00:00",
+      "source_file": "IMG20220525132905_jpg.rf.6f26169955b72de392ab9bec4c8098db.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "550-CBS",
+          "confidence": 0.7529,
+          "detector_score": 0.7531,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            574.7330322265625,
+            1586.9447021484375,
+            2553.375,
+            2708.7998046875
+          ]
+        }
+      ],
+      "processing_time_ms": 137.45,
+      "error": null
+    },
+    {
+      "job_id": "be525e8b-80bf-4b89-bebc-87180fc3d414",
+      "timestamp": "2026-08-17T10:00:42.571637+00:00",
+      "source_file": "IMG20220525132919_jpg.rf.dd9a814f0ad09402e5b8ff022aa62775.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MLA-5101",
+          "confidence": 0.8295,
+          "detector_score": 0.8307,
+          "recognizer_score": 0.9985,
+          "bbox": [
+            595.017333984375,
+            1644.6378173828125,
+            2530.012939453125,
+            2754.707763671875
+          ]
+        }
+      ],
+      "processing_time_ms": 138.97,
+      "error": null
+    },
+    {
+      "job_id": "98f1db7a-d24b-4c46-8170-9f1b0cf3520e",
+      "timestamp": "2026-08-17T10:00:42.839452+00:00",
+      "source_file": "IMG20220525132933_1_jpg.rf.b22f466b3657a3e0fb73fd4803fb001a.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NHC-6992",
+          "confidence": 0.686,
+          "detector_score": 0.6872,
+          "recognizer_score": 0.9983,
+          "bbox": [
+            568.4993896484375,
+            1522.5267333984375,
+            2571.72705078125,
+            2634.10205078125
+          ]
+        }
+      ],
+      "processing_time_ms": 267.3,
+      "error": null
+    },
+    {
+      "job_id": "3596b3cd-8b27-46c3-a351-f252ed4c6cb6",
+      "timestamp": "2026-08-17T10:00:43.187582+00:00",
+      "source_file": "IMG20220525132933_jpg.rf.6adcbab953be7530a988fa6463676778.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NHC-6992",
+          "confidence": 0.693,
+          "detector_score": 0.6934,
+          "recognizer_score": 0.9993,
+          "bbox": [
+            586.9384155273438,
+            1564.1776123046875,
+            2566.41455078125,
+            2682.835205078125
+          ]
+        }
+      ],
+      "processing_time_ms": 347.25,
+      "error": null
+    },
+    {
+      "job_id": "12480ac0-9f95-4311-8921-535b8a447e75",
+      "timestamp": "2026-08-17T10:00:43.524465+00:00",
+      "source_file": "IMG20220525132933_jpg.rf.af613b9eefba3b5ac30cff0a3e49f61b.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "NHC-6992",
+          "confidence": 0.693,
+          "detector_score": 0.6934,
+          "recognizer_score": 0.9993,
+          "bbox": [
+            586.9384155273438,
+            1564.1776123046875,
+            2566.41455078125,
+            2682.835205078125
+          ]
+        }
+      ],
+      "processing_time_ms": 335.91,
+      "error": null
+    },
+    {
+      "job_id": "8bca04c5-2124-48ab-b870-32d328dcff8a",
+      "timestamp": "2026-08-17T10:00:43.744014+00:00",
+      "source_file": "IMG20220525132955_1_jpg.rf.c88df92927a774281428eda6caa5bace.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "053-KWF",
+          "confidence": 0.7315,
+          "detector_score": 0.7326,
+          "recognizer_score": 0.9985,
+          "bbox": [
+            637.6640625,
+            1829.190185546875,
+            2555.166259765625,
+            2913.56396484375
+          ]
+        }
+      ],
+      "processing_time_ms": 218.66,
+      "error": null
+    },
+    {
+      "job_id": "256ce583-e3e0-4044-bae3-335377a4505a",
+      "timestamp": "2026-08-17T10:00:43.895076+00:00",
+      "source_file": "IMG20220525132955_jpg.rf.0415fed7f3ff17f77d4b984d97686414.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "053-KWF",
+          "confidence": 0.7294,
+          "detector_score": 0.7299,
+          "recognizer_score": 0.9993,
+          "bbox": [
+            620.4860229492188,
+            1843.20556640625,
+            2574.491943359375,
+            2906.786376953125
+          ]
+        }
+      ],
+      "processing_time_ms": 150.59,
+      "error": null
+    },
+    {
+      "job_id": "1362d083-a140-4baf-9b17-c844d34d9b05",
+      "timestamp": "2026-08-17T10:00:44.053216+00:00",
+      "source_file": "IMG20220525132955_jpg.rf.90eeda454313c7dd3cf407159e9b3e27.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "053-KWF",
+          "confidence": 0.7294,
+          "detector_score": 0.7299,
+          "recognizer_score": 0.9993,
+          "bbox": [
+            620.4860229492188,
+            1843.20556640625,
+            2574.491943359375,
+            2906.786376953125
+          ]
+        }
+      ],
+      "processing_time_ms": 157.64,
+      "error": null
+    },
+    {
+      "job_id": "c818ced7-ef81-4ad8-98fb-b67e41fdaa20",
+      "timestamp": "2026-08-17T10:00:44.214004+00:00",
+      "source_file": "IMG20220525133032_jpg.rf.fe701e5c8f7fdce39305490ca00aabb4.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "EMM-0607",
+          "confidence": 0.7007,
+          "detector_score": 0.7117,
+          "recognizer_score": 0.9844,
+          "bbox": [
+            871.4229736328125,
+            1847.0477294921875,
+            2642.262451171875,
+            2771.17626953125
+          ]
+        }
+      ],
+      "processing_time_ms": 160.28,
+      "error": null
+    },
+    {
+      "job_id": "abf041b8-d6f8-4d00-8a65-4c20c233eb97",
+      "timestamp": "2026-08-17T10:00:44.378563+00:00",
+      "source_file": "IMG20220525133054_1_jpg.rf.4399f45b9aebd07c544bedf5990dbd08.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MUE-6562",
+          "confidence": 0.7317,
+          "detector_score": 0.7479,
+          "recognizer_score": 0.9783,
+          "bbox": [
+            505.4057922363281,
+            1587.1790771484375,
+            2931.566650390625,
+            2927.355224609375
+          ]
+        }
+      ],
+      "processing_time_ms": 164.07,
+      "error": null
+    },
+    {
+      "job_id": "b2440fb9-affa-4a7f-a9ac-320687c70438",
+      "timestamp": "2026-08-17T10:00:44.540905+00:00",
+      "source_file": "IMG20220525133054_jpg.rf.4bc1843f918d46bf9605047febd0a13a.jpg",
+      "image_width": 3456,
+      "image_height": 4608,
+      "plates": [
+        {
+          "plate_text": "MUE-6562",
+          "confidence": 0.6932,
+          "detector_score": 0.704,
+          "recognizer_score": 0.9846,
+          "bbox": [
+            466.89935302734375,
+            1637.6956787109375,
+            2838.39013671875,
+            2889.858642578125
+          ]
+        }
+      ],
+      "processing_time_ms": 161.86,
+      "error": null
+    },
+    {
+      "job_id": "daee4334-ae90-43fa-ae3d-456f6067cce7",
+      "timestamp": "2026-08-17T10:00:44.657132+00:00",
+      "source_file": "IMG_1565_JPG.rf.258067527798b129cef58fd5f76b747c.jpg",
+      "image_width": 3024,
+      "image_height": 4032,
+      "plates": [
+        {
+          "plate_text": "MFU-3252",
+          "confidence": 0.8276,
+          "detector_score": 0.8279,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            658.322509765625,
+            1014.1732788085938,
+            2277.689697265625,
+            1860.0321044921875
+          ]
+        }
+      ],
+      "processing_time_ms": 115.71,
+      "error": null
+    },
+    {
+      "job_id": "425c3eee-cb87-4ebd-9eaa-1b31d2b7b7f3",
+      "timestamp": "2026-08-17T10:00:44.776430+00:00",
+      "source_file": "IMG_1587_JPG.rf.02a9ce7e7b1280dafc55818aa89997a9.jpg",
+      "image_width": 3024,
+      "image_height": 4032,
+      "plates": [
+        {
+          "plate_text": "NEJ-8956",
+          "confidence": 0.7496,
+          "detector_score": 0.7499,
+          "recognizer_score": 0.9996,
+          "bbox": [
+            697.9168701171875,
+            1162.824462890625,
+            2346.132080078125,
+            2004.175537109375
+          ]
+        }
+      ],
+      "processing_time_ms": 118.72,
+      "error": null
+    },
+    {
+      "job_id": "48f7c62b-fa5e-4f02-8917-81ddde61fa2d",
+      "timestamp": "2026-08-17T10:00:44.920922+00:00",
+      "source_file": "IMG_1602_JPG.rf.4ee4a6e49c1a7ead91af4111763d3145.jpg",
+      "image_width": 3024,
+      "image_height": 4032,
+      "plates": [
+        {
+          "plate_text": "MZJ-7837",
+          "confidence": 0.8363,
+          "detector_score": 0.8364,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            243.8521728515625,
+            980.744384765625,
+            2666.72412109375,
+            2306.97509765625
+          ]
+        }
+      ],
+      "processing_time_ms": 143.98,
+      "error": null
+    },
+    {
+      "job_id": "346216ec-8db6-4593-ac99-1a96fd8f78fd",
+      "timestamp": "2026-08-17T10:00:45.057381+00:00",
+      "source_file": "IMG_1603_JPG.rf.7d8dc9508980125f56605485874b604f.jpg",
+      "image_width": 3024,
+      "image_height": 4032,
+      "plates": [
+        {
+          "plate_text": "NNP-2529",
+          "confidence": 0.678,
+          "detector_score": 0.6782,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            153.97412109375,
+            1056.743408203125,
+            2749.233642578125,
+            2332.421142578125
+          ]
+        }
+      ],
+      "processing_time_ms": 135.97,
+      "error": null
+    },
+    {
+      "job_id": "c103a4a4-843a-4b20-b62f-4201877575f5",
+      "timestamp": "2026-08-17T10:00:45.179291+00:00",
+      "source_file": "IMG_1605_JPG.rf.1a34faebadb5bb4fbc12dad36558b990.jpg",
+      "image_width": 3024,
+      "image_height": 4032,
+      "plates": [
+        {
+          "plate_text": "NHH-0719",
+          "confidence": 0.7689,
+          "detector_score": 0.769,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            691.9727172851562,
+            1316.0596923828125,
+            2754.90283203125,
+            2286.964599609375
+          ]
+        }
+      ],
+      "processing_time_ms": 121.39,
+      "error": null
+    },
+    {
+      "job_id": "5661d824-3eb1-4fe0-b4a9-15ca85a0515d",
+      "timestamp": "2026-08-17T10:00:45.307991+00:00",
+      "source_file": "IMG_1610_JPG.rf.dae305d26eb23226147814884efec9bb.jpg",
+      "image_width": 3024,
+      "image_height": 4032,
+      "plates": [
+        {
+          "plate_text": "MFU-3252",
+          "confidence": 0.8235,
+          "detector_score": 0.824,
+          "recognizer_score": 0.9993,
+          "bbox": [
+            421.1067810058594,
+            624.70703125,
+            2549.197021484375,
+            1749.9549560546875
+          ]
+        }
+      ],
+      "processing_time_ms": 128.2,
+      "error": null
+    },
+    {
+      "job_id": "6544dcbb-1ed8-4746-b9ce-15564ab05ff2",
+      "timestamp": "2026-08-17T10:00:45.450752+00:00",
+      "source_file": "IMG_1620_JPG.rf.7b2b181b20f5b61cd991e6fc0ff0510a.jpg",
+      "image_width": 3024,
+      "image_height": 4032,
+      "plates": [
+        {
+          "plate_text": "NAK-5851",
+          "confidence": 0.8247,
+          "detector_score": 0.8443,
+          "recognizer_score": 0.9768,
+          "bbox": [
+            230.1507110595703,
+            889.8036499023438,
+            2692.60302734375,
+            2325.17626953125
+          ]
+        }
+      ],
+      "processing_time_ms": 142.26,
+      "error": null
+    },
+    {
+      "job_id": "b7ebc379-bb6a-446e-b622-86164072a9ee",
+      "timestamp": "2026-08-17T10:00:45.517546+00:00",
+      "source_file": "IMG_7575_JPG.rf.a25901c0ffe51722ee7a257401eea2f2.jpg",
+      "image_width": 1189,
+      "image_height": 694,
+      "plates": [
+        {
+          "plate_text": "MZH-9835",
+          "confidence": 0.8892,
+          "detector_score": 0.8894,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            1.2562686204910278,
+            11.51528549194336,
+            1177.6949462890625,
+            694.0
+          ]
+        }
+      ],
+      "processing_time_ms": 66.33,
+      "error": null
+    },
+    {
+      "job_id": "839567d3-1254-439f-8fd6-853ab24840fe",
+      "timestamp": "2026-08-17T10:00:45.586687+00:00",
+      "source_file": "IMG_7582_JPG.rf.214873aa402ec2808e1bdd431ce67731.jpg",
+      "image_width": 1281,
+      "image_height": 717,
+      "plates": [
+        {
+          "plate_text": "NHH-1280",
+          "confidence": 0.9259,
+          "detector_score": 0.9259,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            6.23093843460083,
+            29.75357437133789,
+            1273.93798828125,
+            717.0
+          ]
+        }
+      ],
+      "processing_time_ms": 68.56,
+      "error": null
+    },
+    {
+      "job_id": "5f310a4d-037c-4366-be15-837e3864c0d6",
+      "timestamp": "2026-08-17T10:00:45.658734+00:00",
+      "source_file": "IMG_7587_JPG.rf.04e0db4f807b01f72a274b07bf80df0d.jpg",
+      "image_width": 1385,
+      "image_height": 784,
+      "plates": [
+        {
+          "plate_text": "NGM-8930",
+          "confidence": 0.9044,
+          "detector_score": 0.9048,
+          "recognizer_score": 0.9996,
+          "bbox": [
+            4.170284748077393,
+            31.697492599487305,
+            1356.9122314453125,
+            765.4140014648438
+          ]
+        }
+      ],
+      "processing_time_ms": 71.6,
+      "error": null
+    },
+    {
+      "job_id": "bffaf728-0182-47f4-980b-a8579eeff05d",
+      "timestamp": "2026-08-17T10:00:45.728376+00:00",
+      "source_file": "IMG_7593_JPG.rf.5cabebaca24ee84349a84401b7a8d17b.jpg",
+      "image_width": 1394,
+      "image_height": 760,
+      "plates": [
+        {
+          "plate_text": "MBK-7716",
+          "confidence": 0.8522,
+          "detector_score": 0.8522,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            7.422163009643555,
+            12.339229583740234,
+            1384.7044677734375,
+            760.0
+          ]
+        }
+      ],
+      "processing_time_ms": 69.32,
+      "error": null
+    },
+    {
+      "job_id": "3b8adf4b-bd17-43bc-a723-8805e1cf65a3",
+      "timestamp": "2026-08-17T10:00:45.796345+00:00",
+      "source_file": "IMG_7599_JPG.rf.78b419d4c59d5a0bb2ae29607ca9dfe3.jpg",
+      "image_width": 1547,
+      "image_height": 837,
+      "plates": [
+        {
+          "plate_text": "NMY-0220",
+          "confidence": 0.7048,
+          "detector_score": 0.7059,
+          "recognizer_score": 0.9984,
+          "bbox": [
+            27.667236328125,
+            9.408943176269531,
+            1537.8372802734375,
+            791.75048828125
+          ]
+        }
+      ],
+      "processing_time_ms": 67.58,
+      "error": null
+    },
+    {
+      "job_id": "7d3d2bcd-7fc0-430e-bf92-db816e88c1b1",
+      "timestamp": "2026-08-17T10:00:45.871128+00:00",
+      "source_file": "IMG_7606_JPG.rf.f035b385349f87b992f27d19d2262202.jpg",
+      "image_width": 1340,
+      "image_height": 752,
+      "plates": [
+        {
+          "plate_text": "NED-2799",
+          "confidence": 0.8897,
+          "detector_score": 0.8899,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            6.453769683837891,
+            17.780517578125,
+            1333.1854248046875,
+            736.259765625
+          ]
+        }
+      ],
+      "processing_time_ms": 74.47,
+      "error": null
+    },
+    {
+      "job_id": "718372a1-ff11-4c7a-be4b-d3240a0d3a7f",
+      "timestamp": "2026-08-17T10:00:45.939510+00:00",
+      "source_file": "IMG_7612_JPG.rf.551b9652e222b4cc27b3df9664566cb5.jpg",
+      "image_width": 975,
+      "image_height": 584,
+      "plates": [
+        {
+          "plate_text": "NKN-0300",
+          "confidence": 0.8835,
+          "detector_score": 0.8837,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            26.165857315063477,
+            56.045928955078125,
+            944.6632690429688,
+            566.07958984375
+          ]
+        }
+      ],
+      "processing_time_ms": 67.98,
+      "error": null
+    },
+    {
+      "job_id": "1e5483ac-a933-4430-8fed-cfdda614318b",
+      "timestamp": "2026-08-17T10:00:46.007962+00:00",
+      "source_file": "IMG_7613_JPG.rf.4bd8b1ee0e57a0f7be289d9e6c9d472d.jpg",
+      "image_width": 920,
+      "image_height": 596,
+      "plates": [
+        {
+          "plate_text": "319-TDS",
+          "confidence": 0.8893,
+          "detector_score": 0.8895,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            8.964019775390625,
+            50.603965759277344,
+            920.0,
+            596.0
+          ]
+        }
+      ],
+      "processing_time_ms": 68.14,
+      "error": null
+    },
+    {
+      "job_id": "6b94cc87-a590-4d11-a85f-8820c98444e5",
+      "timestamp": "2026-08-17T10:00:46.074133+00:00",
+      "source_file": "IMG_7617_JPG.rf.7724eaf5703b1786f308853e9f170129.jpg",
+      "image_width": 968,
+      "image_height": 580,
+      "plates": [
+        {
+          "plate_text": "183-PEU",
+          "confidence": 0.8766,
+          "detector_score": 0.9356,
+          "recognizer_score": 0.937,
+          "bbox": [
+            29.640625,
+            22.879793167114258,
+            947.1056518554688,
+            580.0
+          ]
+        }
+      ],
+      "processing_time_ms": 65.78,
+      "error": null
+    },
+    {
+      "job_id": "79f0ebbb-c125-420a-924d-7e5207d4e34d",
+      "timestamp": "2026-08-17T10:00:46.136805+00:00",
+      "source_file": "IMG_7618_JPG.rf.4260256e311dd282d284cb43f6d69e1c.jpg",
+      "image_width": 1301,
+      "image_height": 669,
+      "plates": [
+        {
+          "plate_text": "NHA-1775",
+          "confidence": 0.9303,
+          "detector_score": 0.9308,
+          "recognizer_score": 0.9995,
+          "bbox": [
+            82.83003234863281,
+            8.672021865844727,
+            1231.666015625,
+            669.0
+          ]
+        }
+      ],
+      "processing_time_ms": 62.34,
+      "error": null
+    },
+    {
+      "job_id": "d6b9bf12-7b88-46dc-bf60-46ae7a50a036",
+      "timestamp": "2026-08-17T10:00:46.203887+00:00",
+      "source_file": "IMG_7622_JPG.rf.91b26bca9760fd964372b09fedbf3e81.jpg",
+      "image_width": 1210,
+      "image_height": 614,
+      "plates": [
+        {
+          "plate_text": "NMD-6195",
+          "confidence": 0.9325,
+          "detector_score": 0.9331,
+          "recognizer_score": 0.9994,
+          "bbox": [
+            1.7827311754226685,
+            0.8600936532020569,
+            1202.63623046875,
+            614.0
+          ]
+        }
+      ],
+      "processing_time_ms": 66.7,
+      "error": null
+    },
+    {
+      "job_id": "a8af284c-42ac-485d-8702-ceba82a81433",
+      "timestamp": "2026-08-17T10:00:46.276061+00:00",
+      "source_file": "IMG_7629_JPG.rf.4a35b6c077cb03bb92d9bd56e05758e6.jpg",
+      "image_width": 1389,
+      "image_height": 731,
+      "plates": [
+        {
+          "plate_text": "NMG-0711",
+          "confidence": 0.847,
+          "detector_score": 0.9058,
+          "recognizer_score": 0.9351,
+          "bbox": [
+            44.603206634521484,
+            2.7671353816986084,
+            1366.7392578125,
+            703.0897216796875
+          ]
+        }
+      ],
+      "processing_time_ms": 71.85,
+      "error": null
+    },
+    {
+      "job_id": "2656e655-dbb6-4f7a-bfe0-bf1320531561",
+      "timestamp": "2026-08-17T10:00:46.337110+00:00",
+      "source_file": "IMG_7630_JPG.rf.8b6e01e5c9deb295204d04093d2d2098.jpg",
+      "image_width": 1232,
+      "image_height": 628,
+      "plates": [
+        {
+          "plate_text": "EMT-2560",
+          "confidence": 0.8933,
+          "detector_score": 0.8947,
+          "recognizer_score": 0.9985,
+          "bbox": [
+            8.71020221710205,
+            1.604832410812378,
+            1232.0,
+            625.39453125
+          ]
+        }
+      ],
+      "processing_time_ms": 60.66,
+      "error": null
+    },
+    {
+      "job_id": "152f93f8-a621-4251-9cad-0c29d9fa21ce",
+      "timestamp": "2026-08-17T10:00:46.407261+00:00",
+      "source_file": "IMG_7637_JPG.rf.9d0ed3acd06a87a884dd7c71052b1240.jpg",
+      "image_width": 1275,
+      "image_height": 736,
+      "plates": [
+        {
+          "plate_text": "MSJ-9519",
+          "confidence": 0.9266,
+          "detector_score": 0.9267,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            0.0,
+            24.041582107543945,
+            1268.4710693359375,
+            736.0
+          ]
+        }
+      ],
+      "processing_time_ms": 69.83,
+      "error": null
+    },
+    {
+      "job_id": "5e6807df-dddd-4cd2-9f1f-8ff3013d1303",
+      "timestamp": "2026-08-17T10:00:46.482453+00:00",
+      "source_file": "IMG_7661_JPG.rf.dd056ab797acd05a4164daa0f5578b74.jpg",
+      "image_width": 1377,
+      "image_height": 913,
+      "plates": [
+        {
+          "plate_text": "MYP-7539",
+          "confidence": 0.8894,
+          "detector_score": 0.8895,
+          "recognizer_score": 1.0,
+          "bbox": [
+            24.644214630126953,
+            36.09054183959961,
+            1360.6187744140625,
+            859.7367553710938
+          ]
+        }
+      ],
+      "processing_time_ms": 74.8,
+      "error": null
+    },
+    {
+      "job_id": "a465309a-0a90-478e-bdae-b1b2ecfda4cc",
+      "timestamp": "2026-08-17T10:00:46.544808+00:00",
+      "source_file": "IMG_7667_JPG.rf.3ac7d43730556182098dcc3675fbf657.jpg",
+      "image_width": 1095,
+      "image_height": 594,
+      "plates": [
+        {
+          "plate_text": "NJY-0095",
+          "confidence": 0.8993,
+          "detector_score": 0.8994,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            0.0,
+            10.635820388793945,
+            1086.427978515625,
+            586.1593627929688
+          ]
+        }
+      ],
+      "processing_time_ms": 62.04,
+      "error": null
+    },
+    {
+      "job_id": "655874b2-c6c9-49f7-b1a1-caeb12df3c05",
+      "timestamp": "2026-08-17T10:00:46.610605+00:00",
+      "source_file": "IMG_7716_JPG.rf.783fa3ebe9aeae56942b3a82cd10ef01.jpg",
+      "image_width": 1633,
+      "image_height": 862,
+      "plates": [
+        {
+          "plate_text": "MZD-9051",
+          "confidence": 0.9023,
+          "detector_score": 0.9026,
+          "recognizer_score": 0.9996,
+          "bbox": [
+            22.008316040039062,
+            18.862468719482422,
+            1633.0,
+            858.5230712890625
+          ]
+        }
+      ],
+      "processing_time_ms": 65.39,
+      "error": null
+    },
+    {
+      "job_id": "77df3a0d-2a00-469d-9088-a172118f2817",
+      "timestamp": "2026-08-17T10:00:46.669139+00:00",
+      "source_file": "IMG_7719_JPG.rf.6ed5f24fa73acc9295edef163a203ab7.jpg",
+      "image_width": 1059,
+      "image_height": 493,
+      "plates": [
+        {
+          "plate_text": "NBB-6280",
+          "confidence": 0.827,
+          "detector_score": 0.8273,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            0.0,
+            0.0,
+            1033.5184326171875,
+            473.51300048828125
+          ]
+        }
+      ],
+      "processing_time_ms": 58.01,
+      "error": null
+    },
+    {
+      "job_id": "4452dbe6-c538-4c11-99f9-99d2aa637e79",
+      "timestamp": "2026-08-17T10:00:46.739984+00:00",
+      "source_file": "IMG_7721_JPG.rf.657307ff6836ec2d749a2e14823aea89.jpg",
+      "image_width": 877,
+      "image_height": 437,
+      "plates": [
+        {
+          "plate_text": "MNS-6528",
+          "confidence": 0.8161,
+          "detector_score": 0.8174,
+          "recognizer_score": 0.9984,
+          "bbox": [
+            62.5335578918457,
+            0.4877723753452301,
+            861.05810546875,
+            437.0
+          ]
+        }
+      ],
+      "processing_time_ms": 70.47,
+      "error": null
+    },
+    {
+      "job_id": "66cb36ec-9c3a-4c9b-8d68-fbef98142da1",
+      "timestamp": "2026-08-17T10:00:46.802870+00:00",
+      "source_file": "IMG_7726_JPG.rf.4caf656f5c984ae74c3fcda45d83d946.jpg",
+      "image_width": 978,
+      "image_height": 554,
+      "plates": [
+        {
+          "plate_text": "MEJ-3180",
+          "confidence": 0.8866,
+          "detector_score": 0.8867,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            6.6996307373046875,
+            5.329224109649658,
+            978.0,
+            554.0
+          ]
+        }
+      ],
+      "processing_time_ms": 62.57,
+      "error": null
+    },
+    {
+      "job_id": "110cf529-d3be-477f-93f2-64663bf8856f",
+      "timestamp": "2026-08-17T10:00:46.871295+00:00",
+      "source_file": "IMG_7735_JPG.rf.f2e138e50084f33f1c8de7eb68404e46.jpg",
+      "image_width": 1146,
+      "image_height": 614,
+      "plates": [
+        {
+          "plate_text": "NHH-9586",
+          "confidence": 0.8869,
+          "detector_score": 0.8873,
+          "recognizer_score": 0.9995,
+          "bbox": [
+            19.064516067504883,
+            30.738880157470703,
+            1137.1611328125,
+            612.9995727539062
+          ]
+        }
+      ],
+      "processing_time_ms": 68.07,
+      "error": null
+    },
+    {
+      "job_id": "80624825-b123-4687-a294-77c80b6a1d96",
+      "timestamp": "2026-08-17T10:00:46.936466+00:00",
+      "source_file": "IMG_7741_JPG.rf.3eea839d22a4e4ccc96212d2ff6e52c2.jpg",
+      "image_width": 1000,
+      "image_height": 581,
+      "plates": [
+        {
+          "plate_text": "J3G-815",
+          "confidence": 0.8875,
+          "detector_score": 0.8879,
+          "recognizer_score": 0.9995,
+          "bbox": [
+            1.5377044677734375,
+            8.821296691894531,
+            995.7769775390625,
+            548.91357421875
+          ]
+        }
+      ],
+      "processing_time_ms": 64.77,
+      "error": null
+    },
+    {
+      "job_id": "09cbcb81-5de0-4f12-9dcc-bb51ed86840d",
+      "timestamp": "2026-08-17T10:00:47.006902+00:00",
+      "source_file": "IMG_7744_JPG.rf.6879fca526b1e9de62631f774e460701.jpg",
+      "image_width": 1240,
+      "image_height": 730,
+      "plates": [
+        {
+          "plate_text": "NNM-2665",
+          "confidence": 0.867,
+          "detector_score": 0.8682,
+          "recognizer_score": 0.9987,
+          "bbox": [
+            20.08370590209961,
+            23.628063201904297,
+            1217.2501220703125,
+            711.449951171875
+          ]
+        }
+      ],
+      "processing_time_ms": 70.08,
+      "error": null
+    },
+    {
+      "job_id": "4598f267-fe51-4227-8c45-af1d243037b6",
+      "timestamp": "2026-08-17T10:00:47.077957+00:00",
+      "source_file": "LINE_ALBUM_1017-_221018_16_jpg.rf.1354b8a590eb1d794d9fcae36d452ac5.jpg",
+      "image_width": 1079,
+      "image_height": 730,
+      "plates": [
+        {
+          "plate_text": "2988-KBP",
+          "confidence": 0.9104,
+          "detector_score": 0.9166,
+          "recognizer_score": 0.9933,
+          "bbox": [
+            90.1153335571289,
+            184.5913848876953,
+            983.25830078125,
+            670.3220825195312
+          ]
+        }
+      ],
+      "processing_time_ms": 70.75,
+      "error": null
+    },
+    {
+      "job_id": "8f9f928e-3c75-451e-af87-064732f2647b",
+      "timestamp": "2026-08-17T10:00:47.136840+00:00",
+      "source_file": "LINE_ALBUM_1017-_221018_21_jpg.rf.b8be436c0ee7cdc3c1a8b40cf6d33af8.jpg",
+      "image_width": 1016,
+      "image_height": 671,
+      "plates": [
+        {
+          "plate_text": "MKK-7219",
+          "confidence": 0.6963,
+          "detector_score": 0.6979,
+          "recognizer_score": 0.9977,
+          "bbox": [
+            0.0,
+            157.17974853515625,
+            1016.0,
+            617.4320068359375
+          ]
+        }
+      ],
+      "processing_time_ms": 58.52,
+      "error": null
+    },
+    {
+      "job_id": "49129953-476f-49b4-abcc-34ac38d2f743",
+      "timestamp": "2026-08-17T10:00:47.199678+00:00",
+      "source_file": "LINE_ALBUM_1017-_221018_32_jpg.rf.5ff398de1a796e1498a5c547952046c7.jpg",
+      "image_width": 1103,
+      "image_height": 645,
+      "plates": [
+        {
+          "plate_text": "NJD-1867",
+          "confidence": 0.7081,
+          "detector_score": 0.7082,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            130.18348693847656,
+            124.76419067382812,
+            1062.23583984375,
+            622.062255859375
+          ]
+        }
+      ],
+      "processing_time_ms": 62.52,
+      "error": null
+    },
+    {
+      "job_id": "8e0da53c-b033-4322-9c4f-08b8301421b9",
+      "timestamp": "2026-08-17T10:00:47.261487+00:00",
+      "source_file": "LINE_ALBUM_1017-_221018_34_jpg.rf.50ed1e50bd25e6367a2bae790e586dc4.jpg",
+      "image_width": 875,
+      "image_height": 509,
+      "plates": [
+        {
+          "plate_text": "700-LSP",
+          "confidence": 0.804,
+          "detector_score": 0.8042,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            69.129150390625,
+            66.8534164428711,
+            755.1311645507812,
+            469.2625732421875
+          ]
+        }
+      ],
+      "processing_time_ms": 61.39,
+      "error": null
+    },
+    {
+      "job_id": "75c10308-a1b6-480c-aa76-2bd8ae6cdca3",
+      "timestamp": "2026-08-17T10:00:47.316758+00:00",
+      "source_file": "LINE_ALBUM_1017-_221018_42_jpg.rf.ac370dda1f93ab8e7c444c9712db899e.jpg",
+      "image_width": 745,
+      "image_height": 405,
+      "plates": [
+        {
+          "plate_text": "900-KMV",
+          "confidence": 0.8187,
+          "detector_score": 0.8199,
+          "recognizer_score": 0.9986,
+          "bbox": [
+            45.238224029541016,
+            16.534284591674805,
+            682.43115234375,
+            363.9154357910156
+          ]
+        }
+      ],
+      "processing_time_ms": 54.72,
+      "error": null
+    },
+    {
+      "job_id": "f98a5616-fcee-41e7-891b-b9e36eac03b3",
+      "timestamp": "2026-08-17T10:00:47.374969+00:00",
+      "source_file": "LINE_ALBUM_1017-_221018_9_jpg.rf.8a9413d9a08727e20ee98bdc94397a0b.jpg",
+      "image_width": 1185,
+      "image_height": 804,
+      "plates": [
+        {
+          "plate_text": "350-CTR",
+          "confidence": 0.8387,
+          "detector_score": 0.885,
+          "recognizer_score": 0.9478,
+          "bbox": [
+            42.19401931762695,
+            253.2402801513672,
+            1010.6080322265625,
+            720.377197265625
+          ]
+        }
+      ],
+      "processing_time_ms": 57.83,
+      "error": null
+    },
+    {
+      "job_id": "684acaf7-2a14-48f2-9964-3f9dc38a9e45",
+      "timestamp": "2026-08-17T10:00:47.438725+00:00",
+      "source_file": "LINE_ALBUM_101722_221017_1_jpg.rf.75c1b0c9f36be6ab73781ba1bb9ba247.jpg",
+      "image_width": 1109,
+      "image_height": 1479,
+      "plates": [
+        {
+          "plate_text": "MUE-2562",
+          "confidence": 0.7995,
+          "detector_score": 0.816,
+          "recognizer_score": 0.9797,
+          "bbox": [
+            332.1805725097656,
+            770.3040161132812,
+            734.7549438476562,
+            962.60693359375
+          ]
+        }
+      ],
+      "processing_time_ms": 63.43,
+      "error": null
+    },
+    {
+      "job_id": "4ff68cd7-e50b-4d5f-a9aa-f732aa0558e8",
+      "timestamp": "2026-08-17T10:00:47.501832+00:00",
+      "source_file": "LINE_ALBUM_101722_221017_21_jpg.rf.db1ec73aad9ba20fbe231aeb7dcf7f05.jpg",
+      "image_width": 1109,
+      "image_height": 1479,
+      "plates": [
+        {
+          "plate_text": "NEB-7297",
+          "confidence": 0.7906,
+          "detector_score": 0.7907,
+          "recognizer_score": 0.9998,
+          "bbox": [
+            264.0414733886719,
+            712.3096923828125,
+            820.656494140625,
+            993.0916748046875
+          ]
+        }
+      ],
+      "processing_time_ms": 62.7,
+      "error": null
+    },
+    {
+      "job_id": "5a78a7ad-89dd-4308-949c-d2537cd8f470",
+      "timestamp": "2026-08-17T10:00:47.564331+00:00",
+      "source_file": "LINE_ALBUM_101722_221017_32_jpg.rf.229007c840ec35cddffa58b698354999.jpg",
+      "image_width": 1109,
+      "image_height": 1479,
+      "plates": [
+        {
+          "plate_text": "MET-8099",
+          "confidence": 0.7549,
+          "detector_score": 0.7549,
+          "recognizer_score": 0.9999,
+          "bbox": [
+            343.0449523925781,
+            851.94384765625,
+            792.0739135742188,
+            1059.705078125
+          ]
+        }
+      ],
+      "processing_time_ms": 62.21,
+      "error": null
+    },
+    {
+      "job_id": "4eb083de-dacb-4446-8169-019aaa88f07f",
+      "timestamp": "2026-08-17T10:00:47.630328+00:00",
+      "source_file": "LINE_ALBUM_101722_221017_43_jpg.rf.007fb644fe3c5886e827a691b7b2bf4e.jpg",
+      "image_width": 1109,
+      "image_height": 1479,
+      "plates": [
+        {
+          "plate_text": "MWP-6231",
+          "confidence": 0.6008,
+          "detector_score": 0.601,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            363.4272155761719,
+            632.2147827148438,
+            842.8611450195312,
+            931.0263061523438
+          ]
+        }
+      ],
+      "processing_time_ms": 65.61,
+      "error": null
+    },
+    {
+      "job_id": "0b5da720-458d-45fb-8489-145c80685533",
+      "timestamp": "2026-08-17T10:00:47.696439+00:00",
+      "source_file": "LINE_ALBUM_101722_221017_55_jpg.rf.eaf0220bda7420a7945b6c789e49db91.jpg",
+      "image_width": 1109,
+      "image_height": 1479,
+      "plates": [
+        {
+          "plate_text": "NKE-8653",
+          "confidence": 0.7559,
+          "detector_score": 0.7562,
+          "recognizer_score": 0.9996,
+          "bbox": [
+            398.4023742675781,
+            840.5516357421875,
+            804.3906860351562,
+            1043.1739501953125
+          ]
+        }
+      ],
+      "processing_time_ms": 65.78,
+      "error": null
+    },
+    {
+      "job_id": "2ddd373f-1bce-4264-a5e0-2e288425e687",
+      "timestamp": "2026-08-17T10:00:47.764575+00:00",
+      "source_file": "LINE_ALBUM_101722_221017_57_jpg.rf.f6597010eb6ee2f81dc559feb6dcc443.jpg",
+      "image_width": 1109,
+      "image_height": 1479,
+      "plates": [
+        {
+          "plate_text": "MWA-7817",
+          "confidence": 0.8304,
+          "detector_score": 0.8307,
+          "recognizer_score": 0.9997,
+          "bbox": [
+            348.8430480957031,
+            837.8820190429688,
+            810.98828125,
+            1068.0380859375
+          ]
+        }
+      ],
+      "processing_time_ms": 67.74,
+      "error": null
+    },
+    {
+      "job_id": "6079dfb0-9a88-4e9c-b23a-25db91782749",
+      "timestamp": "2026-08-17T10:00:47.833503+00:00",
+      "source_file": "LINE_ALBUM_101722_221017_58_jpg.rf.74ac6f5eb4c41e495a88c0c611627fc8.jpg",
+      "image_width": 1109,
+      "image_height": 1479,
+      "plates": [
+        {
+          "plate_text": "NEW-6387",
+          "confidence": 0.7447,
+          "detector_score": 0.7617,
+          "recognizer_score": 0.9776,
+          "bbox": [
+            399.9155578613281,
+            880.43603515625,
+            854.867431640625,
+            1088.8328857421875
+          ]
+        }
+      ],
+      "processing_time_ms": 68.6,
+      "error": null
+    }
+  ]
+}

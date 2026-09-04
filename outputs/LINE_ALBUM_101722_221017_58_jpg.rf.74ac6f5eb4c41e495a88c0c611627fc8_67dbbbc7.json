@@ -1,0 +1,23 @@
+{
+  "job_id": "67dbbbc7-d6f6-4fbe-b64f-c4b45774fd67",
+  "timestamp": "2026-08-17T16:17:10.503964+00:00",
+  "source_file": "LINE_ALBUM_101722_221017_58_jpg.rf.74ac6f5eb4c41e495a88c0c611627fc8.jpg",
+  "image_width": 1109,
+  "image_height": 1479,
+  "plates": [
+    {
+      "plate_text": "NEM-6307",
+      "confidence": 0.7195,
+      "detector_score": 0.7617,
+      "recognizer_score": 0.9445,
+      "bbox": [
+        399.9155578613281,
+        880.43603515625,
+        854.867431640625,
+        1088.8328857421875
+      ]
+    }
+  ],
+  "processing_time_ms": 46.77,
+  "error": null
+}

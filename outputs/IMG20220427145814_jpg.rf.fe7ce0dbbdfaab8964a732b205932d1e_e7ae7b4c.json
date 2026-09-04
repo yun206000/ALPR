@@ -1,0 +1,22 @@
+{
+  "job_id": "e7ae7b4c-e3d3-4986-aa31-33b4414f534e",
+  "timestamp": "2026-09-04T09:47:55.080845+00:00",
+  "source_file": "IMG20220427145814_jpg.rf.fe7ce0dbbdfaab8964a732b205932d1e.jpg",
+  "image_width": 3456,
+  "image_height": 4608,
+  "plates": [
+    {
+      "plate_text": "MNU-0928",
+      "confidence": 0.6921,
+      "detector_score": 0.6923,
+      "recognizer_score": 0.9998,
+      "bbox": [
+        839.8909301757812,
+        1819.578369140625,
+        2564.27685546875,
+        2861.5029296875
+      ]
+    }
+  ],
+  "processing_time_ms": 447.07
+}

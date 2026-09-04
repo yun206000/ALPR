@@ -1,0 +1,23 @@
+{
+  "job_id": "f8543823-1d6a-4880-93af-b42352a1e4ce",
+  "timestamp": "2026-08-18T13:49:50.274705+00:00",
+  "source_file": "IMG_1610_JPG.rf.dae305d26eb23226147814884efec9bb.jpg",
+  "image_width": 3024,
+  "image_height": 4032,
+  "plates": [
+    {
+      "plate_text": "MFU-3252",
+      "confidence": 0.8235,
+      "detector_score": 0.824,
+      "recognizer_score": 0.9993,
+      "bbox": [
+        421.1067810058594,
+        624.70703125,
+        2549.197021484375,
+        1749.9549560546875
+      ]
+    }
+  ],
+  "processing_time_ms": 134.05,
+  "error": null
+}

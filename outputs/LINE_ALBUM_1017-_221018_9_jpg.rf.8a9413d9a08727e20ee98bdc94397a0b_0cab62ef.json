@@ -1,0 +1,23 @@
+{
+  "job_id": "0cab62ef-8e84-43ba-91a3-d05ad52ac7a6",
+  "timestamp": "2026-08-18T03:07:38.761403+00:00",
+  "source_file": "LINE_ALBUM_1017-_221018_9_jpg.rf.8a9413d9a08727e20ee98bdc94397a0b.jpg",
+  "image_width": 1185,
+  "image_height": 804,
+  "plates": [
+    {
+      "plate_text": "350-CTR",
+      "confidence": 0.8387,
+      "detector_score": 0.885,
+      "recognizer_score": 0.9478,
+      "bbox": [
+        42.19401931762695,
+        253.2402801513672,
+        1010.6080322265625,
+        720.377197265625
+      ]
+    }
+  ],
+  "processing_time_ms": 153.07,
+  "error": null
+}

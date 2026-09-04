@@ -1,0 +1,23 @@
+{
+  "job_id": "ea57ce84-013c-48a0-afa8-46309d88ff26",
+  "timestamp": "2026-08-18T11:24:44.766007+00:00",
+  "source_file": "IMG_7716_JPG.rf.783fa3ebe9aeae56942b3a82cd10ef01.jpg",
+  "image_width": 1633,
+  "image_height": 862,
+  "plates": [
+    {
+      "plate_text": "MZD-9051",
+      "confidence": 0.867,
+      "detector_score": 0.9026,
+      "recognizer_score": 0.9605,
+      "bbox": [
+        22.008316040039062,
+        18.862468719482422,
+        1633.0,
+        858.5230712890625
+      ]
+    }
+  ],
+  "processing_time_ms": 75.55,
+  "error": null
+}

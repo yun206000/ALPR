@@ -1,0 +1,23 @@
+{
+  "job_id": "ce82e9a7-ad66-4f35-9c63-fd1e115d9f56",
+  "timestamp": "2026-08-17T17:03:39.303475+00:00",
+  "source_file": "IMG20220427145304_jpg.rf.e88a24224b44ce554f19182a2fe89a07.jpg",
+  "image_width": 3456,
+  "image_height": 4608,
+  "plates": [
+    {
+      "plate_text": "EWE-3750",
+      "confidence": 0.6407,
+      "detector_score": 0.6696,
+      "recognizer_score": 0.9569,
+      "bbox": [
+        917.0546875,
+        1523.99365234375,
+        2553.886474609375,
+        2780.969970703125
+      ]
+    }
+  ],
+  "processing_time_ms": 126.6,
+  "error": null
+}

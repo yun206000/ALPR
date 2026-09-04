@@ -1,0 +1,22 @@
+{
+  "job_id": "74131ed0-aa69-4d31-bb44-0d12c45a506a",
+  "timestamp": "2026-09-04T09:47:33.599544+00:00",
+  "source_file": "IMG20220427145302_jpg.rf.792ba63fd3f345f22b0401943983a393.jpg",
+  "image_width": 3456,
+  "image_height": 4608,
+  "plates": [
+    {
+      "plate_text": "ENE-3750",
+      "confidence": 0.5668,
+      "detector_score": 0.5892,
+      "recognizer_score": 0.962,
+      "bbox": [
+        819.6384887695312,
+        1971.0830078125,
+        3012.81005859375,
+        2947.311767578125
+      ]
+    }
+  ],
+  "processing_time_ms": 1021.13
+}
