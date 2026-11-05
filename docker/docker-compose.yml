@@ -1,57 +1,101 @@
-services:
-  lpr-api:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile
-    image: lpr-pipeline:latest
-    container_name: lpr-api
-    ports:
-      - "8001:8000"
-    volumes:
-      # 掛載模型目錄（放置 .pth / .pt 權重檔）
-      - ../models:/app/models:ro
-      # 輸出 JSON 結果
-      - ../outputs:/app/outputs
-      # 測試影像
-      - ../data:/app/data:ro
-    environment:
-      - DETECTOR_DEVICE=cpu          # 改為 cuda 可啟用 GPU
-      - RECOGNIZER_DEVICE=cpu
-      - DETECTOR_CONFIDENCE_THRESHOLD=0.5
-      - LOG_LEVEL=INFO
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "python", "-c",
-             "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
-      interval: 30s
-      timeout: 10s
-      start_period: 90s
-      retries: 3
+# 使用方式（在專案根目錄執行）：
+#   docker compose -f docker/docker-compose.yml up -d --build      # GPU 版 API Server
+#   docker compose -f docker/docker-compose.yml --profile cpu up -d alpr-cpu   # 沒有 GPU 的機器
+#
+# UID / GID / 資料集路徑 / API token 等設定在 docker/.env
+#
+# 注意：所有掛載的主機資料夾都必須先存在。
+#   create_host_path: false 會讓 Docker 在資料夾不存在時直接報錯，
+#   而不是自動用 root 建立（那會讓你之後無法在裡面寫檔案）。
 
-  # GPU 版本（需要 nvidia-container-toolkit）
-  lpr-api-gpu:
-    build:
-      context: ..
-      dockerfile: docker/Dockerfile.gpu
-    image: lpr-pipeline-gpu:latest
-    container_name: lpr-api-gpu
-    ports:
-      - "8001:8000"
-    volumes:
-      - ../models:/app/models:ro
-      - ../outputs:/app/outputs
-      - ../data:/app/data:ro
+# bind mount 共用設定：主機路徑不存在就報錯，不自動建立
+x-no-create-host-path: &no-create-host-path
+  create_host_path: false
+
+x-alpr-common: &alpr-common
+  build:
+    context: ..
+    dockerfile: docker/Dockerfile
+  image: alpr:latest
+  # 用主機使用者的 UID/GID 執行，輸出的檔案才不會變成 root 擁有
+  user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+  ports:
+    - "${API_PORT:-8001}:8000"
+  volumes:
+    # 使用主機的時區（否則容器是 UTC，log 時間會差 8 小時）
+    - type: bind
+      source: /etc/localtime
+      target: /etc/localtime
+      read_only: true
+      bind: *no-create-host-path
+    # 設定檔（在主機上修改後重啟容器即生效，不用重新 build）
+    - type: bind
+      source: ../config.yaml
+      target: /app/config.yaml
+      read_only: true
+      bind: *no-create-host-path
+    # YOLO 偵測權重
+    - type: bind
+      source: ../models
+      target: /app/models
+      bind: *no-create-host-path
+    # PARSeq 辨識權重
+    - type: bind
+      source: ../checkpoints
+      target: /app/checkpoints
+      bind: *no-create-host-path
+    # 推論用影像
+    - type: bind
+      source: ../data
+      target: /app/data
+      bind: *no-create-host-path
+    # 辨識結果 JSON
+    - type: bind
+      source: ../outputs
+      target: /app/outputs
+      bind: *no-create-host-path
+    # 實驗紀錄（trackio 資料庫）
+    - type: bind
+      source: ../logs
+      target: /app/logs
+      bind: *no-create-host-path
+    # 訓練 / 驗證資料集
+    - type: bind
+      source: ${DATASETS_DIR:-../../datasets}
+      target: /datasets
+      bind: *no-create-host-path
+  environment: &alpr-env
+    # API token 從 docker/.env 傳入，不寫在 config.yaml
+    ALPR_API__TOKENS: ${ALPR_API_TOKENS:?請在 docker/.env 設定 ALPR_API_TOKENS}
+  # PyTorch DataLoader 多 worker 需要較大的共享記憶體
+  shm_size: "8gb"
+  restart: unless-stopped
+
+services:
+  # 預設：GPU 版（需要 nvidia-container-toolkit）
+  alpr:
+    <<: *alpr-common
+    container_name: alpr
+    # 覆寫 config.yaml 的裝置設定（其他設定都讀 config.yaml）
     environment:
-      - DETECTOR_DEVICE=cuda
-      - RECOGNIZER_DEVICE=cuda
-      - LOG_LEVEL=INFO
+      <<: *alpr-env
+      ALPR_DETECTOR__DEVICE: cuda
+      ALPR_RECOGNIZER__DEVICE: cuda
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              count: all
               capabilities: [gpu]
-    restart: unless-stopped
+
+  # CPU 版：docker compose -f docker/docker-compose.yml --profile cpu up alpr-cpu
+  alpr-cpu:
+    <<: *alpr-common
+    container_name: alpr-cpu
+    environment:
+      <<: *alpr-env
+      ALPR_DETECTOR__DEVICE: cpu
+      ALPR_RECOGNIZER__DEVICE: cpu
     profiles:
-      - gpu  # 僅在 docker compose --profile gpu up 時啟動
+      - cpu

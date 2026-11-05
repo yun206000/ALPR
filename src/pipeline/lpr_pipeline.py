@@ -1,17 +1,16 @@
 """
-The pipeline that combine YOLOv8 detector and PARSeq recognizer to perform license plate recognition.
+pipeline/lpr_pipeline.py — 串接 YOLO 偵測與 PARSeq 辨識的車牌辨識流程。
 """
 
 from __future__ import annotations
 
-import json
 import time
 from pathlib import Path
 from typing import List, Optional, Union
 
 import numpy as np
 
-from ..config import PipelineConfig, get_config
+from ..config import AppConfig, get_config
 from ..detector import YOLODetector
 from ..models import BatchOutput, PlateResult, PredictionOutput
 from ..recognizer import PARSeqRecognizer
@@ -31,7 +30,7 @@ class LPRPipeline:
 
     功能：
     - 接收單張影像路徑 / numpy array
-    - 執行 YOLOv8 車牌偵測
+    - 執行 YOLO 車牌偵測
     - 裁切車牌區域
     - 執行 PARSeq 字元辨識
     - 回傳結構化 PredictionOutput（可序列化為 JSON）
@@ -42,9 +41,9 @@ class LPRPipeline:
         print(result.model_dump_json(indent=2))
     """
 
-    def __init__(self, config: Optional[PipelineConfig] = None) -> None:
+    def __init__(self, config: Optional[AppConfig] = None) -> None:
         self.config = config or get_config()
-        setup_logger(self.config.log_level)
+        setup_logger(self.config.log_level, self.config.log_file)
 
         logger.info("初始化 LPR Pipeline...")
         self.detector = YOLODetector(self.config.detector)
@@ -99,10 +98,10 @@ class LPRPipeline:
         img_rgb = bgr_to_rgb(img_bgr)
         h, w = img_rgb.shape[:2]
 
-        # Load the detector
+        # 偵測車牌
         detections = self.detector.detect(img_rgb)
 
-        # Crop the image and recognize each detected plate
+        # 裁切每個車牌並辨識字元
         plate_results: List[PlateResult] = []
 
         if detections:
@@ -142,7 +141,7 @@ class LPRPipeline:
             processing_time_ms=round(elapsed_ms, 2),
         )
 
-        logger.info(
+        logger.debug(
             f"[{filename}] 偵測到 {len(plate_results)} 個車牌 | "
             f"耗時 {elapsed_ms:.1f}ms"
         )
@@ -163,8 +162,8 @@ class LPRPipeline:
 
         Args:
             sources: 影像路徑列表
-            save_json: 是否儲存每張影像的個別 JSON
-            batch_output_path: 批次整合 JSON 的輸出路徑
+            save_json: 是否儲存批次整合 JSON（每張影像不會各自存檔）
+            batch_output_path: 批次 JSON 的輸出路徑（預設 outputs/batch_<id>.json）
 
         Returns:
             BatchOutput — 批次結果
@@ -174,22 +173,24 @@ class LPRPipeline:
         results: List[PredictionOutput] = []
 
         for src in tqdm(sources, desc="辨識進度", unit="img"):
-            result = self.predict(src, save_json=save_json)
-            results.append(result)
+            results.append(self.predict(src))
 
         batch = BatchOutput(
             total_images=len(sources),
             results=results,
         )
 
-        # 儲存批次整合 JSON
-        out_path = batch_output_path or (self.config.output_dir / f"batch_{batch.batch_id[:8]}.json")
-        out_path.write_text(
-            batch.model_dump_json(indent=2, exclude_none=False),
-            encoding="utf-8",
-        )
-        logger.info(f"批次結果已儲存：{out_path}")
+        if save_json:
+            self.save_batch(batch, batch_output_path)
         return batch
+
+    def save_batch(self, batch: BatchOutput, out_path: Optional[Path] = None) -> Path:
+        """將整批結果存成一份 JSON（預設 <output_dir>/batch_<id>.json）"""
+        out_path = out_path or (self.config.output_dir / f"batch_{batch.batch_id[:8]}.json")
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(batch.model_dump_json(indent=2), encoding="utf-8")
+        logger.info(f"批次結果已儲存：{out_path}")
+        return out_path
 
     def predict_folder(
         self,

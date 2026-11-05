@@ -4,143 +4,155 @@ main.py — CLI 入口點
 
 使用方式：
     # 辨識單張影像
-    python main.py --image data/samples/car.jpg
+    python main.py --image data/car.jpg
 
     # 辨識資料夾
-    python main.py --folder data/samples/ --output outputs/batch.json
+    python main.py --folder data/ --output outputs/batch.json
 
-    # 啟動 API Server
-    python main.py --serve --host 0.0.0.0 --port 8000
+    # 用 ground truth CSV 評估準確率
+    python main.py --eval data/taiwan_plate_dataset/test/test_gt.csv
 
-    # 顯示結果 JSON（不儲存）
-    python main.py --image car.jpg --no-save
+    # 啟動 API Server（host / port 讀 config.yaml 的 api 區塊）
+    python main.py --serve
+
+所有設定（權重、裝置、輸出目錄……）都在 config.yaml，CLI 參數只用來臨時覆寫。
 """
 
 from __future__ import annotations
 
-import os
 import argparse
-import json
-import sys
+import os
+import unicodedata
+from datetime import datetime
 from pathlib import Path
-import uvicorn
-from src.pipeline import LPRPipeline
-from rich.console import Console
-from rich.table import Table
-from rich.panel import Panel
+from typing import List, Sequence
 
-from src.config import get_config
-from src.utils import setup_logger
+import uvicorn
+
+from src.config import DEFAULT_CONFIG_PATH, load_config
+from src.models import EvalReport
+from src.pipeline import LPRPipeline
+from src.utils import logger, setup_logger
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="LPR Pipeline — YOLOv8 + PARSeq 車牌辨識系統",
+        description="ALPR — YOLO + PARSeq 車牌辨識系統",
         formatter_class=argparse.RawTextHelpFormatter,
     )
 
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--image", type=Path, help="辨識單張影像")
     mode.add_argument("--folder", type=Path, help="批次辨識資料夾內所有影像")
+    mode.add_argument("--eval", type=Path, metavar="GT_CSV",
+                      help="用 ground truth CSV（image_path,plate_text）評估準確率")
     mode.add_argument("--serve", action="store_true", help="啟動 FastAPI REST API Server")
 
     parser.add_argument(
         "--output", "-o", type=Path,
-        help="批次結果輸出路徑（預設：outputs/batch_<id>.json）",
+        help="--folder / --eval 的 JSON 輸出路徑\n"
+             "（預設：outputs/batch_<id>.json、outputs/eval_<時間>.json）",
     )
-    parser.add_argument(
-        "--no-save", action="store_true",
-        help="不儲存 JSON 結果（僅輸出到 stdout）",
-    )
-    parser.add_argument("--host", default="0.0.0.0", help="API server host（預設：0.0.0.0）")
-    parser.add_argument("--port", type=int, default=8000, help="API server port（預設：8000）")
-    parser.add_argument("--workers", type=int, default=1, help="Uvicorn workers 數量")
-    parser.add_argument(
-        "--log-level", default="INFO",
-        choices=["DEBUG", "INFO", "WARNING", "ERROR"],
-    )
-    parser.add_argument(
-        "--device", default=None,
-        help="推論裝置：cuda | mps | cpu（預設由環境決定）",
-    )
+    parser.add_argument("--no-save", action="store_true", help="不儲存 JSON，只輸出到 stdout")
+    parser.add_argument("--image-root", type=Path, default=None,
+                        help="--eval 時，CSV 中 image_path 的相對基準資料夾（預設自動尋找）")
+
+    # 以下都是覆寫 config.yaml 用，不指定就用設定檔的值
+    parser.add_argument("--config", type=Path, default=None, help=f"設定檔路徑（預設 {DEFAULT_CONFIG_PATH}）")
+    parser.add_argument("--device", default=None, help="推論裝置 cuda | mps | cpu（同時覆寫 detector / recognizer）")
+    parser.add_argument("--log-level", default=None, choices=["DEBUG", "INFO", "WARNING", "ERROR"])
+    parser.add_argument("--host", default=None, help="API server host")
+    parser.add_argument("--port", type=int, default=None, help="API server port")
+    parser.add_argument("--workers", type=int, default=None, help="Uvicorn workers 數量")
     return parser.parse_args()
 
 
 def run_cli() -> None:
     args = parse_args()
 
-    # 動態設定環境變數（傳遞給 config）
+    # CLI 覆寫用環境變數傳遞，API Server 的 worker 行程也會讀到同樣的設定
     if args.device:
-        os.environ["DETECTOR_DEVICE"] = args.device
-        os.environ["RECOGNIZER_DEVICE"] = args.device
+        os.environ["ALPR_DETECTOR__DEVICE"] = args.device
+        os.environ["ALPR_RECOGNIZER__DEVICE"] = args.device
+    if args.log_level:
+        os.environ["ALPR_LOG_LEVEL"] = args.log_level
 
-    cfg = get_config()
-    cfg.log_level = args.log_level
-    setup_logger(args.log_level)
+    cfg = load_config(args.config)
+    setup_logger(cfg.log_level, cfg.log_file)
 
-    # API Server mode
     if args.serve:
-        print(f"\nLPR API Server 啟動中 → http://{args.host}:{args.port}")
-        print(f"    Docs: http://{args.host}:{args.port}/docs\n")
-        uvicorn.run(
-            "src.api:app",
-            host=args.host,
-            port=args.port,
-            workers=args.workers,
-            reload=False,
-        )
+        host = args.host or cfg.api.host
+        port = args.port or cfg.api.port
+        workers = args.workers or cfg.api.workers
+        logger.info(f"LPR API Server 啟動中：http://{host}:{port}")
+        logger.info(f"API 文件：http://{host}:{port}/docs")
+        uvicorn.run("src.api:app", host=host, port=port, workers=workers, reload=False)
         return
 
-    console = Console()
     pipeline = LPRPipeline(cfg)
     save = not args.no_save
-    
-    # Single image mode
+
     if args.image:
         result = pipeline.predict(args.image, save_json=save)
-        _print_result(result, console)
+        if result.error:
+            logger.error(result.error)
+        elif result.best_plate() is None:
+            logger.warning(f"未偵測到車牌：{result.source_file}")
         print(result.model_dump_json(indent=2))
-        return
 
-    # Batch mode
-    if args.folder:
-        batch = pipeline.predict_folder(
-            args.folder,
-            save_json=save,
-            batch_output_path=args.output,
-        )
-        console.print(f"\n[bold green]✓ 批次辨識完成[/bold green]")
-        console.print(f"  總計：{batch.total_images} 張")
-        # console.print(f"  成功：{batch.success_count} | 失敗：{batch.fail_count}")
-
-        table = Table(title="辨識摘要", show_lines=True)
-        table.add_column("檔名", style="cyan")
-        table.add_column("車牌", style="green")
-        # table.add_column("可信度", justify="right")
-        table.add_column("耗時(ms)", justify="right")
-
+    elif args.folder:
+        batch = pipeline.predict_folder(args.folder, save_json=save, batch_output_path=args.output)
+        logger.info(f"批次辨識完成，共 {batch.total_images} 張")
+        rows = []
         for r in batch.results:
             best = r.best_plate()
-            table.add_row(
-                r.source_file,
-                best.plate_text if best else "—",
-                # f"{best.confidence:.3f}" if best else "—",
-                f"{r.processing_time_ms:.1f}",
-            )
-        console.print(table)
+            rows.append((r.source_file, best.plate_text if best else "-", f"{r.processing_time_ms:.1f}"))
+        _print_table(("檔名", "車牌", "耗時(ms)"), rows)
+
+    elif args.eval:
+        from src.evaluation import evaluate
+
+        report = evaluate(pipeline, args.eval, args.image_root)
+        _print_eval_report(report)
+        if save:
+            out_path = args.output or cfg.output_dir / f"eval_{datetime.now():%Y%m%d_%H%M%S}.json"
+            out_path.parent.mkdir(parents=True, exist_ok=True)
+            out_path.write_text(report.model_dump_json(indent=2), encoding="utf-8")
+            logger.info(f"評估結果已儲存：{out_path}")
 
 
-def _print_result(result, console) -> None:
-    best = result.best_plate()
-    if best:
-        console.print(Panel(
-            f"辨識結果：[bold green]{best.plate_text}[/bold green]",
-            # f"可信度：{best.confidence:.3f}  "
-            # f"(偵測={best.detector_score:.3f} / 辨識={best.recognizer_score:.3f})",
-            title=f"{result.source_file}",
-        ))
-    else:
-        console.print(f"[yellow]⚠  未偵測到車牌：{result.source_file}[/yellow]")
+# ---------------------------------------------------------------------------
+# 結果輸出（stdout）
+# ---------------------------------------------------------------------------
+
+def _print_eval_report(report: EvalReport) -> None:
+    print(f"樣本數      {report.total}")
+    print(f"完全正確    {report.correct}（{report.accuracy:.2%}）")
+    print(f"字元準確率  {report.char_accuracy:.2%}")
+    print(f"未偵測到    {report.no_plate}")
+
+    mismatches = report.mismatches()
+    if mismatches:
+        print(f"\n錯誤樣本（{len(mismatches)}）")
+        _print_table(
+            ("檔名", "GT", "預測"),
+            [(s.source_file, s.gt_text, s.pred_text or "<未偵測到>") for s in mismatches],
+        )
+
+
+def _display_width(text: str) -> int:
+    """終端機顯示寬度（中文等全形字元算 2 格）。"""
+    return sum(2 if unicodedata.east_asian_width(c) in "WF" else 1 for c in text)
+
+
+def _print_table(headers: Sequence[str], rows: List[Sequence[str]]) -> None:
+    """以純文字表格輸出（支援中英文混排對齊）。"""
+    table = [tuple(headers), *rows]
+    widths = [max(_display_width(row[i]) for row in table) for i in range(len(headers))]
+    for i, row in enumerate(table):
+        print("  ".join(cell + " " * (w - _display_width(cell)) for cell, w in zip(row, widths)).rstrip())
+        if i == 0:
+            print("  ".join("-" * w for w in widths))
 
 
 if __name__ == "__main__":

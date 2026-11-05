@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+
+# 推論輸出（JSON、log）
+outputs/*
+
+# Ultralytics 自動產生的檔案（AMP 檢查下載的權重、預設輸出資料夾）
+yolo26n.pt
+runs/
+
+
+# 實驗紀錄（trackio 資料庫）
+logs/
+
+# 含 API token 等機密的環境變數檔
+.env
+docker/.env
+
+# 資料集（體積大，另外下載 / 存放）
+data/taiwan_plate_dataset/
+
+# 訓練過程的 log
+*.log

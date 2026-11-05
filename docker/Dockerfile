@@ -1,82 +1,67 @@
 # ============================================================
-# Stage 1: builder — 安裝依賴
+# ALPR — 以 conda「ALPR」環境（environment.yml）建置的映像
+#   CPU / GPU 共用同一個映像：torch 2.11 (cu130) 的 pip wheel 已內含 CUDA runtime，
+#   只要主機有 NVIDIA driver + nvidia-container-toolkit，容器就能用 GPU。
 # ============================================================
-FROM python:3.11-slim AS builder
+ARG BASE_IMAGE=continuumio/miniconda3:latest
+FROM ${BASE_IMAGE}
+
+# 非互動接受 Anaconda channel 的 ToS；建置時不留 pip 快取
+ENV CONDA_PLUGINS_AUTO_ACCEPT_TOS=yes \
+    PIP_NO_CACHE_DIR=1
+
+# OpenCV（opencv-python 非 headless 版）需要的系統函式庫
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        libgl1 \
+        libglib2.0-0 \
+        libgomp1 \
+    && rm -rf /var/lib/apt/lists/*
+
+# ---- 建立 conda 環境（先只複製 environment.yml，讓這層可以被快取）----
+COPY environment.yml /tmp/environment.yml
+RUN conda env create -f /tmp/environment.yml \
+    && conda clean -afy \
+    && rm -f /tmp/environment.yml
+
+# 之後所有指令都直接使用 ALPR 環境的 python
+ENV PATH=/opt/conda/envs/ALPR/bin:$PATH \
+    CONDA_DEFAULT_ENV=ALPR \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    TORCH_HOME=/opt/torch \
+    YOLO_CONFIG_DIR=/opt/ultralytics \
+    MPLCONFIGDIR=/opt/matplotlib \
+    HOME=/tmp
+
+# compose 用主機的 UID 執行容器，這個 UID 在容器的 /etc/passwd 裡不存在，
+# 會讓 getpass.getuser()（torch 啟動時會呼叫）丟出 KeyError。
+# getuser() 會先讀這兩個環境變數，有設就不會去查 /etc/passwd。
+ENV USER=alpr \
+    LOGNAME=alpr
+
+# 預先下載 PARSeq 的 torch.hub 程式碼（只抓程式碼，不抓預訓練權重），
+# 讓容器在離線時也能載入 checkpoints/ 裡的權重；並先產生 Ultralytics 設定檔與 matplotlib 快取。
+# 權限開放給所有使用者，因為 compose 會用主機的 UID 執行容器。
+RUN mkdir -p /opt/torch /opt/ultralytics /opt/matplotlib \
+    && python -c "import torch; torch.hub.load('baudm/parseq', 'parseq', pretrained=False, trust_repo=True)" \
+    && python -c "import ultralytics, matplotlib.pyplot" \
+    && chmod -R a+rwX /opt/torch /opt/ultralytics /opt/matplotlib
 
 WORKDIR /app
 
-# 系統依賴（OpenCV headless 需要）
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    libglib2.0-0 \
-    libgl1 \
-    libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
-
-# 升級 pip
-RUN pip install --upgrade pip
-
-COPY requirements.txt .
-
-# 安裝 Python 依賴（不使用快取）
-RUN pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir \
-        git+https://github.com/roboflow/rf-detr.git \
-        git+https://github.com/baudm/parseq.git
-
-# ============================================================
-# Stage 2: runtime — 最小化映像
-# ============================================================
-FROM python:3.11-slim AS runtime
-
-LABEL maintainer="your-team@example.com"
-LABEL description="LPR Pipeline — RF-DETR + PARSeq 車牌辨識系統"
-LABEL version="1.0.0"
-
-# 建立非 root 使用者
-RUN groupadd -r lpr && useradd -r -g lpr lpr
-
-WORKDIR /app
-
-# 系統執行期依賴
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libglib2.0-0 \
-    libgl1 \
-    libgomp1 \
-    && rm -rf /var/lib/apt/lists/*
-
-# 從 builder 複製 Python 套件
-COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-COPY --from=builder /usr/local/bin /usr/local/bin
-
-# 複製應用程式碼
+# ---- 專案程式碼 ----
 COPY src/ ./src/
-COPY main.py .
+COPY main.py config.yaml ./
 
-# 建立必要目錄，設定權限
-RUN mkdir -p models outputs data/samples \
-    && chown -R lpr:lpr /app
-
-# 複製 entrypoint 腳本
-COPY docker/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# 預設環境變數（可在 docker run 或 compose 中覆寫）
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV DETECTOR_DEVICE=cpu
-ENV RECOGNIZER_DEVICE=cpu
-ENV LOG_LEVEL=INFO
-
-# 模型掛載點
-VOLUME ["/app/models", "/app/outputs", "/app/data"]
+# 權重 / 資料 / 輸出都以 volume 掛載，不打包進映像
+RUN mkdir -p models checkpoints data outputs logs && chmod -R a+rwX /app
 
 EXPOSE 8000
 
-# 健康檢查
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
 
-# 使用 entrypoint 腳本（運行為 root，script 會切換到 lpr 使用者）
-ENTRYPOINT ["/entrypoint.sh"]
+# 預設啟動 API Server；也可以覆寫成任何指令，例如：
+#   docker compose run --rm alpr python main.py --image data/xxx.jpg
+#   docker compose run --rm alpr python src/train/train.py ...
 CMD ["python", "main.py", "--serve", "--host", "0.0.0.0", "--port", "8000"]

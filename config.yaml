@@ -1,0 +1,86 @@
+# ============================================================
+# ALPR 設定檔 — 所有設定都從這裡讀取
+#
+# - 相對路徑以「專案根目錄」（執行指令的位置）為基準
+# - 換一份設定檔：--config other.yaml，或環境變數 ALPR_CONFIG=other.yaml
+# - 臨時覆寫單一值：
+#     推論：main.py --device cuda / --log-level DEBUG
+#     訓練：train.py --epochs 1、finetune_yolo.py --batch-size 8 ...
+#     環境變數：ALPR_<區塊>__<欄位>，例如 ALPR_DETECTOR__DEVICE=cuda（Docker 用這個）
+#   優先順序：CLI 參數 > 環境變數 > 本檔案
+# ============================================================
+
+# ---------------- 推論 ----------------
+
+# 車牌偵測（YOLO）
+detector:
+  weights_path: models/license_plate_detector.pt   # 要用的 YOLO 權重
+  confidence_threshold: 0.5                        # 偵測信心門檻
+  device: cpu                                      # cuda | mps | cpu
+
+# 字元辨識（PARSeq）
+recognizer:
+  weights_path: checkpoints/best.ckpt              # 要用的 PARSeq 權重
+  model_variant: parseq                            # 找不到權重時改用的 torch.hub 預訓練模型（parseq | parseq_tiny）
+  charset: "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ-OI" # 辨識結果只保留這些字元
+  device: cpu                                      # cuda | mps | cpu
+  crop_padding: 0.05                               # 裁切車牌時 bbox 外擴的比例
+
+output_dir: outputs        # 辨識 / 評估結果 JSON 與 log 的輸出目錄
+log_level: INFO            # DEBUG | INFO | WARNING | ERROR
+
+# API Server（python main.py --serve）
+api:
+  host: 0.0.0.0
+  port: 8000
+  workers: 1
+  # 允許呼叫 API 的 token，格式為「用戶端名稱: token」，請求時帶 Authorization: Bearer <token>
+  # token 是機密，建議不要寫在這裡（這個檔案會進 git），改用環境變數設定：
+  #   ALPR_API__TOKENS='{"web": "<token>"}'
+  # 產生 token：python -c "import secrets; print(secrets.token_urlsafe(32))"
+  # 沒有設定任何 token 時，API Server 會拒絕啟動
+  tokens: {}
+
+# ---------------- 訓練 ----------------
+
+# 實驗紀錄：訓練 / 微調時的指標寫到 trackio
+#   開啟儀表板看折線圖：TRACKIO_DIR=logs/trackio trackio show --project ALPR
+tracking:
+  enabled: true
+  project: ALPR                     # trackio 專案名稱
+  trackio_dir: logs/trackio         # trackio 的資料庫位置（<project>.db）
+
+# 訓練 PARSeq（python src/train/train.py）
+train_parseq:
+  train_csv: data/taiwan_plate_dataset/train/train_gt.csv
+  val_csv: data/taiwan_plate_dataset/valid/valid_gt.csv   # 設成 null 時，從訓練集切出 val_frac 當驗證集
+  val_frac: 0.1
+  epochs: 30
+  batch_size: 64
+  lr: 5.0e-5
+  weight_decay: 0.01
+  freeze_encoder: false     # true：凍結 ViT encoder，只訓練 decoder + head
+  num_workers: 4
+  seed: 42
+  device: null              # cuda | cpu；null = 有 GPU 就用 cuda
+  output_dir: checkpoints   # best.ckpt / last.ckpt / loss_curve.png / train.log
+  finetune_from: null       # 從既有 checkpoint 繼續訓練，例如 checkpoints/best.ckpt
+
+# Fine-tune YOLO（python src/finetune/finetune_yolo.py）
+finetune_yolo:
+  data_root: ../datasets    # 底下要有 train/、valid/（各含 images/、labels/）
+  train_dir: null           # 不填則用 <data_root>/train
+  val_dir: null             # 不填則用 <data_root>/valid；不存在時從 train 切出 val_frac
+  val_frac: 0.1
+  model: yolov8n.pt         # finetune_from 為 null 時使用的預訓練權重
+  finetune_from: models/license_plate_detector.pt
+  imgsz: 640
+  epochs: 50
+  batch_size: 16
+  lr: 5.0e-4
+  freeze: 0                 # 凍結前 N 層（0 = 全部都訓練）
+  patience: 20              # early stopping
+  device: null              # 例如 "0" 或 "cpu"；null = 自動選擇
+  workers: 4
+  seed: 42
+  output_dir: models/yolo   # train/weights/best.pt、results.csv、finetune_yolo.log
