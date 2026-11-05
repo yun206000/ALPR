@@ -5,7 +5,8 @@ utils/tracking.py — 用 trackio 紀錄訓練 / 微調過程。
     TRACKIO_DIR=logs/trackio trackio show --project ALPR
 
 使用方式：
-    with ExperimentTracker(cfg.tracking, "parseq", run_config) as tracker:
+    run_name = make_run_name("parseq")          # parseq_20261105_013000，trackio 上的 run 名稱
+    with ExperimentTracker(cfg.tracking, run_name, run_config) as tracker:
         tracker.log({"train/loss": 0.12}, step=10)
 """
 
@@ -20,10 +21,15 @@ from ..config import TrackingConfig
 from .logger import logger
 
 
+def make_run_name(run_type: str) -> str:
+    """每次訓練的名稱：<類型>_<時間>，同時用於權重資料夾與 trackio run。"""
+    return f"{run_type}_{datetime.now():%Y%m%d_%H%M%S}"
+
+
 class ExperimentTracker:
-    def __init__(self, cfg: TrackingConfig, run_type: str, run_config: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, cfg: TrackingConfig, run_name: str, run_config: Optional[Dict[str, Any]] = None) -> None:
         self.enabled = cfg.enabled
-        self.run_name = f"{run_type}_{datetime.now():%Y%m%d_%H%M%S}"
+        self.run_name = run_name
         self._trackio = None
         if not self.enabled:
             logger.info("tracking.enabled 為 false，不紀錄實驗")

@@ -79,8 +79,8 @@ class TrainParseqConfig(_Section):
     num_workers: int
     seed: int
     device: Optional[str] = Field(description="cuda | cpu；null = 有 GPU 就用 cuda")
-    output_dir: Path
-    finetune_from: Optional[Path] = Field(description="從既有 checkpoint 繼續訓練")
+    output_dir: Path = Field(description="訓練成功後，這個資料夾的內容會整個被這次的結果取代")
+    finetune_from: Optional[Path] = Field(description="以既有 checkpoint 為起點；null = torch.hub 預訓練權重")
 
 
 class FinetuneYoloConfig(_Section):
@@ -99,7 +99,7 @@ class FinetuneYoloConfig(_Section):
     device: Optional[str] = Field(description='例如 "0" 或 "cpu"；null = 自動選擇')
     workers: int
     seed: int
-    output_dir: Path
+    output_dir: Path = Field(description="fine-tune 成功後，這個資料夾的內容會整個被這次的結果取代")
 
 
 # ---------------------------------------------------------------------------

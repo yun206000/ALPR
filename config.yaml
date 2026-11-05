@@ -14,13 +14,13 @@
 
 # 車牌偵測（YOLO）
 detector:
-  weights_path: models/license_plate_detector.pt   # 要用的 YOLO 權重
+  weights_path: models/yolo/finetuned/best.pt     # 要用的 YOLO 權重（每次 fine-tune 完會直接取代這個檔案）
   confidence_threshold: 0.5                        # 偵測信心門檻
   device: cpu                                      # cuda | mps | cpu
 
 # 字元辨識（PARSeq）
 recognizer:
-  weights_path: checkpoints/best.ckpt              # 要用的 PARSeq 權重
+  weights_path: models/parseq/finetuned/best.ckpt  # 要用的 PARSeq 權重（每次訓練完會直接取代這個檔案）
   model_variant: parseq                            # 找不到權重時改用的 torch.hub 預訓練模型（parseq | parseq_tiny）
   charset: "0123456789ABCDEFGHJKLMNPQRSTUVWXYZ-OI" # 辨識結果只保留這些字元
   device: cpu                                      # cuda | mps | cpu
@@ -63,17 +63,17 @@ train_parseq:
   num_workers: 4
   seed: 42
   device: null              # cuda | cpu；null = 有 GPU 就用 cuda
-  output_dir: checkpoints   # best.ckpt / last.ckpt / loss_curve.png / train.log
-  finetune_from: null       # 從既有 checkpoint 繼續訓練，例如 checkpoints/best.ckpt
+  output_dir: models/parseq/finetuned  # 訓練完成後整個資料夾被這次的結果取代：best.ckpt、last.ckpt、loss_curve.png、train.log
+  finetune_from: null       # null = 從 torch.hub 預訓練權重開始；也可以填既有 checkpoint，例如 models/parseq/finetuned/best.ckpt
 
 # Fine-tune YOLO（python src/finetune/finetune_yolo.py）
 finetune_yolo:
-  data_root: ../datasets    # 底下要有 train/、valid/（各含 images/、labels/）
+  data_root: data/finetune_dataset    # 底下要有 train/、valid/（各含 images/、labels/）
   train_dir: null           # 不填則用 <data_root>/train
   val_dir: null             # 不填則用 <data_root>/valid；不存在時從 train 切出 val_frac
   val_frac: 0.1
   model: yolov8n.pt         # finetune_from 為 null 時使用的預訓練權重
-  finetune_from: models/license_plate_detector.pt
+  finetune_from: models/yolo/pretrained/license_plate_detector.pt
   imgsz: 640
   epochs: 50
   batch_size: 16
@@ -83,4 +83,4 @@ finetune_yolo:
   device: null              # 例如 "0" 或 "cpu"；null = 自動選擇
   workers: 4
   seed: 42
-  output_dir: models/yolo   # train/weights/best.pt、results.csv、finetune_yolo.log
+  output_dir: models/yolo/finetuned  # fine-tune 完成後整個資料夾被這次的結果取代：best.pt、last.pt、results.csv、finetune_yolo.log

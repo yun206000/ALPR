@@ -5,7 +5,7 @@ api/server.py — FastAPI REST API 服務。
     Authorization: Bearer <token>
 token 設定在 config.yaml 的 api.tokens（或環境變數 ALPR_API__TOKENS）。
 
-每個辨識請求在 output_dir 存「一份」JSON：
+每個辨識請求在 output_dir 存「一份」JSON，/results 直接讀這些檔案（server 重啟後仍查得到）：
     POST /predict        → <檔名>_<job_id 前 8 碼>.json（PredictionOutput）
     POST /predict/batch  → batch_<batch_id 前 8 碼>.json（BatchOutput，整批一份）
 
@@ -14,10 +14,13 @@ token 設定在 config.yaml 的 api.tokens（或環境變數 ALPR_API__TOKENS）
 
 from __future__ import annotations
 
+import re
 import secrets
 import threading
+import uuid
 from contextlib import asynccontextmanager
-from typing import Dict, List, Optional
+from pathlib import Path
+from typing import Dict, List, Optional, Union
 
 import cv2
 import numpy as np
@@ -27,6 +30,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from pydantic import ValidationError
 
 from ..config import get_config
 from ..models import BatchOutput, ErrorResponse, PredictionOutput
@@ -38,8 +42,6 @@ from ..utils import logger
 # ---------------------------------------------------------------------------
 
 _pipeline: Optional[LPRPipeline] = None
-# 簡易記憶體結果快取 {job_id: PredictionOutput}，server 重啟後清除
-_result_store: Dict[str, PredictionOutput] = {}
 # 模型推論不是 thread-safe（Ultralytics predictor），同一時間只允許一個推論
 _inference_lock = threading.Lock()
 # {token: 用戶端名稱}
@@ -65,6 +67,7 @@ async def lifespan(_app: FastAPI):
     logger.info(f"API server 啟動，允許的用戶端：{', '.join(sorted(_tokens.values()))}")
     _pipeline = LPRPipeline()
     _pipeline.warmup()
+    logger.info(f"辨識結果目錄：{_pipeline.config.output_dir.resolve()}")
     logger.info("API server 就緒")
     yield
 
@@ -211,14 +214,12 @@ async def predict_single(
     """
     以 `multipart/form-data` 上傳一張影像（欄位名稱 `file`），回傳辨識結果。
 
-    結果會存成一份 JSON 到 `output_dir`，之後也可以用 `job_id` 查詢。
+    結果會存成一份 JSON 到 `output_dir`，之後可以用 `job_id` 查詢。
     """
     pipeline = _get_pipeline()
     img = _decode_image_bytes(await file.read(), file.filename)
     result = await _predict(pipeline, img, file.filename or "upload.jpg", save_json=True)
     logger.info(f"[{client}] /predict {result.source_file} → {len(result.plates)} 個車牌")
-
-    _result_store[result.job_id] = result
     return result
 
 
@@ -238,7 +239,7 @@ async def predict_batch(
 
     - `results` 的順序與上傳順序相同。
     - 某張無法解碼時不會讓整批失敗，該張的 `plates` 為空、`error` 有錯誤訊息。
-    - 整批結果存成**一份** JSON 到 `output_dir`。每張的 `job_id` 都可以用 `/results/{job_id}` 查詢。
+    - 整批結果存成**一份** JSON 到 `output_dir`，之後可以用 `batch_id` 查詢。
     """
     pipeline = _get_pipeline()
     results: List[PredictionOutput] = []
@@ -253,8 +254,6 @@ async def predict_batch(
         except Exception as e:
             logger.exception(f"辨識失敗：{name}")
             result = PredictionOutput(source_file=name, error=str(e))
-
-        _result_store[result.job_id] = result
         results.append(result)
 
     batch = BatchOutput(total_images=len(files), results=results)
@@ -263,25 +262,83 @@ async def predict_batch(
     return batch
 
 
+# ---------------------------------------------------------------------------
+# 結果查詢：直接讀 output_dir 裡的 JSON
+# ---------------------------------------------------------------------------
+
+Record = Union[BatchOutput, PredictionOutput]
+
+# 辨識結果的檔名：<檔名>_<id 前 8 碼>.json、batch_<id 前 8 碼>.json（eval_*.json 等其他檔案不算）
+_RECORD_NAME = re.compile(r"^.+_[0-9a-f]{8}\.json$")
+
+
+def _output_dir() -> Path:
+    return _get_pipeline().config.output_dir
+
+
+def _load_record(path: Path) -> Optional[Record]:
+    """讀一個結果檔；不是辨識結果（或讀取失敗）就回傳 None。"""
+    try:
+        text = path.read_text(encoding="utf-8")
+        if path.name.startswith("batch_"):
+            return BatchOutput.model_validate_json(text)
+        return PredictionOutput.model_validate_json(text)
+    except (OSError, ValidationError):
+        return None
+
+
+def _record_id(record: Record) -> str:
+    return record.batch_id if isinstance(record, BatchOutput) else record.job_id
+
+
+def _list_record_files() -> List[Path]:
+    """所有結果檔，新的在前。"""
+    files = []
+    for path in _output_dir().glob("*.json"):
+        if _RECORD_NAME.match(path.name):
+            try:
+                files.append((path.stat().st_mtime, path))
+            except OSError:  # 剛好被刪掉
+                continue
+    return [path for _, path in sorted(files, reverse=True)]
+
+
 @app.get(
-    "/results/{job_id}",
-    response_model=PredictionOutput,
-    responses={404: {"model": ErrorResponse, "description": "找不到該 job_id"}, 401: _ERRORS[401]},
+    "/results/{result_id}",
+    response_model=Record,
+    responses={404: {"model": ErrorResponse, "description": "找不到該筆結果"}, **_ERRORS},
     tags=["Results"],
     summary="查詢辨識結果",
 )
-async def get_result(job_id: str, _client: str = Depends(require_token)):
-    """依 `job_id` 查詢先前的單張辨識結果（批次中的每一張也有自己的 `job_id`）。結果存於記憶體，server 重啟後清除。"""
-    result = _result_store.get(job_id)
-    if result is None:
-        raise HTTPException(status_code=404, detail=f"找不到 job_id={job_id} 的結果")
-    return result
+async def get_result(result_id: str, _client: str = Depends(require_token)):
+    """
+    用 `/predict` 回傳的 `job_id`，或 `/predict/batch` 回傳的 `batch_id` 查詢先前的結果。
+
+    - `job_id` → 回傳 `PredictionOutput`（單張）
+    - `batch_id` → 回傳 `BatchOutput`（整批，有 `batch_id` 與 `results` 欄位）
+    """
+    try:
+        result_id = str(uuid.UUID(result_id))
+    except ValueError:
+        raise HTTPException(status_code=404, detail=f"找不到 id={result_id} 的結果")
+
+    def find() -> Optional[Record]:
+        for path in _output_dir().glob(f"*_{result_id[:8]}.json"):
+            record = _load_record(path)
+            if record is not None and _record_id(record) == result_id:
+                return record
+        return None
+
+    record = await run_in_threadpool(find)
+    if record is None:
+        raise HTTPException(status_code=404, detail=f"找不到 id={result_id} 的結果")
+    return record
 
 
 @app.get(
     "/results",
-    response_model=List[PredictionOutput],
-    responses={401: _ERRORS[401]},
+    response_model=List[Record],
+    responses=_ERRORS,
     tags=["Results"],
     summary="列出辨識結果",
 )
@@ -290,5 +347,14 @@ async def list_results(
     offset: int = Query(0, ge=0, description="略過前幾筆"),
     _client: str = Depends(require_token),
 ):
-    """依辨識時間由舊到新列出記憶體中的結果。"""
-    return list(_result_store.values())[offset: offset + limit]
+    """
+    列出 `output_dir` 裡的辨識結果，**新的在前**。
+
+    每一筆是一次請求：單張是 `PredictionOutput`，批次是 `BatchOutput`（有 `batch_id` 欄位）。
+    """
+
+    def page() -> List[Record]:
+        records = (_load_record(p) for p in _list_record_files()[offset: offset + limit])
+        return [r for r in records if r is not None]
+
+    return await run_in_threadpool(page)

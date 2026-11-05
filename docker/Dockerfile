@@ -40,10 +40,10 @@ ENV USER=alpr \
     LOGNAME=alpr
 
 # 預先下載 PARSeq 的 torch.hub 程式碼（只抓程式碼，不抓預訓練權重），
-# 讓容器在離線時也能載入 checkpoints/ 裡的權重；並先產生 Ultralytics 設定檔與 matplotlib 快取。
+# 讓容器在離線時也能載入 models/parseq/ 裡的權重；並先產生 Ultralytics 設定檔與 matplotlib 快取。
 # 權限開放給所有使用者，因為 compose 會用主機的 UID 執行容器。
 RUN mkdir -p /opt/torch /opt/ultralytics /opt/matplotlib \
-    && python -c "import torch; torch.hub.load('baudm/parseq', 'parseq', pretrained=False, trust_repo=True)" \
+    && python -c "import torch; torch.hub.load('baudm/parseq:main', 'parseq', pretrained=False, trust_repo=True)" \
     && python -c "import ultralytics, matplotlib.pyplot" \
     && chmod -R a+rwX /opt/torch /opt/ultralytics /opt/matplotlib
 
@@ -54,7 +54,7 @@ COPY src/ ./src/
 COPY main.py config.yaml ./
 
 # 權重 / 資料 / 輸出都以 volume 掛載，不打包進映像
-RUN mkdir -p models checkpoints data outputs logs && chmod -R a+rwX /app
+RUN mkdir -p models data outputs logs && chmod -R a+rwX /app
 
 EXPOSE 8000
 

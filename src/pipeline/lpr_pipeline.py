@@ -4,6 +4,7 @@ pipeline/lpr_pipeline.py — 串接 YOLO 偵測與 PARSeq 辨識的車牌辨識�
 
 from __future__ import annotations
 
+import os
 import time
 from pathlib import Path
 from typing import List, Optional, Union
@@ -187,8 +188,7 @@ class LPRPipeline:
     def save_batch(self, batch: BatchOutput, out_path: Optional[Path] = None) -> Path:
         """將整批結果存成一份 JSON（預設 <output_dir>/batch_<id>.json）"""
         out_path = out_path or (self.config.output_dir / f"batch_{batch.batch_id[:8]}.json")
-        out_path.parent.mkdir(parents=True, exist_ok=True)
-        out_path.write_text(batch.model_dump_json(indent=2), encoding="utf-8")
+        _write_json_atomic(out_path, batch.model_dump_json(indent=2))
         logger.info(f"批次結果已儲存：{out_path}")
         return out_path
 
@@ -212,9 +212,14 @@ class LPRPipeline:
         """將單張辨識結果存為 JSON"""
         stem = Path(output.source_file).stem
         out_path = self.config.output_dir / f"{stem}_{output.job_id[:8]}.json"
-        out_path.write_text(
-            output.model_dump_json(indent=2),
-            encoding="utf-8",
-        )
+        _write_json_atomic(out_path, output.model_dump_json(indent=2))
         logger.debug(f"結果已儲存：{out_path}")
         return out_path
+
+
+def _write_json_atomic(path: Path, text: str) -> None:
+    """先寫到暫存檔再改名：其他程式（例如 API 的 /results）不會讀到寫到一半的檔案。"""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    os.replace(tmp, path)

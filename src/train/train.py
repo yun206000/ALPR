@@ -9,9 +9,9 @@ CSV 中 image_path 的解析規則見 src/utils/dataset.py。
 """
 
 import argparse
-import csv
 import random
 import sys
+import tempfile
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -22,10 +22,12 @@ from torch.utils.data import DataLoader, Dataset
 
 # 讓 `python src/train/train.py` 也能 import 專案的 src 套件
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+from src.recognizer.parseq_recognizer import PARSEQ_HUB_REPO  # noqa: E402
 from src.recognizer.transforms import get_transform  # noqa: E402
 from src.config import TrainParseqConfig, add_config_args, apply_overrides, load_config  # noqa: E402
 from src.utils import load_plate_csv, logger, setup_logger  # noqa: E402
-from src.utils.tracking import ExperimentTracker  # noqa: E402
+from src.utils.files import replace_dir  # noqa: E402
+from src.utils.tracking import ExperimentTracker, make_run_name  # noqa: E402
 
 PARSEQ_IMG_SIZE = (32, 128)
 
@@ -44,14 +46,6 @@ class PlateDataset(Dataset):
         img_path, label = self.samples[idx]
         image = Image.open(img_path).convert("RGB")
         return self.transform(image), label
-
-
-def write_split_csv(samples, path: Path) -> None:
-    """把切分結果存成 CSV（image_path 為絕對路徑，可直接當 val_csv 再利用）。"""
-    with path.open("w", encoding="utf-8", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerow(["image_path", "plate_text"])
-        writer.writerows((str(img), text) for img, text in samples)
 
 
 def collate_fn(batch):
@@ -139,8 +133,15 @@ def main():
 
     random.seed(cfg.seed)
     torch.manual_seed(cfg.seed)
-    cfg.output_dir.mkdir(parents=True, exist_ok=True)
-    setup_logger(app_cfg.log_level, log_file=cfg.output_dir / "train.log")
+    out_dir = cfg.output_dir
+
+    # 訓練過程都寫在暫存資料夾，成功跑完才整份換進 out_dir；
+    # 中途失敗或中斷的話，out_dir 裡原本的權重不會被動到（暫存資料夾在程式結束時自動刪除）
+    staging = tempfile.TemporaryDirectory(prefix="alpr_parseq_")
+    run_dir = Path(staging.name)
+    run_name = make_run_name("parseq")  # trackio 的 run 名稱，用來區分每次訓練
+    setup_logger(app_cfg.log_level, log_file=run_dir / "train.log")
+    logger.info(f"trackio run：{run_name} | 完成後會取代 {out_dir}/ 的內容")
     logger.info(f"設定：{cfg.model_dump_json()}")
 
     device = torch.device(cfg.device or ("cuda" if torch.cuda.is_available() else "cpu"))
@@ -151,14 +152,14 @@ def main():
         # Load checkpoint and resume fine-tuning
         logger.info(f"從 checkpoint 載入：{cfg.finetune_from}")
         ckpt = torch.load(cfg.finetune_from, map_location="cpu")
-        model = torch.hub.load("baudm/parseq", "parseq", pretrained=False, trust_repo=True, verbose=False)
+        model = torch.hub.load(PARSEQ_HUB_REPO, "parseq", pretrained=False, trust_repo=True, verbose=False)
         state_dict = ckpt["model_state_dict"]
         model.load_state_dict(state_dict, strict=True)
         
     else:
         # Load pre-trained model from torch hub
         logger.info("從 torch.hub 載入 PARSeq 預訓練權重")
-        model = torch.hub.load("baudm/parseq", "parseq", pretrained=True, trust_repo=True, verbose=False)
+        model = torch.hub.load(PARSEQ_HUB_REPO, "parseq", pretrained=True, trust_repo=True, verbose=False)
 
     model = model.to(device)
     model.train()
@@ -173,12 +174,10 @@ def main():
     if cfg.val_csv is not None:
         val_samples = load_plate_csv(cfg.val_csv)
     else:
-        # val_csv 為 null：從訓練集隨機切出 val_frac，切分結果存到 output_dir
+        # val_csv 為 null：從訓練集隨機切出 val_frac（seed 固定，每次切法相同）
         random.Random(cfg.seed).shuffle(train_samples)
         n_val = max(1, int(len(train_samples) * cfg.val_frac))
         val_samples, train_samples = train_samples[:n_val], train_samples[n_val:]
-        write_split_csv(train_samples, cfg.output_dir / "_train_split.csv")
-        write_split_csv(val_samples, cfg.output_dir / "_val_split.csv")
         logger.info(f"val_csv 為 null，從訓練集切出 {cfg.val_frac:.0%} 當驗證集")
 
     train_ds = PlateDataset(train_samples, PARSEQ_IMG_SIZE, augment=True)
@@ -198,7 +197,7 @@ def main():
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=total_steps)
 
     # 4. Training loop（指標紀錄到 trackio）
-    with ExperimentTracker(app_cfg.tracking, "parseq", cfg.model_dump(mode="json")) as tracker:
+    with ExperimentTracker(app_cfg.tracking, run_name, cfg.model_dump(mode="json")) as tracker:
         logger.info("評估初始模型（epoch 0）...")
         val_loss_0 = evaluate_loss(model, val_loader, device)
         acc_0 = evaluate(model, val_loader, device)
@@ -242,10 +241,10 @@ def main():
                 "hyper_parameters": dict(model.hparams),
                 "val_acc": acc,
             }
-            torch.save(ckpt, cfg.output_dir / "last.ckpt")
+            torch.save(ckpt, run_dir / "last.ckpt")
             if acc > best_acc:
                 best_acc = acc
-                torch.save(ckpt, cfg.output_dir / "best.ckpt")
+                torch.save(ckpt, run_dir / "best.ckpt")
                 logger.info(f"新的最佳模型已儲存（val_acc={acc:.4f}）")
             tracker.log(
                 {"train/epoch_loss": avg_loss, "val/loss": val_loss, "val/acc": acc,
@@ -254,11 +253,32 @@ def main():
             )
 
         # 5. Plot loss curve
-        loss_curve_path = cfg.output_dir / "loss_curve.png"
+        loss_curve_path = run_dir / "loss_curve.png"
         draw_loss_curve(train_losses, val_losses, loss_curve_path)
 
         logger.info(f"訓練完成 | 最佳 val_acc={best_acc:.4f}")
-        logger.info(f"權重已儲存：{cfg.output_dir}")
+
+    # 6. 換進 out_dir
+    # best.ckpt 只在 val_acc 超過訓練前（epoch 0）時才會存；一次都沒超過代表這次訓練沒有變好，
+    # 取代的話 out_dir 會沒有 best.ckpt、推論讀不到權重，所以保留原本的內容
+    if not (run_dir / "best.ckpt").exists():
+        logger.warning(
+            f"沒有任何 epoch 的 val_acc 超過訓練前的 {acc_0:.4f}，沒有產生 best.ckpt；"
+            f"保留 {out_dir}/ 原本的權重，不取代"
+        )
+        staging.cleanup()
+        return
+
+    replace_dir(run_dir, out_dir)
+    setup_logger(app_cfg.log_level, log_file=out_dir / "train.log")  # 之後的 log 接在 out_dir 的 log 檔後面
+    staging.cleanup()
+
+    best = out_dir / "best.ckpt"
+    logger.info(f"已取代 {best}")
+    if Path(app_cfg.recognizer.weights_path).resolve() == best.resolve():
+        logger.info("recognizer.weights_path 已經指向這個檔案；API Server 重新啟動後才會載入新權重")
+    else:
+        logger.info(f"要用這個權重推論，請把 config.yaml 的 recognizer.weights_path 改成 {best}")
 
 
 if __name__ == "__main__":

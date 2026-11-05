@@ -18,6 +18,10 @@ from ..models import RecognitionResult
 from ..utils import logger
 from .transforms import get_transform
 
+# 明確指定 branch：沒指定時 torch.hub 每次載入都會先連 GitHub 判斷是 main 還是 master，
+# GitHub 回 5xx 錯誤時會直接失敗（就算本機已經有快取）；指定後有快取就完全不連網。
+PARSEQ_HUB_REPO = "baudm/parseq:main"
+
 
 def postprocess_plate(text: str) -> str:
     """
@@ -52,7 +56,7 @@ class PARSeqRecognizer:
             logger.info(f"載入 PARSeq 權重：{weights}")
             ckpt = torch.load(str(weights), map_location=self.device)
             model = torch.hub.load(
-                "baudm/parseq", "parseq",
+                PARSEQ_HUB_REPO, "parseq",
                 pretrained=False, trust_repo=True, verbose=False,
                 **ckpt["hyper_parameters"],
             )
@@ -64,7 +68,7 @@ class PARSeqRecognizer:
             f"（{self.config.model_variant}，未針對車牌訓練）"
         )
         return torch.hub.load(
-            "baudm/parseq", self.config.model_variant,
+            PARSEQ_HUB_REPO, self.config.model_variant,
             pretrained=True, trust_repo=True, verbose=False,
         )
 

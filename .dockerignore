@@ -13,7 +13,6 @@ docker/.env
 *.log
 *.md
 
-checkpoints/
 models/
 data/
 outputs/

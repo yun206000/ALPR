@@ -26,8 +26,9 @@ ALPR/
 │   ├── utils/                  # logger、影像處理、讀取 GT CSV、實驗紀錄
 │   ├── train/train.py          # 訓練 PARSeq 字元辨識模型
 │   └── finetune/finetune_yolo.py  # Fine-tune YOLO 車牌偵測模型
-├── models/                     # YOLO 權重
-├── checkpoints/                # PARSeq 權重
+├── models/                     # 所有權重（見「模型權重」）
+│   ├── yolo/                   #   YOLO 車牌偵測
+│   └── parseq/                 #   PARSeq 字元辨識
 ├── data/                       # 資料集與推論用影像
 ├── outputs/                    # 辨識 / 評估結果 JSON、log
 ├── logs/                       # 實驗紀錄（trackio 資料庫）
@@ -74,15 +75,41 @@ conda env export -n ALPR --no-builds | sed '/^prefix:/d' > environment.yml
 
 ## 模型權重
 
-要用哪一組權重，由 `config.yaml` 決定：
+所有權重都放在 `models/` 底下，偵測和辨識各一個子資料夾。每次訓練 / fine-tune 成功後，`finetuned/` 整個被新結果**取代**，推論設定不用改：
+
+```
+models/
+├── yolo/
+│   ├── pretrained/license_plate_detector.pt   # 別人訓練好的車牌偵測權重（fine-tune 的起點）
+│   └── finetuned/best.pt                      # 最近一次 fine-tune 的結果（每次 fine-tune 會取代）
+└── parseq/
+    ├── legacy/best.ckpt                       # 整理前就有的訓練結果
+    └── finetuned/best.ckpt                    # 最近一次訓練的結果（每次訓練會取代）
+```
+
+推論要用哪一組權重，由 `config.yaml` 決定。預設**直接指向訓練輸出的檔案**，不需要另外複製或搬移：
 
 | 用途 | 設定 | 目前的值 |
 |------|------|----------|
-| YOLO 車牌偵測 | `detector.weights_path` | `models/license_plate_detector.pt` |
-| PARSeq 字元辨識 | `recognizer.weights_path` | `checkpoints/best.ckpt` |
+| YOLO 車牌偵測 | `detector.weights_path` | `models/yolo/finetuned/best.pt` |
+| PARSeq 字元辨識 | `recognizer.weights_path` | `models/parseq/finetuned/best.ckpt` |
+
+- **直接換**：照 `config.yaml` 訓練，成功後自動取代 `finetuned/`。API Server 或 Docker 容器要重啟才會載入新權重。
+- **先比較再決定**：用 `--output-dir` 輸出到別的資料夾，`finetuned/` 不會被動到；再用環境變數暫時指向它，在測試集上比較準確率：
+  ```bash
+  python src/train/train.py --output-dir models/parseq/trial
+  ALPR_RECOGNIZER__WEIGHTS_PATH=models/parseq/trial/best.ckpt \
+      python main.py --eval data/taiwan_plate_dataset/test/test_gt.csv
+  ```
+  確定比較好，再把 `trial/` 的檔案搬進 `finetuned/`（或把 `config.yaml` 的路徑改過去）。
+
+每次訓練在 trackio 儀表板上是一個 run（`parseq_<時間>`、`yolo_<時間>`），權重被取代後，舊的訓練曲線仍然留著。
+
+在測試集（84 張）上的比較：fine-tune 過的 `best.pt` 整串準確率 98.81%，`license_plate_detector.pt` 是 96.43%。
 
 - 找不到 YOLO 權重會直接報錯。
 - 找不到 PARSeq 權重時，會改用 torch.hub 的官方預訓練模型。這個模型沒針對車牌訓練，準確率會差很多。
+- 不要的訓練結果，直接刪掉整個資料夾即可。
 
 ## 資料集
 
@@ -167,12 +194,14 @@ python src/train/train.py --epochs 1 --output-dir /tmp/debug   # 臨時覆寫
 
 | 設定 | 說明 |
 |------|------|
-| `train_csv` / `val_csv` | 訓練 / 驗證集的 GT CSV。`val_csv: null` 時，從訓練集隨機切出 `val_frac` 當驗證集，切分結果存成 `_train_split.csv`、`_val_split.csv` |
+| `train_csv` / `val_csv` | 訓練 / 驗證集的 GT CSV。`val_csv: null` 時，從訓練集隨機切出 `val_frac` 當驗證集（`seed` 固定，每次切法相同） |
 | `freeze_encoder` | `true`：凍結 ViT encoder，只訓練 decoder 與 head |
-| `finetune_from` | 從既有的 checkpoint 繼續訓練 |
+| `finetune_from` | `null`：從 torch.hub 的預訓練權重開始；填 checkpoint 路徑（例如 `models/parseq/finetuned/best.ckpt`）則以它為起點，只載入模型權重，optimizer 和學習率排程從頭開始 |
 | `device` | `null` = 有 GPU 就用 cuda |
 
-輸出（在 `output_dir`）：
+輸出在 `output_dir`（預設 `models/parseq/finetuned/`）。訓練過程都寫在系統暫存資料夾，**成功跑完才整個取代** `output_dir` 原本的內容；中途失敗或按 Ctrl+C 中斷，原本的權重不會被動到。如果沒有任何 epoch 的驗證準確率超過訓練前，就不會產生 `best.ckpt`，這時也會保留原本的內容、不取代。
+
+> 舊的權重會被覆蓋。想保留的話，訓練前先把 `finetuned/` 複製一份，或用 `--output-dir` 輸出到別的資料夾。
 
 | 檔案 | 說明 |
 |------|------|
@@ -181,7 +210,7 @@ python src/train/train.py --epochs 1 --output-dir /tmp/debug   # 臨時覆寫
 | `loss_curve.png` | train / val loss 曲線 |
 | `train.log` | 訓練過程的完整 log |
 
-訓練出來的權重要拿來推論時，把 `recognizer.weights_path` 指過去。建議先用 `--eval` 在 test set 上確認準確率。
+`recognizer.weights_path` 預設就指向 `finetuned/best.ckpt`，API Server 要重新啟動才會載入新權重。
 
 ### Fine-tune YOLO（車牌偵測）
 
@@ -203,19 +232,20 @@ python src/finetune/finetune_yolo.py --epochs 1 --batch-size 8   # 臨時覆寫
 | 設定 | 說明 |
 |------|------|
 | `data_root` | 偵測資料集，底下要有 `train/`、`valid/` |
-| `val_frac` | 沒有 `valid/` 時，從 `train/` 切出的比例。用 symlink 建立，不會動到原始資料 |
+| `val_frac` | 沒有 `valid/` 時，從 `train/` 切出的比例。切分用的 symlink 和 Ultralytics 需要的 `data.yaml` 都放在系統暫存資料夾，訓練完自動刪除，不會動到原始資料 |
 | `finetune_from` | 要 fine-tune 的權重；`null` 時改用 `model`（例如 `yolov8n.pt`）的預訓練權重 |
 | `freeze` | 凍結前 N 層 |
 
-輸出全部放在 `output_dir` 底下，不會產生 `runs/` 資料夾：
+輸出在 `output_dir`（預設 `models/yolo/finetuned/`），不會產生 `runs/` 資料夾。訓練過程都在系統暫存資料夾進行，**成功跑完才整個取代** `output_dir` 原本的內容；中途失敗或按 Ctrl+C 中斷，原本的權重不會被動到。
+
+> 舊的權重會被覆蓋。想保留的話，fine-tune 前先把 `finetuned/` 複製一份，或用 `--output-dir models/yolo/<別的名稱>` 輸出到別的資料夾。
 
 | 路徑 | 說明 |
 |------|------|
-| `train/weights/best.pt` | 最佳權重，要拿來推論時把 `detector.weights_path` 指過去 |
-| `train/weights/last.pt` | 最後一個 epoch 的權重 |
-| `train/results.csv` | 每個 epoch 的 loss / mAP |
-| `val/` | 訓練結束後在驗證集上的評估結果 |
-| `data.yaml` | 本次訓練使用的資料設定 |
+| `best.pt` | 最佳權重，`detector.weights_path` 預設就指向這裡；API Server 要重新啟動才會載入新權重 |
+| `last.pt` | 最後一個 epoch 的權重 |
+| `results.csv` | 每個 epoch 的 loss / mAP |
+| `args.yaml` | 本次訓練的完整參數（Ultralytics 產生） |
 | `finetune_yolo.log` | 本腳本的 log。Ultralytics 自己的逐 epoch 輸出不會寫進來，請看 `results.csv` |
 
 > Ultralytics 在 GPU 上訓練時會做 AMP 檢查，並在目前目錄下載 `yolo26n.pt`。這個檔案已經加進 `.gitignore`，可以直接刪掉。
@@ -228,7 +258,7 @@ python src/finetune/finetune_yolo.py --epochs 1 --batch-size 8   # 臨時覆寫
 TRACKIO_DIR=logs/trackio trackio show --project ALPR
 ```
 
-每次執行是一個 run，名稱為 `parseq_<時間>` 或 `yolo_<時間>`，該次的完整設定也會一起存進紀錄。
+每次執行是一個 run，名稱為 `parseq_<時間>` 或 `yolo_<時間>`；該次的完整設定也會一起存進紀錄。權重每次都會被取代，但舊的訓練曲線仍然留在 trackio 裡。
 
 | 訓練 | 指標 | step |
 |------|------|------|
@@ -262,7 +292,7 @@ TRACKIO_DIR=logs/trackio trackio show --project ALPR
 
 3. 掛載的資料夾必須**先存在，而且是你自己的**。compose 設了 `create_host_path: false`，資料夾不存在時會直接報錯，不會讓 Docker 用 root 自動建立。
    ```bash
-   mkdir -p models checkpoints data outputs logs
+   mkdir -p models data outputs logs
    ```
 
 ### 掛載對照
@@ -271,7 +301,6 @@ TRACKIO_DIR=logs/trackio trackio show --project ALPR
 |------|------|
 | `config.yaml` | `/app/config.yaml`（唯讀） |
 | `models/` | `/app/models` |
-| `checkpoints/` | `/app/checkpoints` |
 | `data/` | `/app/data` |
 | `outputs/` | `/app/outputs` |
 | `logs/` | `/app/logs` |
@@ -339,8 +368,8 @@ docker compose -f docker/docker-compose.yml run --rm alpr \
 | GET | `/health` | 健康檢查，`pipeline_ready` 表示模型是否載入完成 | |
 | POST | `/predict` | 上傳一張影像，回傳辨識結果 | ✅ |
 | POST | `/predict/batch` | 一次上傳多張影像，回傳整批結果 | ✅ |
-| GET | `/results/{job_id}` | 查詢先前的單張辨識結果 | ✅ |
-| GET | `/results` | 列出辨識結果（分頁） | ✅ |
+| GET | `/results/{id}` | 用 `job_id` 或 `batch_id` 查詢先前的結果 | ✅ |
+| GET | `/results` | 列出辨識結果（新的在前，分頁） | ✅ |
 | GET | `/docs`、`/redoc`、`/openapi.json` | API 文件 | |
 
 ### 驗證
@@ -379,7 +408,7 @@ ALPR_API__TOKENS='{"web": "<token>"}' python main.py --serve
 |--------|------|
 | 400 | `/predict` 上傳的檔案無法解碼成影像 |
 | 401 | 沒帶 token 或 token 錯誤（回應 header 會有 `WWW-Authenticate: Bearer`） |
-| 404 | `/results/{job_id}` 找不到該筆結果 |
+| 404 | `/results/{id}` 找不到該筆結果 |
 | 422 | 請求格式錯誤，例如沒帶檔案、`limit` 超出範圍 |
 | 503 | 模型還沒載入完成 |
 
@@ -464,16 +493,22 @@ Response `200`（`BatchOutput`）：
 }
 ```
 
+- 用 `batch_id` 可以再查詢整批結果。
 - `results` 的每一筆都是上面的 `PredictionOutput`，順序與上傳順序相同。
 - 某張無法解碼時不會讓整批失敗，該張的 `plates` 為空、`error` 有錯誤訊息。
 
-#### `GET /results/{job_id}`
+#### `GET /results/{id}`
 
-回傳該筆的 `PredictionOutput`。批次中的每一張也有自己的 `job_id`，同樣可以查。
+一次請求就是一筆結果：
+
+- `/predict` 回傳的 `job_id` → 回傳 `PredictionOutput`
+- `/predict/batch` 回傳的 `batch_id` → 回傳 `BatchOutput`（整批）
+
+批次裡個別影像的 `job_id` 不能單獨查詢，請用 `batch_id` 查整批。
 
 #### `GET /results?limit=50&offset=0`
 
-回傳 `PredictionOutput` 陣列，依辨識時間由舊到新。`limit` 範圍是 1–1000（預設 50），`offset` 預設 0。
+回傳結果陣列，**新的在前**。單張是 `PredictionOutput`，批次是 `BatchOutput`，前端可以用有沒有 `batch_id` 欄位來區分。`limit` 範圍是 1–1000（預設 50），`offset` 預設 0。
 
 #### `GET /health`
 
@@ -484,7 +519,7 @@ Response `200`（`BatchOutput`）：
 ### 其他行為
 
 - 每個辨識**請求**在 `output_dir` 存一份 JSON：`/predict` 存 `<檔名>_<job_id 前 8 碼>.json`，`/predict/batch` 整批存成一份 `batch_<batch_id 前 8 碼>.json`。
-- `/results` 的結果只存在記憶體中，server 重啟後就會清除。
+- `/results` 直接讀 `output_dir` 裡的這些 JSON，server 重啟後仍查得到；刪掉檔案就等於刪掉那筆結果。CLI 辨識（`--image`、`--folder`）存到 `output_dir` 的結果也會列出來，評估報告（`eval_*.json`）不會。
 - 推論在背景執行緒中進行，辨識期間 `/health` 等其他請求仍能立即回應。模型同一時間只跑一個推論，多個請求會依序處理。
 
 ## 輸出格式

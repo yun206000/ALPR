@@ -34,15 +34,10 @@ x-alpr-common: &alpr-common
       target: /app/config.yaml
       read_only: true
       bind: *no-create-host-path
-    # YOLO 偵測權重
+    # 模型權重（models/yolo、models/parseq）
     - type: bind
       source: ../models
       target: /app/models
-      bind: *no-create-host-path
-    # PARSeq 辨識權重
-    - type: bind
-      source: ../checkpoints
-      target: /app/checkpoints
       bind: *no-create-host-path
     # 推論用影像
     - type: bind
