@@ -101,7 +101,7 @@ def prepare_dataset(train_dir: Path, val_dir, val_frac: float, work_dir: Path, s
         return train_dir / "images", val_dir / "images"
 
     # 沒有獨立的 val 目錄 -> 從 train 隨機切
-    random.Random(seed).shuffle(train_pairs)
+    random.Random(seed).shuffle(train_pairs)  # NOSONAR S2245：固定 seed 切 train/val，需要可重現，與安全無關
     n_val = max(1, int(len(train_pairs) * val_frac))
     val_pairs, train_pairs = train_pairs[:n_val], train_pairs[n_val:]
     logger.info(f"自動切分 | train={len(train_pairs)} | val={len(val_pairs)} | val_frac={val_frac}")
@@ -164,6 +164,7 @@ def main():
             imgsz=cfg.imgsz,
             epochs=cfg.epochs,
             batch=cfg.batch_size,
+            optimizer=cfg.optimizer,  # 一定要明確指定，預設的 auto 會忽略 lr0
             lr0=cfg.lr,
             patience=cfg.patience,
             workers=cfg.workers,
@@ -180,7 +181,7 @@ def main():
         if cfg.device is not None:
             train_kwargs["device"] = cfg.device
 
-        logger.info(f"開始 fine-tune | epochs={cfg.epochs} | batch={cfg.batch_size} | lr={cfg.lr}")
+        logger.info(f"開始 fine-tune | epochs={cfg.epochs} | batch={cfg.batch_size} | optimizer={cfg.optimizer} | lr={cfg.lr}")
         with ExperimentTracker(app_cfg.tracking, run_name, cfg.model_dump(mode="json")) as tracker:
             add_tracking_callbacks(model, tracker)
             model.train(**train_kwargs)

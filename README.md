@@ -195,11 +195,12 @@ python src/train/train.py --epochs 1 --output-dir /tmp/debug   # 臨時覆寫
 | 設定 | 說明 |
 |------|------|
 | `train_csv` / `val_csv` | 訓練 / 驗證集的 GT CSV。`val_csv: null` 時，從訓練集隨機切出 `val_frac` 當驗證集（`seed` 固定，每次切法相同） |
+| `crop_val` | `true`：驗證集是整張影像，先用 YOLO（`detector` 的權重與門檻）裁出車牌再驗證，與推論時 PARSeq 看到的輸入相同；驗證時的字串後處理也與推論相同 |
 | `freeze_encoder` | `true`：凍結 ViT encoder，只訓練 decoder 與 head |
 | `finetune_from` | `null`：從 torch.hub 的預訓練權重開始；填 checkpoint 路徑（例如 `models/parseq/finetuned/best.ckpt`）則以它為起點，只載入模型權重，optimizer 和學習率排程從頭開始 |
 | `device` | `null` = 有 GPU 就用 cuda |
 
-輸出在 `output_dir`（預設 `models/parseq/finetuned/`）。訓練過程都寫在系統暫存資料夾，**成功跑完才整個取代** `output_dir` 原本的內容；中途失敗或按 Ctrl+C 中斷，原本的權重不會被動到。如果沒有任何 epoch 的驗證準確率超過訓練前，就不會產生 `best.ckpt`，這時也會保留原本的內容、不取代。
+輸出在 `output_dir`（預設 `models/parseq/finetuned/`）。訓練過程都寫在系統暫存資料夾，**成功跑完才整個取代** `output_dir` 原本的內容；中途失敗或按 Ctrl+C 中斷，原本的權重不會被動到。`best.ckpt` 是驗證準確率最高的 epoch（準確率相同時取 val loss 較低者）；如果沒有任何 epoch 比訓練前更好，就不會產生 `best.ckpt`，這時也會保留原本的內容、不取代。
 
 > 舊的權重會被覆蓋。想保留的話，訓練前先把 `finetuned/` 複製一份，或用 `--output-dir` 輸出到別的資料夾。
 
@@ -234,6 +235,7 @@ python src/finetune/finetune_yolo.py --epochs 1 --batch-size 8   # 臨時覆寫
 | `data_root` | 偵測資料集，底下要有 `train/`、`valid/` |
 | `val_frac` | 沒有 `valid/` 時，從 `train/` 切出的比例。切分用的 symlink 和 Ultralytics 需要的 `data.yaml` 都放在系統暫存資料夾，訓練完自動刪除，不會動到原始資料 |
 | `finetune_from` | 要 fine-tune 的權重；`null` 時改用 `model`（例如 `yolov8n.pt`）的預訓練權重 |
+| `optimizer` / `lr` | optimizer 與初始學習率。不提供 Ultralytics 的 `auto`，因為 `auto` 會忽略 `lr`，自己決定 optimizer 和學習率 |
 | `freeze` | 凍結前 N 層 |
 
 輸出在 `output_dir`（預設 `models/yolo/finetuned/`），不會產生 `runs/` 資料夾。訓練過程都在系統暫存資料夾進行，**成功跑完才整個取代** `output_dir` 原本的內容；中途失敗或按 Ctrl+C 中斷，原本的權重不會被動到。
@@ -324,7 +326,7 @@ docker compose -f docker/docker-compose.yml build
 
 ```bash
 # GPU 版（需要 nvidia-container-toolkit）
-docker compose -f docker/docker-compose.yml up -d
+docker compose -f docker/docker-compose.yml up -d --build
 
 # 沒有 GPU 的機器
 docker compose -f docker/docker-compose.yml --profile cpu up -d alpr-cpu

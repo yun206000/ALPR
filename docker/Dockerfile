@@ -56,6 +56,9 @@ COPY main.py config.yaml ./
 # 權重 / 資料 / 輸出都以 volume 掛載，不打包進映像
 RUN mkdir -p models data outputs logs && chmod -R a+rwX /app
 
+# 預設不以 root 執行（直接 docker run 時也一樣）；compose 會再用 user: 換成主機的 UID/GID
+USER 1000:1000
+
 EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \

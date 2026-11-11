@@ -15,6 +15,7 @@ import tempfile
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 import torch.nn.functional as F
 from PIL import Image
@@ -22,10 +23,10 @@ from torch.utils.data import DataLoader, Dataset
 
 # 讓 `python src/train/train.py` 也能 import 專案的 src 套件
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from src.recognizer.parseq_recognizer import PARSEQ_HUB_REPO  # noqa: E402
+from src.recognizer.parseq_recognizer import PARSEQ_HUB_REPO, normalize_plate_text  # noqa: E402
 from src.recognizer.transforms import get_transform  # noqa: E402
 from src.config import TrainParseqConfig, add_config_args, apply_overrides, load_config  # noqa: E402
-from src.utils import load_plate_csv, logger, setup_logger  # noqa: E402
+from src.utils import crop_bbox, load_plate_csv, logger, setup_logger  # noqa: E402
 from src.utils.files import replace_dir  # noqa: E402
 from src.utils.tracking import ExperimentTracker, make_run_name  # noqa: E402
 
@@ -33,7 +34,7 @@ PARSEQ_IMG_SIZE = (32, 128)
 
 
 class PlateDataset(Dataset):
-    """(影像路徑, 車牌文字) 的資料集。"""
+    """(影像, 車牌文字) 的資料集；影像可以是檔案路徑，或已經裁切好的 PIL 影像。"""
 
     def __init__(self, samples, img_size, augment: bool = False):
         self.samples = samples
@@ -43,9 +44,38 @@ class PlateDataset(Dataset):
         return len(self.samples)
 
     def __getitem__(self, idx):
-        img_path, label = self.samples[idx]
-        image = Image.open(img_path).convert("RGB")
+        src, label = self.samples[idx]
+        image = src if isinstance(src, Image.Image) else Image.open(src).convert("RGB")
         return self.transform(image), label
+
+
+def crop_plates(samples, app_cfg, device: torch.device):
+    """用 YOLO 偵測車牌並裁切，回傳 [(裁切後的 PIL 影像, 車牌文字), ...]。
+
+    偵測器、信心門檻、crop_padding 都和推論 pipeline 相同，PARSeq 驗證時看到的輸入才會和實際推論一致。
+    偵測不到車牌的影像保留整張（仍然計入驗證）。
+    """
+    from src.detector import YOLODetector
+
+    detector = YOLODetector(app_cfg.detector.model_copy(update={"device": device.type}))
+    cropped, n_missed = [], 0
+    for img_path, label in samples:
+        rgb = np.asarray(Image.open(img_path).convert("RGB"))
+        detections = detector.detect(rgb)
+        if detections:
+            b = detections[0].bbox  # 分數最高的框
+            rgb = crop_bbox(rgb, b.x1, b.y1, b.x2, b.y2, padding=app_cfg.recognizer.crop_padding)
+        else:
+            n_missed += 1
+        cropped.append((Image.fromarray(np.ascontiguousarray(rgb)), label))
+
+    del detector
+    if device.type == "cuda":
+        torch.cuda.empty_cache()
+    logger.info(f"驗證影像已用 YOLO 裁出車牌：{len(samples) - n_missed}/{len(samples)} 張")
+    if n_missed:
+        logger.warning(f"{n_missed} 張驗證影像偵測不到車牌，以整張影像驗證")
+    return cropped
 
 
 def collate_fn(batch):
@@ -79,7 +109,8 @@ def compute_loss(model, images, labels):
 
 
 @torch.no_grad()
-def evaluate(model, loader, device):
+def evaluate(model, loader, device, charset: str):
+    """完全正確率：模型輸出經過和推論相同的後處理（normalize_plate_text）後，與 GT 完全相同才算對。"""
     model.eval()
     correct, total = 0, 0
     for images, labels in loader:
@@ -89,7 +120,7 @@ def evaluate(model, loader, device):
         preds, _ = model.tokenizer.decode(probs)
         for p, gt in zip(preds, labels):
             total += 1
-            if p.strip().upper() == gt.strip().upper():
+            if normalize_plate_text(p, charset) == gt.strip():
                 correct += 1
     model.train()
     return correct / max(total, 1)
@@ -151,7 +182,8 @@ def main():
     if cfg.finetune_from is not None:
         # Load checkpoint and resume fine-tuning
         logger.info(f"從 checkpoint 載入：{cfg.finetune_from}")
-        ckpt = torch.load(cfg.finetune_from, map_location="cpu")
+        # weights_only=True：只還原 tensor / 基本型別，不執行 checkpoint 裡的任意 pickle 程式碼
+        ckpt = torch.load(cfg.finetune_from, map_location="cpu", weights_only=True)
         model = torch.hub.load(PARSEQ_HUB_REPO, "parseq", pretrained=False, trust_repo=True, verbose=False)
         state_dict = ckpt["model_state_dict"]
         model.load_state_dict(state_dict, strict=True)
@@ -175,10 +207,16 @@ def main():
         val_samples = load_plate_csv(cfg.val_csv)
     else:
         # val_csv 為 null：從訓練集隨機切出 val_frac（seed 固定，每次切法相同）
-        random.Random(cfg.seed).shuffle(train_samples)
+        random.Random(cfg.seed).shuffle(train_samples)  # NOSONAR S2245：固定 seed 切 train/val，需要可重現，與安全無關
         n_val = max(1, int(len(train_samples) * cfg.val_frac))
         val_samples, train_samples = train_samples[:n_val], train_samples[n_val:]
         logger.info(f"val_csv 為 null，從訓練集切出 {cfg.val_frac:.0%} 當驗證集")
+
+    # 訓練集是裁好的車牌，驗證集是整張影像：先用 YOLO 裁出車牌，驗證準確率才反映實際推論
+    if cfg.crop_val and cfg.val_csv is not None:
+        val_samples = crop_plates(val_samples, app_cfg, device)
+    elif cfg.crop_val:
+        logger.info("驗證集取自訓練集（已是裁切好的車牌），不再用 YOLO 裁切")
 
     train_ds = PlateDataset(train_samples, PARSEQ_IMG_SIZE, augment=True)
     val_ds = PlateDataset(val_samples, PARSEQ_IMG_SIZE, augment=False)
@@ -200,9 +238,9 @@ def main():
     with ExperimentTracker(app_cfg.tracking, run_name, cfg.model_dump(mode="json")) as tracker:
         logger.info("評估初始模型（epoch 0）...")
         val_loss_0 = evaluate_loss(model, val_loader, device)
-        acc_0 = evaluate(model, val_loader, device)
+        acc_0 = evaluate(model, val_loader, device, app_cfg.recognizer.charset)
         logger.info(f"Epoch 0/{cfg.epochs} | val_loss={val_loss_0:.4f} | val_acc={acc_0:.4f}")
-        best_acc = acc_0
+        best_acc, best_loss = acc_0, val_loss_0
         step = 0
         train_losses = []
         val_losses = []
@@ -227,7 +265,7 @@ def main():
 
             avg_loss = running_loss / len(train_loader)
             val_loss = evaluate_loss(model, val_loader, device)
-            acc = evaluate(model, val_loader, device)
+            acc = evaluate(model, val_loader, device, app_cfg.recognizer.charset)
             train_losses.append(avg_loss)
             val_losses.append(val_loss)
             logger.info(
@@ -242,10 +280,12 @@ def main():
                 "val_acc": acc,
             }
             torch.save(ckpt, run_dir / "last.ckpt")
-            if acc > best_acc:
-                best_acc = acc
+            # 準確率較高，或準確率相同但 val_loss 較低，才算更好
+            # （驗證集小，準確率很快就持平；只看準確率會一直停在第一個達到該準確率的 epoch）
+            if acc > best_acc or (acc == best_acc and val_loss < best_loss):
+                best_acc, best_loss = acc, val_loss
                 torch.save(ckpt, run_dir / "best.ckpt")
-                logger.info(f"新的最佳模型已儲存（val_acc={acc:.4f}）")
+                logger.info(f"新的最佳模型已儲存（val_acc={acc:.4f} | val_loss={val_loss:.4f}）")
             tracker.log(
                 {"train/epoch_loss": avg_loss, "val/loss": val_loss, "val/acc": acc,
                  "val/best_acc": best_acc, "epoch": epoch},
@@ -256,14 +296,14 @@ def main():
         loss_curve_path = run_dir / "loss_curve.png"
         draw_loss_curve(train_losses, val_losses, loss_curve_path)
 
-        logger.info(f"訓練完成 | 最佳 val_acc={best_acc:.4f}")
+        logger.info(f"訓練完成 | 最佳 val_acc={best_acc:.4f} | val_loss={best_loss:.4f}")
 
     # 6. 換進 out_dir
-    # best.ckpt 只在 val_acc 超過訓練前（epoch 0）時才會存；一次都沒超過代表這次訓練沒有變好，
+    # best.ckpt 只在比訓練前（epoch 0）更好時才會存；一次都沒有代表這次訓練沒有變好，
     # 取代的話 out_dir 會沒有 best.ckpt、推論讀不到權重，所以保留原本的內容
     if not (run_dir / "best.ckpt").exists():
         logger.warning(
-            f"沒有任何 epoch 的 val_acc 超過訓練前的 {acc_0:.4f}，沒有產生 best.ckpt；"
+            f"沒有任何 epoch 比訓練前（val_acc={acc_0:.4f} | val_loss={val_loss_0:.4f}）更好，沒有產生 best.ckpt；"
             f"保留 {out_dir}/ 原本的權重，不取代"
         )
         staging.cleanup()

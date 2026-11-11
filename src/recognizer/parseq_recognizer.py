@@ -32,6 +32,17 @@ def postprocess_plate(text: str) -> str:
     return text.upper().replace("O", "0").replace("I", "L")
 
 
+def normalize_plate_text(text: str, charset: str) -> str:
+    """模型原始輸出 → 最終車牌字串：轉大寫、只保留 charset 中的字元、台灣車牌後處理。
+
+    推論與訓練中的驗證共用，兩邊算出的準確率才會一致。
+    """
+    text = text.strip().upper()
+    if charset:
+        text = "".join(c for c in text if c in charset)
+    return postprocess_plate(text)
+
+
 class PARSeqRecognizer:
     """
     封裝 PARSeq 模型，提供統一的字元辨識介面。
@@ -54,7 +65,8 @@ class PARSeqRecognizer:
         weights = self.config.weights_path
         if weights.exists():
             logger.info(f"載入 PARSeq 權重：{weights}")
-            ckpt = torch.load(str(weights), map_location=self.device)
+            # weights_only=True：只還原 tensor / 基本型別，不執行 checkpoint 裡的任意 pickle 程式碼
+            ckpt = torch.load(str(weights), map_location=self.device, weights_only=True)
             model = torch.hub.load(
                 PARSEQ_HUB_REPO, "parseq",
                 pretrained=False, trust_repo=True, verbose=False,
@@ -95,12 +107,9 @@ class PARSeqRecognizer:
 
         results = []
         for text, score in zip(preds, scores):
-            text = text.strip().upper()
-            if self.config.charset:
-                text = "".join(c for c in text if c in self.config.charset)
             results.append(
                 RecognitionResult(
-                    plate_text=postprocess_plate(text),
+                    plate_text=normalize_plate_text(text, self.config.charset),
                     recognizer_score=float(score.mean().item()),
                 )
             )

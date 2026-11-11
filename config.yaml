@@ -15,7 +15,7 @@
 # 車牌偵測（YOLO）
 detector:
   weights_path: models/yolo/finetuned/best.pt     # 要用的 YOLO 權重（每次 fine-tune 完會直接取代這個檔案）
-  confidence_threshold: 0.5                        # 偵測信心門檻
+  confidence_threshold: 0.25                       # 偵測信心門檻（0.5 會漏掉分數 0.3~0.5 的車牌；低於 0.15 誤判明顯增加）
   device: cpu                                      # cuda | mps | cpu
 
 # 字元辨識（PARSeq）
@@ -55,6 +55,7 @@ train_parseq:
   train_csv: data/taiwan_plate_dataset/train/train_gt.csv
   val_csv: data/taiwan_plate_dataset/valid/valid_gt.csv   # 設成 null 時，從訓練集切出 val_frac 當驗證集
   val_frac: 0.1
+  crop_val: true            # 驗證影像先用 YOLO（detector 區塊的權重 / 門檻）裁出車牌再驗證，與推論一致；val_csv 為 null 時驗證集取自已裁切的訓練集，不會再裁
   epochs: 30
   batch_size: 64
   lr: 5.0e-5
@@ -77,6 +78,7 @@ finetune_yolo:
   imgsz: 640
   epochs: 50
   batch_size: 16
+  optimizer: AdamW          # SGD | Adam | AdamW | NAdam | RAdam | RMSProp（不提供 auto：auto 會忽略下面的 lr）
   lr: 5.0e-4
   freeze: 0                 # 凍結前 N 層（0 = 全部都訓練）
   patience: 20              # early stopping

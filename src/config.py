@@ -71,6 +71,9 @@ class TrainParseqConfig(_Section):
     train_csv: Path = Field(description="訓練集 GT CSV（image_path,plate_text）")
     val_csv: Optional[Path] = Field(description="驗證集 GT CSV；null 時從訓練集切出 val_frac")
     val_frac: float = Field(gt=0.0, lt=1.0)
+    crop_val: bool = Field(
+        description="驗證影像先用 YOLO 裁出車牌再送進 PARSeq（detector 的權重 / 門檻與 recognizer.crop_padding），與推論時的輸入一致"
+    )
     epochs: int
     batch_size: int
     lr: float
@@ -93,6 +96,9 @@ class FinetuneYoloConfig(_Section):
     imgsz: int
     epochs: int
     batch_size: int
+    optimizer: Literal["SGD", "Adam", "AdamW", "NAdam", "RAdam", "RMSProp"] = Field(
+        description="不提供 Ultralytics 的 auto：auto 會忽略 lr，自己決定 optimizer 與學習率"
+    )
     lr: float
     freeze: int = Field(ge=0, description="凍結前 N 層（0 = 全部都訓練）")
     patience: int = Field(description="early stopping patience（epochs）")

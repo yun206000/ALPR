@@ -1,7 +1,7 @@
 task: detect
 mode: train
 model: models/yolo/pretrained/license_plate_detector.pt
-data: /tmp/alpr_yolo_6s5801xw/data.yaml
+data: /tmp/alpr_yolo_nosjog2u/data.yaml
 epochs: 50
 time: null
 patience: 20
@@ -12,11 +12,11 @@ save_period: -1
 cache: false
 device: null
 workers: 4
-project: /tmp/alpr_yolo_6s5801xw
+project: /tmp/alpr_yolo_nosjog2u
 name: run
 exist_ok: true
 pretrained: false
-optimizer: auto
+optimizer: AdamW
 verbose: true
 seed: 42
 deterministic: true
@@ -107,4 +107,4 @@ auto_augment: randaugment
 erasing: 0.4
 cfg: null
 tracker: botsort.yaml
-save_dir: /tmp/alpr_yolo_6s5801xw/run
+save_dir: /tmp/alpr_yolo_nosjog2u/run
