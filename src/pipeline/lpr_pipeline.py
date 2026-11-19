@@ -75,7 +75,7 @@ class LPRPipeline:
         對單張影像執行車牌辨識。
 
         Args:
-            source: 影像路徑 (str/Path) 或 RGB ndarray
+            source: 影像路徑 (str/Path) 或 BGR ndarray（cv2 格式）
             source_name: 顯示用檔名（當 source 為 ndarray 時使用）
             save_json: 是否將結果存為 JSON 檔案
 
@@ -99,8 +99,9 @@ class LPRPipeline:
         img_rgb = bgr_to_rgb(img_bgr)
         h, w = img_rgb.shape[:2]
 
-        # 偵測車牌
-        detections = self.detector.detect(img_rgb)
+        # 偵測車牌：Ultralytics 把 numpy 輸入視為 BGR（cv2 格式），所以給 BGR 原圖；
+        # 裁切給 PARSeq 的則用 RGB（PARSeq 的前處理以 RGB 為準）
+        detections = self.detector.detect(img_bgr)
 
         # 裁切每個車牌並辨識字元
         plate_results: List[PlateResult] = []

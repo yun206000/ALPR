@@ -22,3 +22,12 @@ data/*
 
 # 訓練過程的 log
 *.log
+
+# 測試與覆蓋率報告（python -m pytest 產生）
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# docker save 匯出的映像檔
+dist/

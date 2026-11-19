@@ -16,6 +16,7 @@ x-alpr-common: &alpr-common
   build:
     context: ..
     dockerfile: docker/Dockerfile
+    target: runtime    # 權重以 volume 掛載；內含權重的版本見 Dockerfile 的 bundle target
   image: alpr:latest
   # 用主機使用者的 UID/GID 執行，輸出的檔案才不會變成 root 擁有
   user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"

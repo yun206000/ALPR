@@ -1,0 +1,20 @@
+{
+  "train_csv": "data/taiwan_plate_dataset/train/train_gt.csv",
+  "val_csv": "data/taiwan_plate_dataset/valid/valid_gt.csv",
+  "val_frac": 0.1,
+  "crop_val": true,
+  "epochs": 30,
+  "batch_size": 64,
+  "lr": 0.0005,
+  "weight_decay": 0.01,
+  "freeze_encoder": false,
+  "num_workers": 4,
+  "seed": 42,
+  "device": null,
+  "output_dir": "<實驗用暫存資料夾，不取代 models/>",
+  "finetune_from": null,
+  "_Username": null,
+  "_Created": "2026-11-19T17:43:46.294829+00:00",
+  "_Group": null,
+  "_Command": "python src/train/train.py --lr 5e-4"
+}

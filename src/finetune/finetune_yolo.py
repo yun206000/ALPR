@@ -172,7 +172,8 @@ def main():
             project=str(run_dir.parent),
             name=run_dir.name,
             exist_ok=True,  # run_dir 已經建好（放 log），直接寫進去
-            pretrained=cfg.finetune_from is None,
+            # 不傳 pretrained：Ultralytics 預設會沿用上面 YOLO(weights) 載入的權重。
+            # 傳 pretrained=False 會丟掉載入的權重、從隨機初始化開始訓練。
             plots=False,
         )
         if cfg.freeze > 0:

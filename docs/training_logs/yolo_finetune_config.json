@@ -1,0 +1,23 @@
+{
+  "data_root": "data/finetune_dataset",
+  "train_dir": null,
+  "val_dir": null,
+  "val_frac": 0.1,
+  "model": "yolov8n.pt",
+  "finetune_from": "models/yolo/pretrained/license_plate_detector.pt",
+  "imgsz": 640,
+  "epochs": 50,
+  "batch_size": 16,
+  "optimizer": "AdamW",
+  "lr": 0.0005,
+  "freeze": 0,
+  "patience": 20,
+  "device": null,
+  "workers": 4,
+  "seed": 42,
+  "output_dir": "models/yolo/finetuned",
+  "_Username": null,
+  "_Created": "2026-11-13T10:00:00.745876+00:00",
+  "_Group": null,
+  "_Command": "python -W ignore src/finetune/finetune_yolo.py"
+}

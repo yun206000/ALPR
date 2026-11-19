@@ -21,7 +21,7 @@ class YOLODetector:
 
     使用方式：
         detector = YOLODetector(config)
-        results = detector.detect(image_rgb)
+        results = detector.detect(image_bgr)
     """
 
     def __init__(self, config: DetectorConfig) -> None:
@@ -44,7 +44,8 @@ class YOLODetector:
         偵測影像中的車牌。
 
         Args:
-            image: RGB ndarray, shape (H, W, 3)
+            image: BGR ndarray（cv2 格式），shape (H, W, 3)。Ultralytics 把 numpy 輸入視為 BGR，
+                   傳 RGB 會讓紅藍通道對調、信心分數下降
             confidence_threshold: 覆蓋 config 的 threshold
 
         Returns:

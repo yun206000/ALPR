@@ -23,7 +23,7 @@ ALPR/
 │   │   └── transforms.py       #   訓練與推論共用的影像前處理
 │   ├── pipeline/               # 偵測 + 辨識整合流程
 │   ├── api/                    # FastAPI REST 服務
-│   ├── utils/                  # logger、影像處理、讀取 GT CSV、實驗紀錄
+│   ├── utils/                  # logger、影像處理、讀取 GT CSV、實驗紀錄、trackio CSV 匯出
 │   ├── train/train.py          # 訓練 PARSeq 字元辨識模型
 │   └── finetune/finetune_yolo.py  # Fine-tune YOLO 車牌偵測模型
 ├── models/                     # 所有權重（見「模型權重」）
@@ -32,6 +32,11 @@ ALPR/
 ├── data/                       # 資料集與推論用影像
 ├── outputs/                    # 辨識 / 評估結果 JSON、log
 ├── logs/                       # 實驗紀錄（trackio 資料庫）
+├── MODEL_CARD.md               # 模型卡（效能、超參數、資料集、軟硬體需求、使用手冊）
+├── docs/training_logs/         # 目前權重的訓練紀錄（trackio 相容 CSV）
+├── tests/                      # 自動化測試（pytest）
+├── pyproject.toml              # pytest / 覆蓋率設定
+├── requirements-dev.txt        # 測試用套件（pytest、pytest-cov）
 └── docker/                     # Dockerfile、docker-compose.yml
 ```
 
@@ -105,7 +110,7 @@ models/
 
 每次訓練在 trackio 儀表板上是一個 run（`parseq_<時間>`、`yolo_<時間>`），權重被取代後，舊的訓練曲線仍然留著。
 
-在測試集（84 張）上的比較：fine-tune 過的 `best.pt` 整串準確率 98.81%，`license_plate_detector.pt` 是 96.43%。
+在測試集（84 張）上的比較（PARSeq 都用 `finetuned/best.ckpt`）：YOLO 用 fine-tune 後的 `best.pt` 整串準確率 100%，用 `license_plate_detector.pt` 是 98.81%。
 
 - 找不到 YOLO 權重會直接報錯。
 - 找不到 PARSeq 權重時，會改用 torch.hub 的官方預訓練模型。這個模型沒針對車牌訓練，準確率會差很多。
@@ -160,17 +165,12 @@ python main.py --eval data/taiwan_plate_dataset/test/test_gt.csv --device cuda
 
 ```
 樣本數      84
-完全正確    81（96.43%）
-字元準確率  98.63%
-未偵測到    1
-
-錯誤樣本（3）
-檔名                                                GT        預測
---------------------------------------------------  --------  ----------
-000560_jpg.rf.ec2e4f245fa240c2ebcfd947829c4f70.jpg  303-CZL   303-CZL-
-000570_jpg.rf.2d3b19183bbb122518619b59e5c8d78c.jpg  NCQ-3555  NC0-3555
-000633_jpg.rf.8e66e1a3df83aeb5cbcbba5ae89b8164.jpg  258-QEN   <未偵測到>
+完全正確    84（100.00%）
+字元準確率  100.00%
+未偵測到    0
 ```
+
+有錯誤時，下面會再列出每個錯誤樣本的檔名、GT 與預測（沒偵測到車牌顯示 `<未偵測到>`）。
 
 | 指標 | 說明 |
 |------|------|
@@ -234,7 +234,7 @@ python src/finetune/finetune_yolo.py --epochs 1 --batch-size 8   # 臨時覆寫
 |------|------|
 | `data_root` | 偵測資料集，底下要有 `train/`、`valid/` |
 | `val_frac` | 沒有 `valid/` 時，從 `train/` 切出的比例。切分用的 symlink 和 Ultralytics 需要的 `data.yaml` 都放在系統暫存資料夾，訓練完自動刪除，不會動到原始資料 |
-| `finetune_from` | 要 fine-tune 的權重；`null` 時改用 `model`（例如 `yolov8n.pt`）的預訓練權重 |
+| `finetune_from` | fine-tune 的起點權重（預設 `models/yolo/pretrained/license_plate_detector.pt`），訓練從這組權重開始；`null` 時改用 `model`（例如 `yolov8n.pt`）的預訓練權重 |
 | `optimizer` / `lr` | optimizer 與初始學習率。不提供 Ultralytics 的 `auto`，因為 `auto` 會忽略 `lr`，自己決定 optimizer 和學習率 |
 | `freeze` | 凍結前 N 層 |
 
@@ -270,6 +270,30 @@ TRACKIO_DIR=logs/trackio trackio show --project ALPR
 | | `metrics/precision(B)`、`metrics/recall(B)`、`metrics/mAP50(B)`、`metrics/mAP50-95(B)`、`val/*_loss` | 每個 epoch；最後一個點（step = epochs + 1）是 `best.pt` 的最終驗證結果 |
 
 設定在 `config.yaml` 的 `tracking` 區塊。`enabled: false` 可以關閉紀錄，例如臨時除錯時用 `ALPR_TRACKING__ENABLED=false python src/train/train.py --epochs 1`。
+
+## 測試與覆蓋率
+
+```bash
+pip install -r requirements-dev.txt     # 第一次：安裝 pytest、pytest-cov
+
+python -m pytest                        # 全部測試 + 覆蓋率報告
+python -m pytest -m "not integration"   # 只跑單元測試（不載入真實模型，約 4 秒）
+python -m pytest tests/test_api.py -k batch   # 只跑部分測試
+```
+
+- **單元測試**：YOLO / PARSeq 換成假模型，測試設定讀取、影像處理、pipeline 流程、API（驗證、上傳限制、結果查詢）、CLI、訓練腳本的資料處理與輸出取代。
+- **整合測試**（標記 `integration`）：載入 `models/` 的真實權重，用 `data/taiwan_plate_dataset/test` 的影像跑完整辨識與 API；PARSeq 訓練流程用合成影像在 CPU 跑 1 epoch。缺權重或資料集時自動略過。
+- 測試的輸出都寫在暫存資料夾，不會動到 `outputs/`、`models/` 或 trackio 紀錄。
+
+每次執行都會產生覆蓋率報告：
+
+| 報告 | 位置 | 用途 |
+|------|------|------|
+| 終端機 | 執行結果最後 | 列出沒有完全覆蓋的檔案與行號 |
+| HTML | `htmlcov/index.html` | 逐行標示哪些程式碼有被執行（綠）、沒有（紅）、分支只走過一邊（黃） |
+| XML | `coverage.xml` | 給 SonarQube 等工具匯入（`sonar.python.coverage.reportPaths=coverage.xml`） |
+
+覆蓋率低於 85% 時測試會失敗（`pyproject.toml` 的 `fail_under`）。目前結果：全部 105 個測試通過，**整體 99.8%**（行 + 分支）；只跑單元測試約 89%。
 
 ## Docker
 
@@ -318,9 +342,9 @@ docker compose -f docker/docker-compose.yml build
 
 - build 時會依 `environment.yml` 建 conda 環境，並預先下載 PARSeq 的 torch.hub 程式碼。第一次要下載 PyTorch + CUDA，會花比較久，映像也有好幾 GB。
 - 只改 `src/`、`main.py` 時，重新 build 只會重跑最後幾層，很快。改了 `environment.yml` 才會重建 conda 環境。
-- 權重、資料、`config.yaml` 都不會打包進映像（見 `.dockerignore`），改權重或設定不用重新 build。
+- 權重、資料都不會打包進這個映像（見 `.dockerignore`），改權重或設定不用重新 build；要內含權重的映像見下方「內含權重的映像」。
 - CPU / GPU 共用同一個映像（`alpr:latest`）。
-- 也可以不透過 compose：`docker build -f docker/Dockerfile -t alpr:latest .`
+- 也可以不透過 compose：`docker build -f docker/Dockerfile --target runtime -t alpr:latest .`（不指定 `--target` 會建出內含權重的 bundle，見下方）
 
 ### 啟動 API Server
 
@@ -360,6 +384,27 @@ docker compose -f docker/docker-compose.yml run --rm alpr \
 docker compose -f docker/docker-compose.yml run --rm alpr \
     python src/finetune/finetune_yolo.py --data-root /datasets
 ```
+
+### 內含權重的映像（交付 / 離線部署）
+
+`docker/Dockerfile` 的 `bundle` target 會把推論權重、fine-tune / 訓練的起點權重（含 PARSeq 官方預訓練權重）與 `MODEL_CARD.md` 一起打包，不需要掛載任何檔案、也不需要網路：
+
+```bash
+docker build -f docker/Dockerfile --target bundle -t alpr-bundle:1.0.0 .
+
+# CPU（映像預設）
+docker run -d --name alpr -p 8000:8000 -e ALPR_API__TOKENS='{"web": "<token>"}' alpr-bundle:1.0.0
+# GPU
+docker run -d --name alpr --gpus all -p 8000:8000 -e ALPR_API__TOKENS='{"web": "<token>"}' \
+    -e ALPR_DETECTOR__DEVICE=cuda -e ALPR_RECOGNIZER__DEVICE=cuda alpr-bundle:1.0.0
+
+# 匯出成檔案交付 / 在另一台機器載入
+docker save alpr-bundle:1.0.0 | gzip > alpr-bundle_1.0.0.tar.gz   # 映像 8.5 GB，壓縮後約 3.9 GB
+docker load -i alpr-bundle_1.0.0.tar.gz
+```
+
+- compose 使用的是 `runtime` target（`alpr:latest`，權重以 volume 掛載），兩者共用同樣的環境層。
+- 模型效能、超參數、資料集、軟硬體需求與完整使用手冊見 [`MODEL_CARD.md`](MODEL_CARD.md)。
 
 ## API
 
@@ -411,6 +456,8 @@ ALPR_API__TOKENS='{"web": "<token>"}' python main.py --serve
 | 400 | `/predict` 上傳的檔案無法解碼成影像 |
 | 401 | 沒帶 token 或 token 錯誤（回應 header 會有 `WWW-Authenticate: Bearer`） |
 | 404 | `/results/{id}` 找不到該筆結果 |
+| 411 | 上傳時沒有 `Content-Length`（不接受 chunked 上傳；curl、requests、瀏覽器都會自動帶） |
+| 413 | 超過上傳限制：整個請求、單一檔案、批次張數或影像像素，見下方「上傳限制」 |
 | 422 | 請求格式錯誤，例如沒帶檔案、`limit` 超出範圍 |
 | 503 | 模型還沒載入完成 |
 
@@ -497,7 +544,8 @@ Response `200`（`BatchOutput`）：
 
 - 用 `batch_id` 可以再查詢整批結果。
 - `results` 的每一筆都是上面的 `PredictionOutput`，順序與上傳順序相同。
-- 某張無法解碼時不會讓整批失敗，該張的 `plates` 為空、`error` 有錯誤訊息。
+- 某張無法解碼、或超過檔案 / 像素上限時不會讓整批失敗，該張的 `plates` 為空、`error` 有錯誤訊息。
+- 一次最多 `api.max_batch_files` 張，超過時整批回 413。
 
 #### `GET /results/{id}`
 
@@ -510,13 +558,25 @@ Response `200`（`BatchOutput`）：
 
 #### `GET /results?limit=50&offset=0`
 
-回傳結果陣列，**新的在前**。單張是 `PredictionOutput`，批次是 `BatchOutput`，前端可以用有沒有 `batch_id` 欄位來區分。`limit` 範圍是 1–1000（預設 50），`offset` 預設 0。
+回傳結果陣列，**新的在前**。單張是 `PredictionOutput`，批次是 `BatchOutput`，前端可以用有沒有 `batch_id` 欄位來區分。`limit` 範圍是 1–1000（預設 50），`offset` 預設 0。讀不出來的結果檔會略過，不佔 `limit` / `offset` 的名額。
 
 #### `GET /health`
 
 ```json
 { "status": "ok", "pipeline_ready": true }
 ```
+
+### 上傳限制
+
+設定在 `config.yaml` 的 `api` 區塊，超過時回 413：
+
+| 設定 | 預設 | 說明 |
+|------|------|------|
+| `max_upload_mb` | 10 | 單一檔案上限（MB） |
+| `max_batch_files` | 20 | `/predict/batch` 一次最多幾張 |
+| `max_image_pixels` | 50000000 | 影像寬 × 高上限，解碼前先讀影像標頭檢查，擋掉「檔案很小、解碼後很大」的影像 |
+
+整個請求的上限是 `max_upload_mb × max_batch_files + 1 MB`，在讀取內容之前就依 `Content-Length` 判斷。
 
 ### 其他行為
 

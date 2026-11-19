@@ -61,7 +61,7 @@ def crop_plates(samples, app_cfg, device: torch.device):
     cropped, n_missed = [], 0
     for img_path, label in samples:
         rgb = np.asarray(Image.open(img_path).convert("RGB"))
-        detections = detector.detect(rgb)
+        detections = detector.detect(np.ascontiguousarray(rgb[:, :, ::-1]))  # YOLO 吃 BGR（同推論 pipeline）
         if detections:
             b = detections[0].bbox  # 分數最高的框
             rgb = crop_bbox(rgb, b.x1, b.y1, b.x2, b.y2, padding=app_cfg.recognizer.crop_padding)
@@ -169,7 +169,10 @@ def main():
     # 訓練過程都寫在暫存資料夾，成功跑完才整份換進 out_dir；
     # 中途失敗或中斷的話，out_dir 裡原本的權重不會被動到（暫存資料夾在程式結束時自動刪除）
     staging = tempfile.TemporaryDirectory(prefix="alpr_parseq_")
-    run_dir = Path(staging.name)
+    # 輸出放在子資料夾：暫存資料夾本身的權限是 700，直接整份換進 out_dir 會讓其他 UID
+    # （例如以 UID 1000 執行的容器）讀不到權重；子資料夾依 umask 建立（通常是 755 / 775）
+    run_dir = Path(staging.name) / "run"
+    run_dir.mkdir()
     run_name = make_run_name("parseq")  # trackio 的 run 名稱，用來區分每次訓練
     setup_logger(app_cfg.log_level, log_file=run_dir / "train.log")
     logger.info(f"trackio run：{run_name} | 完成後會取代 {out_dir}/ 的內容")

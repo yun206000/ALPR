@@ -1,0 +1,3 @@
+# 開發 / 測試用套件（不放進 Docker 映像）：pip install -r requirements-dev.txt
+pytest==9.0.3
+pytest-cov==7.1.0

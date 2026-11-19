@@ -1,0 +1,36 @@
+# 只放測試與覆蓋率的設定（專案相依套件在 environment.yml）
+#   跑測試 + 覆蓋率：python -m pytest
+#   只跑快速的單元測試：python -m pytest -m "not integration"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "--cov",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-report=html",
+    "--cov-report=xml",
+]
+markers = [
+    "integration: 載入真實模型權重 / 資料集的測試（較慢；缺檔案時自動略過）",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["src", "main"]
+branch = true
+
+[tool.coverage.report]
+precision = 1
+show_missing = true
+fail_under = 85  # 完整測試約 99%；只跑單元測試（-m "not integration"）約 88%
+exclude_also = [
+    'if __name__ == "__main__":',
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"

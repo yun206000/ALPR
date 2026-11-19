@@ -4,7 +4,8 @@
 > 內容依據專案原始碼與實際量測結果整理。
 >
 > - 程式碼版本：commit `a759fa4`（branch `main`）之後的工作目錄
-> - 整理日期：2026-11-11
+> - 整理日期：2026-11-20
+> - 模型卡（效能與綜合分數、超參數影響實驗、訓練 / 推論時間、最低軟硬體需求、使用手冊）另見 `MODEL_CARD.md`
 > - 量測環境：Intel Core i7-14700F（28 執行緒）、NVIDIA GeForce RTX 4090（24 GB）、Ubuntu（Linux 6.8）
 
 ---
@@ -27,9 +28,10 @@
 14. [部署（Docker）](#14-部署docker)
 15. [Log](#15-log)
 16. [安全性](#16-安全性)
-17. [已知限制與待改進事項](#17-已知限制與待改進事項)
-18. [相依套件版本](#18-相依套件版本)
-19. [附錄：名詞對照](#19-附錄名詞對照)
+17. [自動化測試與覆蓋率](#17-自動化測試與覆蓋率)
+18. [已知限制與待改進事項](#18-已知限制與待改進事項)
+19. [相依套件版本](#19-相依套件版本)
+20. [附錄：名詞對照](#20-附錄名詞對照)
 
 ---
 
@@ -47,7 +49,7 @@
 
 | 階段 | 模型 | 輸入 | 輸出 |
 |------|------|------|------|
-| 1. 偵測（Detection） | YOLOv8n（Ultralytics） | 整張 RGB 影像 | 每個車牌的 bounding box 與偵測信心分數 |
+| 1. 偵測（Detection） | YOLOv8n（Ultralytics） | 整張影像（BGR） | 每個車牌的 bounding box 與偵測信心分數 |
 | 2. 辨識（Recognition） | PARSeq（ViT encoder + Transformer decoder） | 裁切後的車牌影像（resize 為 32×128） | 車牌字串與辨識信心分數 |
 
 兩階段分開的好處：
@@ -127,6 +129,7 @@ ALPR/
 │       ├── image.py               # 讀圖、色彩轉換、裁切、列出影像
 │       ├── dataset.py             # 讀取 GT CSV（含路徑解析規則）
 │       ├── tracking.py            # trackio 實驗紀錄
+│       ├── trackio_export.py      # 把 trackio 的 run 匯出成 trackio 相容 CSV
 │       └── files.py               # 訓練輸出資料夾的整份取代
 ├── models/                        # 權重（見 4.3、5.3）
 │   ├── yolo/pretrained/           #   fine-tune 起點
@@ -135,6 +138,11 @@ ALPR/
 ├── data/                          # 資料集（不進 git）
 ├── outputs/                       # 辨識 / 評估結果 JSON、推論 log（不進 git）
 ├── logs/trackio/                  # trackio 資料庫（不進 git）
+├── MODEL_CARD.md                  # 模型卡（效能、超參數、資料集、需求、使用手冊）
+├── docs/training_logs/            # 目前權重的訓練紀錄（trackio 相容 CSV + 設定）
+├── tests/                         # 自動化測試（pytest，見 17）
+├── pyproject.toml                 # pytest / 覆蓋率設定
+├── requirements-dev.txt           # 測試用套件（不放進 Docker 映像）
 └── docker/                        # Dockerfile、docker-compose.yml、.env（.env 不進 git）
 ```
 
@@ -144,7 +152,7 @@ ALPR/
 |-------------|------|------|
 | `AppConfig` | `src/config.py` | 讀取 `config.yaml` + 環境變數，以 pydantic 驗證；欄位缺漏或多餘都會直接報錯 |
 | `LPRPipeline` | `src/pipeline/lpr_pipeline.py` | 串接偵測與辨識；提供 `predict` / `predict_batch` / `predict_folder` / `save_batch` / `warmup` |
-| `YOLODetector` | `src/detector/yolo_detector.py` | 載入 YOLO 權重；`detect(image_rgb)` 回傳依分數排序的 bbox |
+| `YOLODetector` | `src/detector/yolo_detector.py` | 載入 YOLO 權重；`detect(image_bgr)` 回傳依分數排序的 bbox |
 | `PARSeqRecognizer` | `src/recognizer/parseq_recognizer.py` | 載入 PARSeq；`recognize_batch(crops)` 回傳文字與分數；含字元過濾與後處理 |
 | `get_transform` | `src/recognizer/transforms.py` | PARSeq 前處理（訓練可加資料增強），訓練與推論共用，確保一致 |
 | `evaluate` | `src/evaluation.py` | 對 GT CSV 跑整條 pipeline，計算完全正確率與字元準確率 |
@@ -160,10 +168,11 @@ ALPR/
 ```mermaid
 flowchart TD
     A["輸入：檔案路徑或 BGR ndarray"] --> B["讀圖（cv2.imread）<br/>失敗 → 回傳 error 欄位"]
-    B --> C["BGR → RGB"]
-    C --> D["YOLO 偵測<br/>conf ≥ 0.25、NMS IoU 0.7"]
+    B --> D["YOLO 偵測（BGR 原圖）<br/>conf ≥ 0.4、NMS IoU 0.7"]
     D --> E["bbox 裁切到影像範圍內<br/>過濾寬或高 ≤ 0 的框"]
-    E --> F["每個 bbox 外擴 5% 後裁切"]
+    B --> C["BGR → RGB"]
+    C --> F["每個 bbox 外擴 5% 後從 RGB 影像裁切"]
+    E --> F
     F --> G["PARSeq 批次辨識<br/>resize 32×128、Normalize(0.5, 0.5)"]
     G --> H["解碼 → 轉大寫 → 只保留 charset 字元<br/>→ O→0、I→L"]
     H --> I["綜合可信度 = 偵測分數 × 辨識分數"]
@@ -174,8 +183,8 @@ flowchart TD
 | 步驟 | 說明 | 相關設定 |
 |------|------|----------|
 | 1. 讀圖 | 路徑輸入用 `cv2.imread`（BGR）；API 上傳用 `cv2.imdecode`。讀取失敗不拋例外，回傳帶 `error` 的結果 | — |
-| 2. 色彩轉換 | BGR → RGB（YOLO 與 PARSeq 都吃 RGB） | — |
-| 3. 偵測 | `YOLO.predict(conf=threshold, device=...)`；其餘參數用 Ultralytics 預設：NMS IoU 0.7、`max_det` 300、輸入 resize 到 640（letterbox）、FP32 | `detector.confidence_threshold`（0.25）、`detector.device` |
+| 2. 色彩轉換 | YOLO 直接用 BGR 原圖（Ultralytics 把 numpy 輸入視為 BGR）；另外轉一份 RGB 給 PARSeq 裁切用（PARSeq 的前處理以 RGB 為準） | — |
+| 3. 偵測 | `YOLO.predict(conf=threshold, device=...)`；其餘參數用 Ultralytics 預設：NMS IoU 0.7、`max_det` 300、輸入 resize 到 640（letterbox）、FP32 | `detector.confidence_threshold`（0.4）、`detector.device` |
 | 4. bbox 後處理 | 座標 clamp 到影像範圍，去掉退化的框，依 `detector_score` 由高到低排序 | — |
 | 5. 裁切 | 每邊外擴 bbox 寬 / 高的 `crop_padding` 倍（預設 5%），再 clamp 到影像範圍 | `recognizer.crop_padding`（0.05） |
 | 6. 辨識 | 同一張影像的所有車牌一次組成 batch 送進 PARSeq | `recognizer.device` |
@@ -210,7 +219,8 @@ yolov8n.yaml（從頭訓練，非 COCO 預訓練）
        外部取得的車牌偵測權重：2023-06-04 以 Ultralytics 8.0.112 訓練，
        30 epochs、SGD、lr0 0.01、batch 16、imgsz 640，類別名 license_plate
        └─ models/yolo/finetuned/best.pt     ← 推論使用
-            2026-11-05 以 Ultralytics 8.4.56 在 data/finetune_dataset 上 fine-tune 50 epochs（AdamW、lr0 5e-4）
+            2026-11-13 以 Ultralytics 8.4.56 從 license_plate_detector.pt 的權重開始，
+            在 data/finetune_dataset 上 fine-tune 50 epochs（AdamW、lr0 5e-4）
 ```
 
 ### 4.3 權重檔
@@ -218,7 +228,7 @@ yolov8n.yaml（從頭訓練，非 COCO 預訓練）
 | 檔案 | 說明 |
 |------|------|
 | `models/yolo/pretrained/license_plate_detector.pt` | fine-tune 的起點（`finetune_yolo.finetune_from`） |
-| `models/yolo/finetuned/best.pt` | 驗證集 fitness（mAP50-95）最高的 epoch，**推論使用**（`detector.weights_path`） |
+| `models/yolo/finetuned/best.pt` | 驗證集 fitness（0.1 × mAP50 + 0.9 × mAP50-95）最高的 epoch（epoch 40），**推論使用**（`detector.weights_path`） |
 | `models/yolo/finetuned/last.pt` | 最後一個 epoch |
 | `models/yolo/finetuned/results.csv` | 每個 epoch 的 loss、precision、recall、mAP、學習率 |
 | `models/yolo/finetuned/args.yaml` | Ultralytics 記錄的完整訓練參數 |
@@ -228,7 +238,7 @@ yolov8n.yaml（從頭訓練，非 COCO 預訓練）
 
 | 參數 | 值 | 來源 |
 |------|----|------|
-| 起點權重 | `license_plate_detector.pt` | `finetune_yolo.finetune_from` |
+| 起點權重 | `license_plate_detector.pt`（355 / 355 個參數張量全部載入） | `finetune_yolo.finetune_from` |
 | 資料集 | `data/finetune_dataset`（見 6.2） | `finetune_yolo.data_root` |
 | epochs | 50 | config |
 | batch | 16 | config |
@@ -244,20 +254,22 @@ yolov8n.yaml（從頭訓練，非 COCO 預訓練）
 | seed | 42 | config |
 | AMP | 開啟 | Ultralytics 預設 |
 | 資料增強 | mosaic 1.0（最後 10 epochs 關閉）、水平翻轉 0.5、HSV（h 0.015 / s 0.7 / v 0.4）、scale 0.5、translate 0.1、copy_paste 0 | Ultralytics 預設 |
-| 訓練時間 | 約 3 分鐘（50 epochs，Ultralytics 計時 174 秒） | |
+| 訓練時間 | 約 3 分鐘（50 epochs，Ultralytics 計時 172 秒，RTX 4090） | |
 
 ### 4.5 訓練結果（驗證集 400 張）
 
-| 指標 | best.pt（epoch 50） |
-|------|---------|
-| Precision | 0.9972 |
-| Recall | 1.000 |
-| mAP@0.5 | 0.995 |
-| mAP@0.5:0.95 | 0.767 |
-| val box / cls / dfl loss | 0.831 / 0.375 / 1.486 |
+| 指標 | 起點 `license_plate_detector.pt` | **fine-tune 後 `best.pt`（epoch 40）** |
+|------|------|------|
+| Precision | 0.934 | **1.000** |
+| Recall | 0.925 | **0.997** |
+| mAP@0.5 | 0.898 | **0.995** |
+| mAP@0.5:0.95 | 0.289 | **0.783** |
 
-- fitness（0.1 × mAP50 + 0.9 × mAP50-95）在最後一個 epoch 最高，所以 `best.pt` 與 `last.pt` 是同一個 epoch。
-- 起點 `license_plate_detector.pt` 與 fine-tune 後在整條 pipeline 上的差異見 7.4。
+- 兩者都用 Ultralytics `model.val` 在同一個驗證集上量測（imgsz 640）。
+- mAP@0.5:0.95 從 0.289 提升到 0.783：起點權重找得到車牌，但框得不夠準；fine-tune 後框的位置與大小明顯更貼近標註。
+- 第 1 個 epoch 的 mAP@0.5 就達到 0.995，之後主要提升 mAP@0.5:0.95（epoch 1：0.538 → epoch 40：0.784）。
+- `best.pt` 是 epoch 40（fitness 最高）；`last.pt` 是 epoch 50。
+- 起點與 fine-tune 後在整條 pipeline 上的差異見 7.4。
 
 > 這個驗證集和訓練集有重疊（見 6.2），數字可能偏樂觀。
 
@@ -265,7 +277,7 @@ yolov8n.yaml（從頭訓練，非 COCO 預訓練）
 
 | 參數 | 值 | 設定 |
 |------|----|------|
-| 信心門檻 | 0.25（選擇依據見 4.7） | `detector.confidence_threshold` |
+| 信心門檻 | 0.4（選擇依據見 4.7） | `detector.confidence_threshold` |
 | NMS IoU | 0.7 | Ultralytics 預設（程式未指定） |
 | 每張影像最多框數 | 300 | Ultralytics 預設 |
 | 精度 | FP32 | Ultralytics 預設 |
@@ -277,18 +289,28 @@ yolov8n.yaml（從頭訓練，非 COCO 預訓練）
 
 | 門檻 | finetune_dataset valid（400 個車牌）TP / FP | finetune_dataset test（200 個車牌）TP / FP | taiwan test（84 張）漏抓 / 多出第二個框的張數 |
 |------|------|------|------|
-| 0.05 | 400 / 16 | 199 / 13 | 0 / 3 |
-| 0.10 | 400 / 9 | 199 / 8 | 0 / 1 |
-| 0.15 | 400 / 6 | 199 / 7 | 0 / 0 |
-| 0.20 | 400 / 3 | 199 / 6 | 0 / 0 |
-| **0.25** | **400 / 2** | **199 / 3** | **0 / 0** |
-| 0.30 | 400 / 2 | 199 / 3 | 0 / 0 |
-| 0.40 | 399 / 0 | 199 / 2 | 0 / 0 |
-| 0.50 | 399 / 0 | 199 / 1 | 0 / 0 |
+| 0.05 | 399 / 59 | 200 / 37 | 0 / 64 |
+| 0.10 | 399 / 20 | 200 / 18 | 0 / 59 |
+| 0.15 | 399 / 12 | 200 / 8 | 0 / 49 |
+| 0.20 | 399 / 9 | 200 / 5 | 0 / 29 |
+| 0.25 | 398 / 5 | 200 / 4 | 0 / 4 |
+| 0.30 | 398 / 5 | 200 / 3 | 0 / 1 |
+| **0.40** | **398 / 1** | **200 / 1** | **0 / 1** |
+| 0.50 | 398 / 1 | 200 / 1 | 0 / 1 |
 
-- 0.4 以上會漏掉 finetune_dataset valid 中分數介於 0.3–0.4 的真車牌；低於 0.2 時誤判框明顯增加。
-- 選 0.25（也是 Ultralytics 的預設值）：finetune_dataset valid 的車牌全部抓到，只多 2 個誤判框；taiwan test 84 張全部偵測到，且沒有任何影像多出框。
-- finetune_dataset test 有 1 個車牌在任何門檻下都沒有 IoU ≥ 0.5 的框。
+分數分佈：
+
+| | 正確框（真車牌）的分數 | 誤判框的分數 |
+|---|---|---|
+| finetune_dataset valid | 除了 2 個以外都 ≥ 0.71（另外 2 個是 0.246 與 0.014） | 大多 ≤ 0.40，最高 0.518 |
+| finetune_dataset test | 全部 ≥ 0.72 | 大多 ≤ 0.40，最高 0.508 |
+| taiwan test（每張最高分 / 第二高分） | 每張最高分都 ≥ 0.65 | 第二個框大多 ≤ 0.28，最高 0.508 |
+
+- 真車牌的分數幾乎都在 0.65 以上，誤判框幾乎都在 0.40 以下，兩者之間有明顯的間隔。
+- 選 **0.4**：抓到的真車牌與 0.25 完全相同，誤判框從 4–5 個降到 1 個；taiwan test 多出第二個框的影像從 4 張降到 1 張。
+- 0.4 與 0.5 在這三個資料集上結果相同；選 0.4 是為了離真車牌的分數（≥ 0.65）保留較大的餘裕。
+- finetune_dataset valid 有 2 個車牌分數很低（0.246、0.014），任何合理門檻都抓不到。
+- 整條 pipeline 在門檻 0.25 與 0.4 下的準確率相同（test、valid 都是 100%）。
 - 誤判框不影響評估（評估只取可信度最高的車牌），但會出現在 API 回應的 `plates` 中。
 
 ---
@@ -327,7 +349,7 @@ PARSeq（Permutation Autoregressive Sequence，Bautista & Atienza, ECCV 2022）�
 ### 5.3 權重來源與檔案
 
 - **起點**：`torch.hub` 上 `baudm/parseq` 的官方預訓練權重（`parseq-bb5792a6.pt`），是在一般場景文字資料上訓練的模型，沒有看過台灣車牌。
-- **目前推論使用的權重**：從官方預訓練權重開始，在 `taiwan_plate_dataset` 上訓練 30 epochs（2026-11-11）。
+- **目前推論使用的權重**：從官方預訓練權重開始，在 `taiwan_plate_dataset` 上訓練 30 epochs（2026-11-13）。
 
 | 檔案 | 說明 |
 |------|------|
@@ -407,13 +429,13 @@ PARSeq（Permutation Autoregressive Sequence，Bautista & Atienza, ECCV 2022）�
 
 | 項目 | 驗證準確率 | val loss |
 |------|-----------|----------|
-| 訓練前（epoch 0，官方預訓練權重） | 93.42%（71/76） | 0.0675 |
-| epoch 1 | 100.00% | 0.0117 |
-| **最佳（epoch 28，`best.ckpt`）** | **100.00%** | **0.0037** |
-| 最後一個 epoch（30，`last.ckpt`） | 100.00% | 0.0042 |
+| 訓練前（epoch 0，官方預訓練權重） | 90.79%（69/76） | 0.0627 |
+| epoch 1 | 100.00% | 0.0112 |
+| **最佳（epoch 28，`best.ckpt`）** | **100.00%** | **0.0038** |
+| 最後一個 epoch（30，`last.ckpt`） | 100.00% | 0.0043 |
 
-- 訓練時間約 3 分 20 秒（RTX 4090，每個 epoch 約 6 秒；驗證集裁切約 1 秒）。
-- 第 1 個 epoch 驗證準確率就達到 100%，之後 val loss 大致持續下降，在 epoch 25 與 28 達到最低（0.0037，epoch 28 略低）。
+- 訓練時間約 3 分 10 秒（RTX 4090，每個 epoch 約 6 秒；驗證集裁切約 1 秒）。
+- 第 1 個 epoch 驗證準確率就達到 100%，之後 val loss 大致持續下降，在 epoch 23、25、28 達到最低（約 0.0038，epoch 28 最低）。
 - 驗證準確率與整條 pipeline 在 valid 上的準確率（7.3）一致，都是 100%。
 
 ### 5.8 推論輸出與後處理
@@ -459,7 +481,7 @@ PARSeq（Permutation Autoregressive Sequence，Bautista & Atienza, ECCV 2022）�
 | 其他 | 213 | 2 | 2 |
 
 - 所有 split 都沒有出現字母 `I`、`O`，也沒有數字 `4`。
-- **valid 與 test 有重疊**：test 的 84 張中有 56 張與 valid 是同一個檔案（檔名與 md5 相同）；train 與兩者沒有重疊。見 17.2。
+- **valid 與 test 有重疊**：test 的 84 張中有 56 張與 valid 是同一個檔案（檔名與 md5 相同）；train 與兩者沒有重疊。見 18.2。
 
 **GT CSV 格式**
 
@@ -495,7 +517,7 @@ image_path,plate_text
 - 類別：1 類（`plate`），每張影像 1 個車牌。
 - 標註格式：YOLO txt，`class x_center y_center width height`（0–1 正規化）。其中 264 個是 bbox 格式（5 個欄位），其餘是多邊形格式（`class x1 y1 x2 y2 …`），Ultralytics 會自動轉成外接矩形。
 - 檔名格式為 Roboflow 匯出的 `<原圖名>_jpg.rf.<hash>.jpg`。同一張原圖有多個版本（增強後的副本）。
-- **split 之間有重疊**（依檔名前綴判斷原圖）：train∩valid 239 張、train∩test 133 張、valid∩test 59 張。見 17.2。
+- **split 之間有重疊**（依檔名前綴判斷原圖）：train∩valid 239 張、train∩test 133 張、valid∩test 59 張。見 18.2。
 - 沒有 `valid/` 時，fine-tune 腳本會從 train 依 `val_frac`（10%）隨機切出驗證集（seed 固定），以 symlink 放在暫存資料夾，不動原始資料。
 
 ---
@@ -527,25 +549,24 @@ image_path,plate_text
 | valid | 76 | 76 | **100.00%** | 100.00% | 0 |
 
 - CPU 與 GPU 的結果完全相同。
-- 偵測門檻 0.25 下，test 與 valid 的每張影像都偵測到車牌。
-- train 與 test 沒有重疊（檔名、原圖編號、檔案 md5 都不重複）；valid 與 test 有重疊，見 17.2。
+- 偵測門檻 0.4 下，test 與 valid 的每張影像都偵測到車牌；門檻 0.25 的結果相同。
+- train 與 test 沒有重疊（檔名、原圖編號、檔案 md5 都不重複）；valid 與 test 有重疊，見 18.2。
 
 ### 7.4 Fine-tune 前後比較
 
-四種權重組合在同一個評估流程下的結果（2026-11-11，GPU）：
+四種權重組合在同一個評估流程下的結果（2026-11-13，GPU，偵測門檻 0.4）：
 
 | 組合 | YOLO 權重 | PARSeq 權重 | test 準確率（84 張） | test 字元準確率 | valid 準確率（76 張） | valid 字元準確率 |
 |------|-----------|-------------|---------------------|-----------------|----------------------|------------------|
-| Fine-tune 前 | `pretrained/license_plate_detector.pt` | torch.hub 官方預訓練 | 94.05%（79） | 99.09% | 96.05%（73） | 99.33% |
-| 只 fine-tune YOLO | `finetuned/best.pt` | torch.hub 官方預訓練 | 91.67%（77） | 98.93% | 93.42%（71） | 99.16% |
-| 只 fine-tune PARSeq | `pretrained/license_plate_detector.pt` | `finetuned/best.ckpt` | 97.62%（82） | 99.70% | 100.00%（76） | 100.00% |
+| Fine-tune 前 | `pretrained/license_plate_detector.pt` | torch.hub 官方預訓練 | 94.05%（79） | 98.17% | 96.05%（73） | 98.32% |
+| 只 fine-tune YOLO | `finetuned/best.pt` | torch.hub 官方預訓練 | 90.48%（76） | 98.78% | 90.79%（69） | 98.82% |
+| 只 fine-tune PARSeq | `pretrained/license_plate_detector.pt` | `finetuned/best.ckpt` | 98.81%（83） | 98.93% | 98.68%（75） | 98.82% |
 | **Fine-tune 後** | `finetuned/best.pt` | `finetuned/best.ckpt` | **100.00%（84）** | **100.00%** | **100.00%（76）** | **100.00%** |
 
-- 四種組合在 test、valid 上都沒有漏偵測，差異全部來自字元辨識。
-- **官方預訓練 PARSeq 的錯誤**主要是漏掉 `-`（例如 `ADY-8639` → `ADY8639`），以及形近字混淆（`W`/`N`、`Q`/`0`）。
-- **fine-tune PARSeq** 修正了上述錯誤，是準確率提升的主要來源。
-- **只 fine-tune YOLO** 時準確率反而略降：裁切範圍改變後，官方預訓練 PARSeq 出錯的換成另一批車牌（漏 `-`、少讀最後一個字元、`2` / `7` 混淆），總數多 2 張。兩個模型都 fine-tune 後，test 剩下的 2 個錯誤（`EPK-2956` → `EPK-7956`、`303-CZL` → `303-CZL-`）也消失。
-- 字元準確率在 fine-tune 前就有 99% 以上，錯誤多半只差 1 個字元。
+- **偵測**：起點 YOLO 對 `000633`（GT `258-QEN`）的最高分只有 0.299，低於門檻，所以使用起點 YOLO 的兩個組合都漏抓這張；fine-tune 後的 YOLO 對這張的分數是 0.650。
+- **辨識**：官方預訓練 PARSeq 的錯誤主要是漏掉 `-`（例如 `ADY-8639` → `ADY8639`），其次是形近字混淆（`W` / `N`、`Q` / `0`）與少讀最後一個字元。fine-tune PARSeq 修正了這些錯誤，是準確率提升的主要來源。
+- **只 fine-tune YOLO** 時準確率反而略降：fine-tune 後的框比較貼近車牌，裁切範圍改變後，官方預訓練 PARSeq 漏掉 `-` 的情況變多。兩個模型都 fine-tune 後所有錯誤都消失。
+- 字元準確率在 fine-tune 前就有 98% 以上，錯誤多半只差 1 個字元（漏抓的 `000633` 則整串算錯）。
 
 ### 7.5 推論速度（每張影像，test 84 張，已暖機）
 
@@ -587,7 +608,7 @@ CLI 參數  >  環境變數 ALPR_<區塊>__<欄位>  >  config.yaml
 | 欄位 | 目前值 | 說明 |
 |------|--------|------|
 | `detector.weights_path` | `models/yolo/finetuned/best.pt` | YOLO 權重；不存在時啟動失敗 |
-| `detector.confidence_threshold` | 0.25 | 偵測信心門檻（0–1），選擇依據見 4.7 |
+| `detector.confidence_threshold` | 0.4 | 偵測信心門檻（0–1），選擇依據見 4.7 |
 | `detector.device` | `cpu` | `cuda` / `mps` / `cpu` |
 | `recognizer.weights_path` | `models/parseq/finetuned/best.ckpt` | PARSeq 權重；不存在時退回 torch.hub 預訓練模型 |
 | `recognizer.model_variant` | `parseq` | 退回時使用的模型（`parseq` / `parseq_tiny`） |
@@ -605,6 +626,9 @@ CLI 參數  >  環境變數 ALPR_<區塊>__<欄位>  >  config.yaml
 | `api.port` | 8000 | 監聽 port |
 | `api.workers` | 1 | Uvicorn worker 行程數（每個行程各自載入一份模型） |
 | `api.tokens` | `{}` | `{用戶端名稱: token}`；**不要寫在這個檔案**（會進 git），改用 `ALPR_API__TOKENS` 環境變數 |
+| `api.max_upload_mb` | 10 | 單一上傳檔案的大小上限（MB） |
+| `api.max_batch_files` | 20 | `/predict/batch` 一次最多幾個檔案 |
+| `api.max_image_pixels` | 50,000,000 | 影像寬 × 高上限（約 8000×6000），防止解壓縮炸彈 |
 
 **實驗紀錄**
 
@@ -715,6 +739,9 @@ CLI 參數  >  環境變數 ALPR_<區塊>__<欄位>  >  config.yaml
 | Content-Type | `multipart/form-data` |
 | 欄位 | `file`（必填，單一檔案） |
 | 支援格式 | OpenCV `imdecode` 能解碼的格式：JPEG、PNG、BMP、TIFF、WebP 等 |
+| 檔案大小上限 | `api.max_upload_mb`（10 MB） |
+| 影像大小上限 | 寬 × 高 ≤ `api.max_image_pixels`（5,000 萬像素） |
+| 標頭 | 必須帶 `Content-Length`（一般 HTTP 用戶端都會自動帶）；不接受 chunked 上傳 |
 
 **Response 200**：`PredictionOutput`
 
@@ -745,7 +772,12 @@ CLI 參數  >  環境變數 ALPR_<區塊>__<欄位>  >  config.yaml
 |----|------|---------------|
 | 200 | 成功（沒有偵測到車牌也是 200，`plates` 為空陣列） | — |
 | 400 | 檔案無法解碼成影像（例如空檔案、不是影像） | `無法解碼影像：a.txt` |
+| 400 | `Content-Length` 不是非負整數 | `Content-Length 不正確` |
 | 401 | 缺少或無效的 token | `缺少或無效的 API token` |
+| 411 | 沒有 `Content-Length`（chunked 上傳） | `需要 Content-Length 標頭（不接受 chunked 上傳）` |
+| 413 | 整個請求超過上限 | `請求太大：250.0 MB，上限 201 MB` |
+| 413 | 檔案超過 `max_upload_mb` | `檔案太大：car.jpg（12.3 MB，上限 10 MB）` |
+| 413 | 影像寬 × 高超過 `max_image_pixels` | `影像太大：bomb.png（10000×10000，上限 50,000,000 像素）` |
 | 422 | 沒有 `file` 欄位 | `file: Field required` |
 | 503 | 模型尚未載入 | `Pipeline 尚未初始化` |
 
@@ -761,12 +793,15 @@ CLI 參數  >  環境變數 ALPR_<區塊>__<欄位>  >  config.yaml
 |------|------|
 | Content-Type | `multipart/form-data` |
 | 欄位 | `files`（必填，可重複多次，每次一個檔案） |
+| 張數上限 | `api.max_batch_files`（20 張） |
+| 每張的上限 | 與 `/predict` 相同（檔案 10 MB、5,000 萬像素） |
 
 **行為**
 
 - `results` 的順序與上傳順序相同。
 - 影像**依序**處理（同一時間只跑一個推論）。
-- 某張無法解碼或辨識失敗時，不會讓整批失敗：該張的 `plates` 為空、`error` 有錯誤訊息，HTTP 仍回 200。
+- 某張無法解碼、超過檔案大小或像素上限、或辨識失敗時，不會讓整批失敗：該張的 `plates` 為空、`error` 有錯誤訊息，HTTP 仍回 200。
+- 張數超過 `max_batch_files` 時整批回 413，不做任何辨識。
 - 每張的 `job_id` 只是批次內的識別碼，**不能**用 `/results/{job_id}` 單獨查詢；要用 `batch_id` 查整批。
 
 **Response 200**：`BatchOutput`
@@ -804,7 +839,7 @@ CLI 參數  >  環境變數 ALPR_<區塊>__<欄位>  >  config.yaml
 }
 ```
 
-**狀態碼**：200、401、422（沒有 `files`）、503。
+**狀態碼**：200、400 / 411 / 413（請求大小，同 `/predict`）、401、413（張數超過上限：`一次最多上傳 20 張，這次有 21 張`）、422（沒有 `files`）、503。
 
 **存檔**：`<output_dir>/batch_<batch_id 前 8 碼>.json`。
 
@@ -841,7 +876,7 @@ CLI 參數  >  環境變數 ALPR_<區塊>__<欄位>  >  config.yaml
 
 - 只列檔名符合 `<名稱>_<8 碼 16 進位>.json` 的檔案；評估報告 `eval_*.json` 不會列出。
 - CLI 產生的結果（`--image`、`--folder`）也在同一個目錄，也會列出來。
-- 讀取失敗或格式不符的檔案會略過，所以一頁可能少於 `limit` 筆。
+- 讀取失敗或格式不符的檔案會略過，而且是先略過再分頁，不佔 `limit` / `offset` 的名額；只有到最後一頁才會少於 `limit` 筆。
 - 不回傳總筆數。
 
 **狀態碼**：200、401、422（`limit` / `offset` 超出範圍，例如 `limit: Input should be less than or equal to 1000`）、503。
@@ -889,9 +924,11 @@ CLI 參數  >  環境變數 ALPR_<區塊>__<欄位>  >  config.yaml
 
 | 狀態碼 | 來源 | 回應格式 |
 |--------|------|----------|
-| 400 | 影像無法解碼（`/predict`） | `{"detail": "..."}` |
+| 400 | 影像無法解碼（`/predict`）；`Content-Length` 不正確 | `{"detail": "..."}` |
 | 401 | token 缺少或錯誤 | `{"detail": "缺少或無效的 API token"}` + `WWW-Authenticate: Bearer` |
 | 404 | 查不到結果 | `{"detail": "找不到 id=... 的結果"}` |
+| 411 | POST 沒有 `Content-Length` | `{"detail": "需要 Content-Length 標頭（不接受 chunked 上傳）"}` |
+| 413 | 超過上傳限制（請求大小、檔案大小、批次張數、影像像素） | `{"detail": "檔案太大：..."}` |
 | 422 | 參數驗證失敗 | `{"detail": "file: Field required"}`（自訂 handler 把 FastAPI 預設的錯誤陣列轉成單一字串） |
 | 503 | pipeline 未初始化 | `{"detail": "Pipeline 尚未初始化"}` |
 | 500 | 未預期的例外（例如 `/predict` 推論時出錯） | Starlette 預設的純文字 `Internal Server Error`，**不是 JSON** |
@@ -1121,11 +1158,44 @@ python src/finetune/finetune_yolo.py --epochs 1 --batch-size 8
 | YOLO | `train/box_loss`、`train/cls_loss`、`train/dfl_loss`、`lr/pg0`–`lr/pg2` | 每個 epoch（step = epoch） |
 | YOLO | `metrics/precision(B)`、`metrics/recall(B)`、`metrics/mAP50(B)`、`metrics/mAP50-95(B)`、`val/*_loss` | 每個 epoch；最後一個點（step = epochs + 1）是 `best.pt` 的最終驗證結果 |
 
+**匯出成 trackio 相容的 CSV**（`src/utils/trackio_export.py`）：
+
+```bash
+python -m src.utils.trackio_export --list                       # 列出所有 run
+python -m src.utils.trackio_export --latest parseq -o parseq.csv --config-output parseq_config.json
+```
+
+- 輸出就是 `trackio.import_csv` 接受的格式：`step`、`timestamp` 加上各指標欄位；同一個 step 記錄過多次會合併成一列，沒有紀錄的欄位留空。
+- trackio 匯入時會把欄位名稱縮短成前 10 個英數字或 `/`，所以匯出時改用符合規則的短名稱（例如 `train/epoch_loss` → `epoch/loss`、`metrics/mAP50-95(B)` → `mAP50to95`），匯入後名稱不變。
+- 目前權重的訓練紀錄已匯出在 `docs/training_logs/`（PARSeq：`parseq_train_trackio.csv`；YOLO：`yolo_finetune_trackio.csv`），欄位說明見該資料夾的 `README.md`。已實際用 `trackio.import_csv` 匯入驗證，每個數值都與原始紀錄相同。
+
 ---
 
 ## 14. 部署（Docker）
 
 ### 14.1 映像（`docker/Dockerfile`）
+
+Dockerfile 有兩個 target：
+
+| target | 映像 | 內容 | 用途 |
+|--------|------|------|------|
+| `runtime` | `alpr:latest` | 環境 + 程式碼；權重、資料、輸出以 volume 掛載 | compose（開發、可隨時換權重） |
+| `bundle` | `alpr-bundle:1.0.0` | runtime + 推論權重（`best.pt`、`best.ckpt`）+ 訓練起點（`license_plate_detector.pt`、PARSeq 官方預訓練權重）+ `MODEL_CARD.md` | 交付、離線部署：不需要掛載任何檔案就能推論與訓練 |
+
+```bash
+docker build -f docker/Dockerfile --target bundle -t alpr-bundle:1.0.0 .
+docker run -d -p 8000:8000 -e ALPR_API__TOKENS='{"web": "<token>"}' alpr-bundle:1.0.0          # CPU
+docker run -d --gpus all -p 8000:8000 -e ALPR_API__TOKENS='{"web": "<token>"}' \
+    -e ALPR_DETECTOR__DEVICE=cuda -e ALPR_RECOGNIZER__DEVICE=cuda alpr-bundle:1.0.0            # GPU
+```
+
+- `.dockerignore` 預設排除 `models/` 與所有權重，只把 bundle 需要的 3 個權重檔與 `MODEL_CARD.md` 例外放進 build context。
+- PARSeq 官方預訓練權重在 build 時從 GitHub 下載到 `/opt/torch/hub/checkpoints`，容器離線執行 `train.py`（`finetune_from: null`）也不需要網路。
+- `models/` 權限開放給所有 UID，容器以其他 UID 執行時也能在容器內訓練並取代權重。
+- 匯出成檔案交付：`docker save alpr-bundle:1.0.0 | gzip > alpr-bundle_1.0.0.tar.gz`（映像 8.47 GB，壓縮後約 3.9 GB）；載入：`docker load -i alpr-bundle_1.0.0.tar.gz`。
+- 模型的完整說明（效能、超參數、資料集、需求、使用手冊）見 `MODEL_CARD.md`。
+
+runtime 與 bundle 共用的設定：
 
 | 項目 | 內容 |
 |------|------|
@@ -1135,7 +1205,7 @@ python src/finetune/finetune_yolo.py --epochs 1 --batch-size 8
 | CPU / GPU | 共用同一個映像：torch 的 pip wheel 已內含 CUDA runtime，主機只需要 NVIDIA driver 與 nvidia-container-toolkit |
 | 預先下載 | PARSeq 的 torch.hub 程式碼（不含預訓練權重），容器離線也能載入 `models/parseq/` 的權重 |
 | 預先建立 | Ultralytics 設定檔（`/opt/ultralytics`）與 matplotlib 快取（`/opt/matplotlib`），權限開放給任意 UID |
-| 打包內容 | 只有 `src/`、`main.py`、`config.yaml`；權重、資料、輸出都用 volume 掛載 |
+| 打包內容 | runtime：`src/`、`main.py`、`config.yaml`，權重、資料、輸出都用 volume 掛載；bundle 另外加上權重（見上表） |
 | 對外 port | 8000 |
 | HEALTHCHECK | 每 30 秒打 `/health`；timeout 10 秒；start period 90 秒；連續 3 次失敗算 unhealthy |
 | 預設指令 | `python main.py --serve --host 0.0.0.0 --port 8000` |
@@ -1243,11 +1313,13 @@ sudo docker compose -f docker/docker-compose.yml run --rm alpr python src/finetu
 | 權限粒度 | 所有 token 權限相同，可讀取所有結果（包含其他用戶端上傳的） |
 | 傳輸加密 | 服務本身只提供 HTTP；對外開放時應放在提供 HTTPS 的反向代理（例如 Nginx）後面 |
 | CORS | 允許所有來源。驗證用 Bearer header 而非 cookie，所以不會有 CSRF 問題；但瀏覽器端程式必須持有 token |
-| 上傳限制 | 沒有限制檔案大小與批次張數 |
+| 上傳限制 | 三層檢查，超過回 413，見 16.2 |
 | 速率限制 | 沒有 |
 | 容器 | compose 以非 root 的主機 UID 執行；`config.yaml` 唯讀掛載 |
 | 資料保存 | 辨識結果以 JSON 永久保存在 `outputs/`，沒有自動清除機制 |
 | 靜態安全掃描 | 已通過 SonarQube 檢測，見 16.1 |
+| 自動化測試 | 驗證、上傳限制、checkpoint 載入限制都有測試，見第 17 章 |
+| 相依套件弱點 | 以 pip-audit 掃描並升級有修補版本的套件，見 16.3 |
 | 載入 checkpoint | `torch.load(..., weights_only=True)`：只還原 tensor 與基本型別，不執行 checkpoint 中的 pickle 程式碼 |
 | 映像預設使用者 | Dockerfile 指定 `USER 1000:1000`，直接 `docker run` 也不會以 root 執行 |
 
@@ -1256,9 +1328,22 @@ sudo docker compose -f docker/docker-compose.yml run --rm alpr python src/finetu
 | 項目 | 內容 |
 |------|------|
 | 工具 | SonarQube Community Build 26.11 + sonar-scanner-cli（Docker） |
-| 掃描日期 | 2026-11-09 |
-| 範圍 | `src/`、`main.py`、`docker/`（Python 與 Dockerfile，共 23 個檔案、1,476 行）；`docker/.env` 排除 |
-| 結果 | **Vulnerabilities 0、Security Hotspots 0、Security Rating A**；Bugs 0、Code Smells 0、重複程式碼 0% |
+| 掃描日期 | 2026-11-17（加入自動化測試、修正 `/results` 分頁後重新掃描；前一次為 2026-11-13） |
+| 範圍 | 產品程式碼：`src/`、`main.py`、`docker/`（Python 與 Dockerfile，23 個檔案、1,577 行程式碼）；`docker/.env` 排除 |
+| | 測試程式碼：`tests/`（以測試程式碼的規則檢查，不計入上面的行數與覆蓋率分母） |
+| | 覆蓋率：匯入 pytest-cov 產生的 `coverage.xml`（見第 17 章） |
+| Quality Gate | **Passed**（Sonar way：新程式碼覆蓋率 100%、重複 0%、新問題 0） |
+
+| 指標 | 結果 | 評等 |
+|------|------|------|
+| Vulnerabilities | 0 | Security Rating **A** |
+| Security Hotspots | 0 | Security Review Rating **A** |
+| Bugs | 0 | Reliability Rating **A** |
+| Code Smells | 0 | Maintainability Rating **A** |
+| 重複程式碼 | 0.0% | |
+| 覆蓋率 | **99.8%**（行 99.9%：1,197 行中 1 行未覆蓋；分支 99.2%：246 個條件中 2 個未覆蓋） | |
+
+前一次掃描（2026-11-13）找到並修正的規則：
 
 | 規則 | 處理方式 |
 |------|----------|
@@ -1268,24 +1353,174 @@ sudo docker compose -f docker/docker-compose.yml run --rm alpr python src/finetu
 
 > Community Build 不含跨函式的 taint analysis（追蹤使用者輸入流向危險呼叫），API 輸入處理的安全性仍需搭配人工審查。
 
+### 16.2 API 上傳限制
+
+設定在 `config.yaml` 的 `api` 區塊，超過時回 **413**（`{"detail": "..."}`）：
+
+| 層級 | 檢查時機 | 上限 | 防護目的 |
+|------|----------|------|----------|
+| 整個請求 | 讀取 body **之前**，依 `Content-Length` 判斷（`RequestSizeLimitMiddleware`） | `max_upload_mb × max_batch_files + 1 MB`（預設 201 MB） | 避免超大請求佔滿記憶體或暫存磁碟 |
+| 單一檔案 | 讀取檔案時，最多只讀「上限 + 1 byte」進記憶體 | `max_upload_mb`（10 MB） | 單張影像過大 |
+| 批次張數 | `/predict/batch` 開始辨識前 | `max_batch_files`（20 張） | 一次請求佔用推論太久 |
+| 影像像素 | 解碼**之前**用 Pillow 只讀影像標頭取得寬高；解碼後再檢查一次 | 寬 × 高 ≤ `max_image_pixels`（5,000 萬） | 解壓縮炸彈：例如 11 KB 的 PNG 可宣告 10000×10000，解碼後約 300 MB |
+
+- **沒有 `Content-Length` 的 POST（chunked 上傳）回 411**：無法事先知道大小，所以不接受；一般 HTTP 用戶端（curl、requests、瀏覽器）上傳檔案時都會自動帶 `Content-Length`。
+- **`Content-Length` 不是非負整數回 400**：同時擋掉 python-multipart 0.0.29 的負數 `Content-Length` 攻擊（CVE-2026-53540）。
+- Uvicorn 會確保實際收到的 body 不超過 `Content-Length`，所以依標頭判斷就足夠。
+- 413 / 411 回應也會帶 CORS 標頭，瀏覽器端程式可以讀到錯誤訊息。
+- 批次中單張超過檔案或像素上限時，只有該張的 `error` 有訊息，其他張照常辨識。
+
+**驗證**（以實際啟動的 API Server + curl 測試；以下情境也都寫成自動化測試，見 `tests/test_api.py` 與第 17 章）：
+
+| 測試 | 結果 |
+|------|------|
+| 正常影像 | 200，辨識出車牌 |
+| 11 MB 檔案 | 413 `檔案太大：big.bin（10.5 MB，上限 10 MB）` |
+| 11 KB 的 10000×10000 PNG | 413 `影像太大：bomb.png（10000×10000，上限 50,000,000 像素）` |
+| chunked 上傳 | 411 |
+| `Content-Length: 10000000000` | 413 `請求太大：9536.7 MB，上限 201 MB`（沒有讀取 body） |
+| `Content-Length: -1` | 400 |
+| 批次 21 張 | 413 `一次最多上傳 20 張，這次有 21 張` |
+| 批次中混入超大檔與像素炸彈 | 200，正常的那張辨識成功，另外兩張的 `error` 有訊息 |
+
+### 16.3 相依套件弱點掃描
+
+| 項目 | 內容 |
+|------|------|
+| 工具 | pip-audit 2.10.1（弱點資料來源：PyPI Advisory Database / OSV） |
+| 掃描日期 | 2026-11-13 |
+| 範圍 | conda `ALPR` 環境的所有 Python 套件（157 個，與 `environment.yml` / Docker 映像一致） |
+| 執行期實際載入的套件 | 64 個（啟動 API、跑一次推論、載入訓練程式後統計 `sys.modules`），用來判斷弱點是否影響本系統 |
+
+**結果**
+
+| | 有弱點的套件 | 弱點數（不重複） |
+|---|---|---|
+| 升級前 | 23 | 152 |
+| **升級後** | **5** | **9** |
+
+**已升級的套件**（升到修補版本；`pip check` 無相依衝突）
+
+| 套件 | 升級 | 與本系統的關係 |
+|------|------|----------------|
+| starlette | 1.0.0 → 1.3.1 | API 框架：Host 標頭 / 請求路徑未驗證、urlencoded 表單不受大小限制 |
+| python-multipart | 0.0.29 → 0.0.31 | 解析上傳檔案：負數 `Content-Length` 會把整個 body 讀進記憶體（另見 16.2 的防護） |
+| anyio | 4.13.0 → 4.14.2 | API 的非同步底層 |
+| pillow | 12.2.0 → 13.0.0 | 影像處理；API 用它讀影像標頭檢查像素 |
+| pydantic-settings | 2.14.1 → 2.14.2 | 讀取設定 |
+| nltk | 3.9.4 → 3.10.4 | PARSeq 程式碼相依 |
+| pytorch-lightning | 2.6.1 → 2.6.6 | PARSeq 程式碼相依 |
+| transformers | 5.8.1 → 5.10.4 | 間接載入（5.10.0 已被官方撤回，改用 5.10.4） |
+| filelock / fsspec / certifi / idna / urllib3 | 升到修補版本 | 模型下載、HTTP 連線 |
+| aiohttp / multidict / yarl / httpx2 / httpcore2 / werkzeug / roboflow | 升到修補版本 | 執行期不會載入（trackio、tensorboard 等工具的相依）；roboflow 1.3.8 固定 `idna==3.7`，一併升級到 1.7.3 |
+| pip / openssl / ca-certificates（conda） | 26.0.1 → 26.2.2、3.5.7 → 3.5.9、2026.5.14 → 2026.11.5 | 安裝工具與 TLS |
+
+**未處理的弱點與風險評估**
+
+| 套件 | 弱點 | 不處理的原因 |
+|------|------|--------------|
+| torch 2.11.0 | `torch.jit.script` 記憶體破壞（需在本機執行攻擊者提供的程式） | 修補版本 2.13 是大版本升級（CUDA wheel 與相依都要重新驗證）；本系統不使用 `torch.jit.script` |
+| setuptools 81.0.0 | 建立 sdist 時的檔案清單問題、Windows 安裝 wheel 的路徑問題 | torch 2.11 要求 `setuptools<82`；只影響打包 / 安裝套件，執行期不受影響 |
+| accelerate 1.13.0 | `load_checkpoint_in_model` 路徑穿越 | 沒有修補版本；本系統不呼叫這些函式 |
+| basicsr 1.4.2 | 特定情境下執行 `scontrol` 指令 | 沒有修補版本；本系統不使用 basicsr |
+
+**升級後的驗證**
+
+| 項目 | 結果 |
+|------|------|
+| 整條 pipeline 評估 | test 84/84、valid 76/76，與升級前相同（100%） |
+| API 上傳限制測試（16.2 的 13 個情境） | 全部符合預期 |
+| PARSeq 訓練（1 epoch） | 正常完成，val_acc 98.68% |
+| YOLO fine-tune（1 epoch） | 正常完成並產生 `best.pt` |
+| trackio | 正常載入 |
+
+> 弱點資料庫會持續更新，建議每次修改 `environment.yml` 或定期重新掃描：
+> `pip-audit --path <conda 環境>/lib/python3.11/site-packages`
+
 ---
 
-## 17. 已知限制與待改進事項
+## 17. 自動化測試與覆蓋率
 
-### 17.1 字元後處理 `I → L`
+### 17.1 工具與執行方式
+
+| 項目 | 內容 |
+|------|------|
+| 測試框架 | pytest 9.0.3 |
+| 覆蓋率 | pytest-cov 7.1.0（coverage.py 7.17.3），量測**行覆蓋率 + 分支覆蓋率** |
+| 設定 | `pyproject.toml`：量測範圍 `src/` 與 `main.py`；低於 85% 時測試失敗（`fail_under`） |
+| 測試用套件 | `requirements-dev.txt`，不放進 Docker 映像 |
+
+```bash
+pip install -r requirements-dev.txt
+python -m pytest                        # 全部測試 + 覆蓋率報告
+python -m pytest -m "not integration"   # 只跑單元測試（不載入真實模型）
+```
+
+產生三種報告：終端機摘要（列出未覆蓋的行號）、`htmlcov/index.html`（逐行標示）、`coverage.xml`（匯入 SonarQube：`sonar.python.coverage.reportPaths=coverage.xml`，結果見 16.1）。三者都列在 `.gitignore`。
+
+### 17.2 測試設計
+
+| 類型 | 做法 | 執行時間 |
+|------|------|----------|
+| 單元測試（98 個） | YOLO / PARSeq 換成假模型（固定的偵測框與辨識文字），其餘程式碼都是真的：pydantic 驗證、裁切、JSON 存檔、FastAPI 路由與 middleware | 約 4 秒 |
+| 整合測試（7 個，標記 `integration`） | 載入 `models/` 的真實權重（CPU）；推論用 `data/taiwan_plate_dataset/test` 的影像；PARSeq 訓練用合成的車牌影像跑 1 epoch | 約 5 秒 |
+
+- 每個測試的輸出（辨識 JSON、log、訓練權重）都寫在 pytest 的暫存資料夾，trackio 紀錄關閉，不會動到專案的 `outputs/`、`models/`、`logs/`。
+- 設定以專案的 `config.yaml` 為基礎，用環境變數覆寫輸出路徑與測試 token，測試結束後還原。
+- 缺權重、資料集或 torch.hub 快取時，整合測試自動略過（skip），不會失敗。
+
+| 測試檔 | 涵蓋內容 |
+|--------|----------|
+| `test_config.py` | 讀取 `config.yaml`、環境變數覆寫、欄位拼錯時報錯、訓練腳本的 CLI 覆寫與驗證 |
+| `test_utils.py` | 影像讀取 / 色彩轉換 / 裁切（含 padding 與超出邊界）、GT CSV 的四種路徑解析與錯誤、輸出資料夾整份取代、logger、trackio 紀錄（略過非數值與 NaN） |
+| `test_models_evaluation.py` | 資料結構、編輯距離、評估報告的準確率 / 字元準確率 / 未偵測數 |
+| `test_detector_recognizer.py` | YOLO 偵測框排序與 clamp、找不到權重；PARSeq 後處理（`O→0`、`I→L`、charset 過濾）、前處理輸出尺寸、checkpoint 載入；`weights_only=True` 拒絕含任意 Python 物件的 checkpoint |
+| `test_pipeline.py` | YOLO 收到 BGR、PARSeq 收到 RGB 裁切；綜合可信度與排序；讀圖失敗；單張 / 批次 JSON 存檔 |
+| `test_api.py` | token 驗證（缺少 / 錯誤 / 太短拒絕啟動）、`/predict`、`/predict/batch`（單張失敗不影響整批）、16.2 的所有上傳限制、`/results` 查詢與分頁（讀不出來的檔案不佔分頁名額）、OpenAPI 檔案選擇器 |
+| `test_main.py` | CLI 的 `--image`、`--folder`、`--eval`、`--serve`，中英文混排表格對齊 |
+| `test_train_parseq.py` | 驗證影像的 YOLO 裁切、與推論相同的後處理評估、loss 曲線；完整訓練流程：成功時取代輸出資料夾（權限不是 700）、沒有變好時保留原權重 |
+| `test_finetune_yolo.py` | 圖片 / 標註配對、symlink（不支援時改複製）、自動切分 val（固定 seed 可重現）、`data.yaml`、trackio callback；完整流程確認**不傳 `pretrained`**（沿用載入的權重） |
+| `test_trackio_export.py` | trackio 紀錄匯出成 CSV：同一 step 合併、欄位改名與順序、`--list` / `--latest` / `--config-output`；**實際用 `trackio.import_csv` 匯入後，每個數值與 step 都與 CSV 相同** |
+| `test_integration.py` | 真實模型辨識 test 影像全部正確、YOLO 給 BGR 的分數不低於 RGB、API 端到端 |
+
+### 17.3 覆蓋率結果（2026-11-20）
+
+全部 **105 個測試通過**，耗時約 9 秒。
+
+| 檔案 | 行數 | 分支數 | 覆蓋率 |
+|------|------|--------|--------|
+| `main.py` | 90 | 26 | 99.1% |
+| `src/train/train.py` | 217 | 44 | 99.2% |
+| 其餘 21 個檔案（含 `src/api/server.py`、`src/utils/trackio_export.py`） | 969 | 198 | 100% |
+| **合計** | **1,276** | **268** | **99.8%** |
+
+只跑單元測試時整體約 89%（89.3%）（差異主要是 PARSeq 訓練主流程需要真實模型）。
+
+未覆蓋的部分：
+
+| 位置 | 原因 |
+|------|------|
+| `train.py` 每 20 step 印一次 loss | 測試資料只有 2 個 step |
+| `main.py` 模式判斷的最後一個 `elif` 不成立 | `--image / --folder / --eval / --serve` 是必填且互斥，不會發生 |
+
+---
+
+## 18. 已知限制與待改進事項
+
+### 18.1 字元後處理 `I → L`
 
 - 台灣車牌不使用 I、O，所以 `O → 0` 合理。
 - 但 `I` 在視覺上較接近數字 `1`，目前卻換成 `L`。
 - 測試集沒有出現需要這條規則的案例，所以準確率沒有受影響；規則是否合理需要再評估。
 
-### 17.2 資料集 split 有重疊
+### 18.2 資料集 split 有重疊
 
 - `taiwan_plate_dataset`：test 的 84 張中有 56 張與 valid 是同一個檔案。PARSeq 用 valid 選模型，所以 test 的準確率可能偏樂觀。
 - `finetune_dataset`：依檔名前綴判斷，train / valid / test 有共用原圖的情況（train∩valid 239 張原圖），YOLO 的驗證 mAP 可能偏樂觀。
 
 **改進方向**：依原圖重新切分，確保同一張原圖只出現在一個 split，並另外保留一份完全沒用過的測試集。
 
-### 17.3 其他
+### 18.3 其他
 
 | 項目 | 說明 |
 |------|------|
@@ -1301,9 +1536,9 @@ sudo docker compose -f docker/docker-compose.yml run --rm alpr python src/finetu
 
 ---
 
-## 18. 相依套件版本
+## 19. 相依套件版本
 
-完整清單見 `environment.yml`（由 conda 環境匯出）。主要套件：
+完整清單見 `environment.yml`（由 conda 環境匯出）。有弱點的套件已於 2026-11-13 升級，見 16.3。主要套件：
 
 | 套件 | 版本 |
 |------|------|
@@ -1311,17 +1546,18 @@ sudo docker compose -f docker/docker-compose.yml run --rm alpr python src/finetu
 | torch | 2.11.0（CUDA 13.0 wheel） |
 | torchvision | 0.26.0 |
 | ultralytics | 8.4.56 |
-| pytorch-lightning | 2.6.1（PARSeq 相依） |
+| pytorch-lightning | 2.6.6（PARSeq 相依） |
 | timm | 1.0.27（PARSeq 相依） |
-| nltk | 3.9.4（PARSeq 相依） |
+| nltk | 3.10.4（PARSeq 相依） |
 | fastapi | 0.136.1 |
+| starlette | 1.3.1 |
 | uvicorn | 0.47.0 |
-| python-multipart | 0.0.29 |
+| python-multipart | 0.0.31 |
 | pydantic | 2.13.4 |
-| pydantic-settings | 2.14.1 |
+| pydantic-settings | 2.14.2 |
 | pyyaml | 6.0.3 |
 | numpy | 2.4.6 |
-| pillow | 12.2.0 |
+| pillow | 13.0.0 |
 | matplotlib | 3.10.9 |
 | loguru | 0.7.3 |
 | tqdm | 4.67.3 |
@@ -1330,7 +1566,7 @@ sudo docker compose -f docker/docker-compose.yml run --rm alpr python src/finetu
 
 ---
 
-## 19. 附錄：名詞對照
+## 20. 附錄：名詞對照
 
 | 名詞 | 說明 |
 |------|------|

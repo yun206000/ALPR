@@ -17,7 +17,17 @@ models/
 data/
 outputs/
 runs/
+dist/
 tests/
+htmlcov/
+.coverage
+coverage.xml
 *.pt
 *.pth
 *.ckpt
+
+# 例外：bundle target（映像內含權重）需要的檔案
+!models/yolo/finetuned/best.pt
+!models/yolo/pretrained/license_plate_detector.pt
+!models/parseq/finetuned/best.ckpt
+!MODEL_CARD.md

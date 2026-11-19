@@ -15,7 +15,7 @@
 # 車牌偵測（YOLO）
 detector:
   weights_path: models/yolo/finetuned/best.pt     # 要用的 YOLO 權重（每次 fine-tune 完會直接取代這個檔案）
-  confidence_threshold: 0.25                       # 偵測信心門檻（0.5 會漏掉分數 0.3~0.5 的車牌；低於 0.15 誤判明顯增加）
+  confidence_threshold: 0.4                        # 偵測信心門檻（真車牌分數幾乎都 ≥ 0.65，誤判框大多 ≤ 0.4；低於 0.3 誤判框明顯增加）
   device: cpu                                      # cuda | mps | cpu
 
 # 字元辨識（PARSeq）
@@ -40,6 +40,11 @@ api:
   # 產生 token：python -c "import secrets; print(secrets.token_urlsafe(32))"
   # 沒有設定任何 token 時，API Server 會拒絕啟動
   tokens: {}
+  # 上傳限制（超過時回 413）：
+  #   整個請求的上限 = max_upload_mb × max_batch_files + 1 MB，在讀取內容前依 Content-Length 判斷
+  max_upload_mb: 10           # 單一檔案上限（MB）
+  max_batch_files: 20         # /predict/batch 一次最多幾張
+  max_image_pixels: 50000000  # 影像寬 × 高上限（約 8000×6000），擋掉檔案很小、解碼後很大的影像
 
 # ---------------- 訓練 ----------------
 

@@ -55,6 +55,9 @@ class ApiConfig(_Section):
     tokens: Dict[str, SecretStr] = Field(
         description="允許呼叫 API 的 token {用戶端名稱: token}；空的話 API Server 拒絕啟動"
     )
+    max_upload_mb: float = Field(gt=0, description="單一上傳檔案的大小上限（MB）")
+    max_batch_files: int = Field(ge=1, description="/predict/batch 一次最多幾個檔案")
+    max_image_pixels: int = Field(ge=1, description="影像的像素上限（寬 × 高），防止解壓縮炸彈")
 
 
 # ---------------------------------------------------------------------------
