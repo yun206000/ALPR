@@ -1328,8 +1328,8 @@ sudo docker compose -f docker/docker-compose.yml run --rm alpr python src/finetu
 | 項目 | 內容 |
 |------|------|
 | 工具 | SonarQube Community Build 26.11 + sonar-scanner-cli（Docker） |
-| 掃描日期 | 2026-11-17（加入自動化測試、修正 `/results` 分頁後重新掃描；前一次為 2026-11-13） |
-| 範圍 | 產品程式碼：`src/`、`main.py`、`docker/`（Python 與 Dockerfile，23 個檔案、1,577 行程式碼）；`docker/.env` 排除 |
+| 掃描日期 | 2026-11-21（commit `0e6494c`：加入 trackio CSV 匯出、bundle 映像後重新掃描；先前為 2026-11-13、2026-11-17） |
+| 範圍 | 產品程式碼：`src/`、`main.py`、`docker/`（Python 與 Dockerfile，24 個檔案、1,700 行程式碼）；`docker/.env` 排除 |
 | | 測試程式碼：`tests/`（以測試程式碼的規則檢查，不計入上面的行數與覆蓋率分母） |
 | | 覆蓋率：匯入 pytest-cov 產生的 `coverage.xml`（見第 17 章） |
 | Quality Gate | **Passed**（Sonar way：新程式碼覆蓋率 100%、重複 0%、新問題 0） |
@@ -1341,7 +1341,7 @@ sudo docker compose -f docker/docker-compose.yml run --rm alpr python src/finetu
 | Bugs | 0 | Reliability Rating **A** |
 | Code Smells | 0 | Maintainability Rating **A** |
 | 重複程式碼 | 0.0% | |
-| 覆蓋率 | **99.8%**（行 99.9%：1,197 行中 1 行未覆蓋；分支 99.2%：246 個條件中 2 個未覆蓋） | |
+| 覆蓋率 | **99.8%**（行 99.9%：1,276 行中 1 行未覆蓋；分支 99.3%：268 個條件中 2 個未覆蓋） | |
 
 前一次掃描（2026-11-13）找到並修正的規則：
 
